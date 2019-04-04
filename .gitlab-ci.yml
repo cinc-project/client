@@ -14,6 +14,6 @@ package:
     - bundle exec omnibus build chef
     - ls -alh */*    
 
-artifacts:
-  paths:
-   - pkg/*.deb
+  artifacts:
+    paths:
+      - pkg/*.deb
