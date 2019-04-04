@@ -8,6 +8,7 @@ package:
   script:
     - apt-get -y install git build-essential
     - gem install omnibus
+    - ssh-keyscan github.com >> ~/.ssh/known_hosts
     - git clone --depth=1 git@github.com:chef/chef.git
     - cd chef/omnibus
     - bundle install
