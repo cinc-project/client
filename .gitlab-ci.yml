@@ -1,0 +1,15 @@
+image: "ruby:2.5"
+
+before_script:
+  - apt-get update 
+  - ruby -v                                   # Print out ruby version for debugging
+  
+package:
+  script:
+    - apt install git build-essential
+    - gem install omnibus
+    - git clone --depth=1 git@github.com:chef/chef.git
+    - cd chef/omnibus
+    - bundle install
+    - bundle exec omnibus build chef
+    - ls -alh */*    
