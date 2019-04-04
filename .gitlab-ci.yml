@@ -13,3 +13,7 @@ package:
     - bundle install
     - bundle exec omnibus build chef
     - ls -alh */*    
+
+artifacts:
+  paths:
+   - pkg/*.deb
