@@ -16,4 +16,4 @@ package:
 
   artifacts:
     paths:
-      - pkg/*.deb
+      - chef/omnibus/pkg/*.deb
