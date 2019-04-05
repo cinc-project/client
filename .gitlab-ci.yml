@@ -17,7 +17,7 @@ Cinc-patch:
     - cd chef/omnibus
 
   artifacts:
-    keep: 1d
+    expire_in: 1d
     paths:
       - chef/
   
@@ -30,6 +30,6 @@ Cinc-package-deb:
     - ls -alh */*
     - mv pkg/*.deb $CI_PROJECT_DIR
   artifacts:
-    keep: 1m
+    expire_in: 1mo
     paths:
-      - *.deb
+      - ./*.deb
