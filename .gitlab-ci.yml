@@ -12,9 +12,11 @@ Cinc-patch:
     - git clone --depth=1 https://github.com/chef/chef.git
     - apt-get update
     - apt-get install -y rename
-    - rename 's/chef/cinc/' chef/bin/*
+    - cd chef/bin
+    - rename 's/chef/cinc/' *
+    - cd ../..
     - cp -R cinc/* chef/
-  # - sed -i '/s.executables  =/ s/chef/cinc/g' chef/chef.gemspec
+    - sed -i '/s.executables  =/ s/chef/cinc/g' chef/chef.gemspec
     - ls chef/*
   artifacts:
     expire_in: 1d
