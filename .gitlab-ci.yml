@@ -14,7 +14,7 @@ Cinc-patch:
     - apt-get install -y rename
     - rename 's/chef/cinc/' chef/bin/*
     - cp -R cinc/* chef/
-    - sed -i '/s.executables  =/ s/chef/cinc/g' chef.gemspec
+  # - sed -i '/s.executables  =/ s/chef/cinc/g' chef/chef.gemspec
     - ls chef/*
   artifacts:
     expire_in: 1d
