@@ -11,6 +11,8 @@ Cinc-patch:
   script:
     - git clone --depth=1 https://github.com/chef/chef.git
     - cp -R cinc/* chef/
+    - sed -i '/s.executables  =/ s/chef/cinc/g' chef.gemspec
+    - ls chef/*
   artifacts:
     expire_in: 1d
     paths:
