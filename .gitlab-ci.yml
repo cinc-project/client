@@ -1,19 +1,35 @@
 image: "ruby:2.5"
+stages:
+ - patch
+ - package
 
 before_script:
   - apt-get update 
   - ruby -v                                   # Print out ruby version for debugging
   
-package:
+Cinc-patch:
+  stage: patch
   script:
     - apt-get -y install git build-essential
     - gem install omnibus
     - git clone --depth=1 https://github.com/chef/chef.git
+    - cp -R cinc/* chef/
     - cd chef/omnibus
-    - bundle install
-    - bundle exec omnibus build chef
-    - ls -alh */*    
 
   artifacts:
+    keep: 1d
     paths:
-      - chef/omnibus/pkg/*.deb
+      - chef/
+  
+Cinc-package-deb:
+  stage: package
+  script:
+    - cd chef/omnibus
+    - bundle install
+    - bundle exec omnibus build cinc
+    - ls -alh */*
+    - mv pkg/*.deb $CI_PROJECT_DIR
+  artifacts:
+    keep: 1m
+    paths:
+      - *.deb
