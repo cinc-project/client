@@ -25,7 +25,7 @@ Cinc-package-deb:
   stage: package
   script:
     - cd chef/omnibus
-    - bundle install
+    - bundle install --without development
     - bundle exec omnibus build cinc
     - ls -alh */*
     - mv pkg/*.deb $CI_PROJECT_DIR
