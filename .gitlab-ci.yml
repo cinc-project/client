@@ -3,13 +3,16 @@ stages:
  - patch
  - package
 
+variables:
+  ORIGIN: https://github.com/chef/chef.git
+
 before_script:
   - ruby -v                                   # Print out ruby version for debugging
   
 Cinc-patch:
   stage: patch
   script:
-    - git clone --depth=1 https://github.com/chef/chef.git
+    - git clone --depth=1 $ORIGIN
     - apt-get update
     - apt-get install -y rename
     - cd chef/bin
