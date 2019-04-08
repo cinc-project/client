@@ -33,3 +33,4 @@ jobs:
       - bundle install --without development
       - bundle exec omnibus build cinc
       - ls -alh */*
+ 
