@@ -50,8 +50,8 @@ Cinc-package-rpm:
     - bundle install --without development
     - bundle exec omnibus build cinc
     - ls -alh */*
-    - mv pkg/*.deb $CI_PROJECT_DIR
+    - mv pkg/*.rpm $CI_PROJECT_DIR
   artifacts:
     expire_in: 1mo
     paths:
-      - ./*.deb
+      - ./*.rpm
