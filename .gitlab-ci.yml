@@ -43,7 +43,7 @@ Cinc-package-rpm:
   image: "centos:centos7"
   stage: package
   script:
-    - yum update 
+    - yum -y update 
     - yum -y install ruby git autoconf bison flex gcc gcc-c++ gettext kernel-devel make m4 ncurses-devel patch
     - gem install omnibus
     - cd chef/omnibus
