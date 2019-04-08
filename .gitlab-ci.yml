@@ -38,3 +38,20 @@ Cinc-package-deb:
     expire_in: 1mo
     paths:
       - ./*.deb
+
+Cinc-package-rpm:
+  image: "centos:centos7"
+  stage: package
+  script:
+    - yum update 
+    - yum -y install git autoconf bison flex gcc gcc-c++ gettext kernel-devel make m4 ncurses-devel patch
+    - gem install omnibus
+    - cd chef/omnibus
+    - bundle install --without development
+    - bundle exec omnibus build cinc
+    - ls -alh */*
+    - mv pkg/*.deb $CI_PROJECT_DIR
+  artifacts:
+    expire_in: 1mo
+    paths:
+      - ./*.deb
