@@ -6,9 +6,6 @@ stages:
 variables:
   ORIGIN: https://github.com/chef/chef.git
 
-before_script:
-  - ruby -v                                   # Print out ruby version for debugging
-  
 Cinc-patch:
   stage: patch
   script:
@@ -47,7 +44,7 @@ Cinc-package-rpm:
   stage: package
   script:
     - yum update 
-    - yum -y install git autoconf bison flex gcc gcc-c++ gettext kernel-devel make m4 ncurses-devel patch
+    - yum -y install ruby git autoconf bison flex gcc gcc-c++ gettext kernel-devel make m4 ncurses-devel patch
     - gem install omnibus
     - cd chef/omnibus
     - bundle install --without development
