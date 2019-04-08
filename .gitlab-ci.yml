@@ -34,6 +34,7 @@ Cinc-package-deb:
     - bundle exec omnibus build cinc
     - ls -alh */*
     - mv pkg/*.deb $CI_PROJECT_DIR
+  when: manual
   artifacts:
     expire_in: 1mo
     paths:
@@ -44,7 +45,9 @@ Cinc-package-rpm:
   stage: package
   script:
     - yum -y update 
-    - yum -y install ruby git autoconf bison flex gcc gcc-c++ gettext kernel-devel make m4 ncurses-devel patch
+    - yum -y install git autoconf bison flex gcc gcc-c++ gettext kernel-devel make m4 ncurses-devel patch
+    - curl -sSL https://get.rvm.io | sudo bash -s stable --ruby=2.5.5
+    - source /usr/local/rvm/scripts/rvm
     - gem install omnibus
     - cd chef/omnibus
     - bundle install --without development
