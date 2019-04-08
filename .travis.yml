@@ -1,36 +1,33 @@
-rvm:
+--- 
+env: 
+  - INSTANCE=ubuntu-1804
+  - INSTANCE=centos-6
+jobs: 
+  include: 
+    - 
+      script: 
+        - "apt-get update"
+        - "apt-get -y install git build-essential"
+        - "gem install omnibus"
+        - "cd chef/omnibus"
+        - "bundle install --without development"
+        - "bundle exec omnibus build cinc"
+        - "ls -alh */*"
+      stage: package
+name: Patch
+rvm: 
   - 2.5
-  
-stages:
- - patch
- - package
-  
+script: 
+  - "git clone --depth=1 https://github.com/chef/chef.git"
+  - "apt-get update"
+  - "apt-get install -y rename"
+  - "cd chef/bin"
+  - "rename 's/chef/cinc/' *"
+  - "cd ../.."
+  - "cp -R cinc/* chef/"
+  - "sed -i '/s.executables  =/ s/chef/cinc/g' chef/chef.gemspec"
+  - "ls chef/*"
 stage: patch
-     name: "Patch"
-     script:
-       - git clone --depth=1 https://github.com/chef/chef.git
-       - apt-get update
-       - apt-get install -y rename
-       - cd chef/bin
-       - rename 's/chef/cinc/' *
-       - cd ../..
-       - cp -R cinc/* chef/
-       - sed -i '/s.executables  =/ s/chef/cinc/g' chef/chef.gemspec
-       - ls chef/*
-
-env:
- - INSTANCE=ubuntu-1804
- - INSTANCE=centos-6
-
-jobs:
-  include:
-   - stage: package
-    script:
-      - apt-get update 
-      - apt-get -y install git build-essential
-      - gem install omnibus
-      - cd chef/omnibus
-      - bundle install --without development
-      - bundle exec omnibus build cinc
-      - ls -alh */*
- 
+stages: 
+  - patch
+  - package
