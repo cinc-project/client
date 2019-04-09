@@ -54,7 +54,7 @@ Cinc-package-rpm:
     - rvm install $RUBY_VERSION
     - yum clean all
     - rvm use $RUBY_VERSION --default
-    - gem install bundler -v $(grep :bundler chef/omnibus_overrides.rb | cut -d'"' -f2) --no-rdoc --no-ri
+    - gem install bundler -v $(grep :bundler chef/omnibus_overrides.rb | cut -d'"' -f2)
     - ruby -v
     - gem install omnibus --no-rdoc --no-ri
     - cd chef/omnibus
