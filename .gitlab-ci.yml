@@ -24,6 +24,7 @@ Cinc-patch:
       - chef/
   
 Cinc-package-deb:
+  when: manual
   stage: package
   script:
     - apt-get update 
@@ -34,13 +35,13 @@ Cinc-package-deb:
     - bundle exec omnibus build cinc
     - ls -alh */*
     - mv pkg/*.deb $CI_PROJECT_DIR
-  when: manual
   artifacts:
     expire_in: 1mo
     paths:
       - ./*.deb
 
 Cinc-package-rpm:
+  when: manual
   image: "centos:centos7"
   stage: package
   script:
@@ -68,3 +69,9 @@ Cinc-package-rpm:
     expire_in: 1mo
     paths:
       - ./*.rpm
+
+Cinc-package-rpm:
+  image: mcr.microsoft.com/windows/nanoserver
+  stage: package
+  script:
+  - dir *      
