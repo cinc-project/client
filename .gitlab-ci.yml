@@ -45,7 +45,7 @@ Cinc-package-rpm:
   stage: package
   script:
     - yum -y update 
-    - yum -y install git bzip2 which gpg2 autoconf bison flex gcc gcc-c++ gettext kernel-devel make m4 ncurses-devel patch
+    - yum -y install git bzip2 which gpg openssl-devel readline-devel zlib-devel autoconf bison flex gcc gcc-c++ gettext kernel-devel make m4 ncurses-devel patch
     - git clone git://github.com/sstephenson/rbenv.git $HOME/.rbenv
     - git clone git://github.com/sstephenson/ruby-build.git $HOME/.rbenv/plugins/ruby-build
     - export PATH="$HOME/.rbenv/bin:$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
