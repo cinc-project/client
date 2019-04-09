@@ -63,7 +63,7 @@ Cinc-package-rpm:
     - ls -alh */*
     - mv pkg/*.rpm $CI_PROJECT_DIR
   variables:
-    - RUBY_VERSION=2.5.5
+    RUBY_VERSION: 2.5.5
   artifacts:
     expire_in: 1mo
     paths:
