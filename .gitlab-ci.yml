@@ -45,7 +45,7 @@ Cinc-package-rpm:
   stage: package
   script:
     - yum -y update 
-    - yum -y install git bzip2 which gpg openssl-devel readline-devel zlib-devel autoconf bison flex gcc gcc-c++ gettext kernel-devel make m4 ncurses-devel patch
+    - yum -y install git bzip2 which rpmbuild gpg openssl-devel readline-devel zlib-devel autoconf bison flex gcc gcc-c++ gettext kernel-devel make m4 ncurses-devel patch rpm-build rpm-sign
     - export PATH=/usr/local/rvm/gems/ruby-$RUBY_VERSION/bin:/usr/local/rvm/gems/ruby-$RUBY_VERSION@global/bin:/usr/local/rvm/rubies/ruby-$RUBY_VERSION/bin:/usr/local/rvm/bin:$PATH
     - export GEM_HOME=/usr/local/rvm/gems/ruby-$RUBY_VERSION
     - export GEM_PATH=/usr/local/rvm/gems/ruby-$RUBY_VERSION:/usr/local/rvm/gems/ruby-$RUBY_VERSION@global
