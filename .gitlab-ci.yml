@@ -55,9 +55,8 @@ Cinc-package-rpm:
     - exec $SHELL
     - rbenv install -v 2.5.5
     - rvbenv global 2.5.5
-    - echo "gem: --no-document" > ~/.gemrc
     - ruby -v
-    - gem install omnibus
+    - gem install omnibus --no-rdoc --no-ri
     - cd chef/omnibus
     - bundle install --without development
     - bundle exec omnibus build cinc
