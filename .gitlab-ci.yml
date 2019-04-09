@@ -70,8 +70,8 @@ Cinc-package-rpm:
     paths:
       - ./*.rpm
 
-Cinc-package-rpm:
-  image: mcr.microsoft.com/windows/nanoserver
+Cinc-package-windows:
+  image: "mcr.microsoft.com/windows/nanoserver:latest"
   stage: package
   script:
   - dir *      
