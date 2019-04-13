@@ -71,7 +71,7 @@ Cinc-package-rpm:
       - ./*.rpm
 
 Cinc-package-windows:
-  image: mcr.microsoft.com/windows/nanoserver:latest
+  image: golang:windowsservercore
   stage: package
   script:
   - dir *      
