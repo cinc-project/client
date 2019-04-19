@@ -1,0 +1,26 @@
+--- a/lib/chef/dist.rb	2019-04-19 21:02:11.652087582 +0000
++++ b/lib/chef/dist.rb	2019-04-19 21:00:51.529341878 +0000
+@@ -1,18 +1,18 @@
+ class Chef
+   class Dist
+     # When referencing a product directly, like Chef (Now Chef Infra)
+-    PRODUCT = "Cinc Infra".freeze
++    PRODUCT = "Chef Infra".freeze
+ 
+     # The client's alias (chef-client)
+-    CLIENT = "cinc-client".freeze
++    CLIENT = "chef-client".freeze
+ 
+     # Name used for certain directories. Merge with chef_executable?
+-    GENERIC = "cinc".freeze
++    GENERIC = "chef".freeze
+ 
+     # The chef executable, as in `chef gem install` or `chef generate cookbook`
+-    EXEC = "cinc".freeze
++    EXEC = "chef".freeze
+ 
+     # product website address
+-    WEBSITE = "https://gitlab.com/cc-build/organization-subjects/wikis/home".freeze
++    WEBSITE = "https://chef.io".freeze
+   end
+ end

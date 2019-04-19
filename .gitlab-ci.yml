@@ -2,13 +2,18 @@ image: "ruby:2.5"
 stages:
  - patch
  - package
+ - test
 
 variables:
-  ORIGIN: https://github.com/chef/chef.git
+  # ORIGIN: https://github.com/chef/chef.git
+  ORIGIN: -b distro_identity https://github.com/cc-build/chef.git
 
-Cinc-patch:
+
+
+.client_patch: &client_patch
   stage: patch
   script:
+    - set -ex
     - git clone --depth=1 $ORIGIN
     - apt-get update
     - apt-get install -y rename
@@ -19,28 +24,50 @@ Cinc-patch:
     - sed -i '/s.executables  =/ s/chef/cinc/g' chef/chef.gemspec
     - ls chef/*
   artifacts:
-    expire_in: 1d
+    expire_in: 1mo
     paths:
       - chef/
   
-Cinc-package-deb:
-  when: manual
+client-package:deb:
+  # when: manual
   stage: package
   script:
-    - apt-get update 
-    - apt-get -y install git build-essential
+    - set -ex
+    - apt-get update
+    - apt-get install -y rename git build-essential
+    - git clone --depth=1 $ORIGIN
+    - cd chef/bin
+    - rename 's/chef/cinc/' *
+    - cd ../..
+    - cp -R cinc/* chef/
+    - sed -i '/s.executables  =/ s/chef/cinc/g' chef/chef.gemspec
+    - ls chef/*
     - gem install omnibus
     - cd chef/omnibus
     - bundle install --without development
     - bundle exec omnibus build cinc
     - ls -alh */*
     - mv pkg/*.deb $CI_PROJECT_DIR
+    - cd $CI_PROJECT_DIR
+    - dpkg -i cinc*.deb
+    - /opt/cinc/bin/cinc-client --version
+    - /opt/cinc/bin/cinc-solo -l info
   artifacts:
     expire_in: 1mo
     paths:
       - ./*.deb
 
-Cinc-package-rpm:
+client-test:deb:
+  stage: test
+  dependencies:
+    - client-package:deb
+  script:
+    - dpkg -i outspec*.deb
+    - cinc-client --version
+    - cinc-solo -l info
+
+
+client-package:rpm:
   when: manual
   image: "centos:centos7"
   stage: package
