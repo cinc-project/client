@@ -97,7 +97,8 @@ client-package:rpm:
     paths:
       - ./*.rpm
 
-Cinc-package-windows:
+client-package:windows:
+  when: manual
   image: golang:windowsservercore
   stage: package
   script:
