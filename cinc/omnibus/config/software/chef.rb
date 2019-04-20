@@ -57,8 +57,8 @@ dependency "libarchive" # for archive resource
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  patch source: "dist.rb.patch", target: "./lib/chef/dist.rb"
-  patch source: "chef.gemspec.patch", target: "./chef.gemspec"
+  patch source: "dist.rb.patch", target: "../lib/chef/dist.rb"
+  patch source: "chef.gemspec.patch", target: "../chef.gemspec"
 
   # compiled ruby on windows 2k8R2 x86 is having issues compiling
   # native extensions for pry-byebug so excluding for now
