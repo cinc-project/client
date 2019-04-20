@@ -13,6 +13,7 @@ client_patch:
   script:
     - apt-get update
     - apt-get install -y git rename
+    - echo "Cloning from $ORIGIN"
     - git clone --depth=1 $ORIGIN
     - cd chef/bin
     - rename 's/chef/cinc/' *
