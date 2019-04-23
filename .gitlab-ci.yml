@@ -5,8 +5,8 @@ stages:
  - test
 
 variables:
-  # ORIGIN: https://github.com/chef/chef.git
-  ORIGIN: -b distro_identity https://github.com/cc-build/chef.git
+  ORIGIN: https://github.com/chef/chef.git
+  # ORIGIN: -b distro_identity https://github.com/cc-build/chef.git
 
 client_patch:
   stage: patch
