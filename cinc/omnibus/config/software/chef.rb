@@ -69,6 +69,8 @@ build do
 
   # install the whole bundle first
   bundle "install --without #{excluded_groups.join(' ')}", env: env
+  
+  patch source: "chef-zero.patch", target: "#{install_dir}/embedded/"
 
   # use the rake install task to build/install chef-config
   bundle "exec rake install", env: env
