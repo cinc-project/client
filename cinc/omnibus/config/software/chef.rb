@@ -72,7 +72,7 @@ build do
   
   # install the whole bundle first
   bundle "install --without #{excluded_groups.join(' ')}", env: env
-  gem 'specific_install -l cc-build/chef-zero -b brand_refactor'
+  gem 'specific_install -l https://github.com/cc-build/chef-zero.git -b brand_refactor'
   patch source: "chef-zero-dist.patch", target: "#{install_dir}/embedded/lib/chef-zero/dist.rb"
 
   # use the rake install task to build/install chef-config
