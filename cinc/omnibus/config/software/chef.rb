@@ -67,10 +67,12 @@ build do
   excluded_groups << "ruby_shadow" if aix?
   excluded_groups << "ed25519" if solaris2?
 
+  # For test, to be removed once merged and published with dist.rb
+  gem 'chef-zero', github: 'cc-build/chef-zero', branch: 'brand_refactor'
   # install the whole bundle first
   bundle "install --without #{excluded_groups.join(' ')}", env: env
   
-  patch source: "chef-zero.patch", target: "#{install_dir}/embedded/"
+  patch source: "chef-zero-dist.patch", target: "#{install_dir}/embedded/lib/chef-zero/dist.rb"
 
   # use the rake install task to build/install chef-config
   bundle "exec rake install", env: env

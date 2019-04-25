@@ -1,0 +1,16 @@
+diff --git a/lib/chef_zero/dist.rb b/lib/chef_zero/dist.rb
+index 6ef8aca..61aec3f 100644
+--- a/lib/chef_zero/dist.rb
++++ b/lib/chef_zero/dist.rb
+@@ -1,9 +1,9 @@
+ module ChefZero
+   class Dist
+     # When referencing a product directly
+-    PRODUCT = "Chef Zero".freeze
++    PRODUCT = "Cinc Zero".freeze
+ 
+     # The binary alias
+-    CLIENT = "chef-zero".freeze
++    CLIENT = "cinc-zero".freeze
+   end
+ end
