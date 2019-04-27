@@ -72,8 +72,6 @@ build do
   # install the whole bundle first
   bundle "install --without #{excluded_groups.join(' ')}", env: env
  
-  patch source: "chef-zero-dist.patch", target: "#{install_dir}/embedded/lib/chef-zero/dist.rb"
-
   # use the rake install task to build/install chef-config
   bundle "exec rake install", env: env
 
@@ -82,6 +80,8 @@ build do
   # This step will build native components as needed - the event log dll is
   # generated as part of this step.  This is why we need devkit.
   gem "build #{gemspec_name}", env: env
+  
+  patch source: "chef-zero-dist.patch", target: "#{install_dir}/embedded/lib/chef-zero/dist.rb"
 
   # ensure we put the gems in the right place to get picked up by the publish scripts
   delete "pkg"
