@@ -1,0 +1,10 @@
+--- a/Gemfile
++++ b/Gemfile
+@@ -12,6 +12,7 @@ gem "ohai", git: "https://github.com/chef/ohai.git", branch: "master"
+ 
+ gem "chef-config", path: File.expand_path("../chef-config", __FILE__) if File.exist?(File.expand_path("../chef-config", __FILE__))
+ gem "cheffish", "~> 14"
++gem "chef-zero", git: "https://github.com/cc-build/chef-zero.git", branch: "distro_refactor"
+ 
+ group(:omnibus_package) do
+   gem "appbundler"

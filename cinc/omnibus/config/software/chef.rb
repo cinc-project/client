@@ -59,6 +59,9 @@ build do
 
   patch source: "dist.rb.patch", target: "./lib/chef/dist.rb"
   patch source: "chef.gemspec.patch", target: "./chef.gemspec"
+  # For chef-zero test, to be removed once merged and published with dist.rb
+  patch source: "tmp-gemfile-for-chef-zero.patch", target: "./Gemfile"
+  patch source: "tmp-chef-gemspec-for-chef-zero.patch", target: "./chef.gemspec"
 
   # compiled ruby on windows 2k8R2 x86 is having issues compiling
   # native extensions for pry-byebug so excluding for now
@@ -66,13 +69,10 @@ build do
   excluded_groups << "ruby_prof" if aix?
   excluded_groups << "ruby_shadow" if aix?
   excluded_groups << "ed25519" if solaris2?
-
-  # For test, to be removed once merged and published with dist.rb
-  gem "install specific_install"
   
   # install the whole bundle first
   bundle "install --without #{excluded_groups.join(' ')}", env: env
-  gem 'specific_install -l https://github.com/cc-build/chef-zero.git -b brand_refactor', environment: env
+ 
   patch source: "chef-zero-dist.patch", target: "#{install_dir}/embedded/lib/chef-zero/dist.rb"
 
   # use the rake install task to build/install chef-config
