@@ -70,7 +70,7 @@ client-package:rpm:
     - gem install omnibus
     - cd chef/omnibus
     - bundle install --without development
-    - bundle exec omnibus build cinc
+    - bundle exec omnibus build cinc --log-level info
     - ls -alh */*
     - mv pkg/*.rpm $CI_PROJECT_DIR
   variables:
