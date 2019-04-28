@@ -32,7 +32,7 @@ Cinc-package-deb:
     - gem install omnibus
     - cd chef/omnibus
     - bundle install --without development
-    - bundle exec omnibus build cinc
+    - bundle exec omnibus build cinc --log-level debug
     - ls -alh */*
     - mv pkg/*.deb $CI_PROJECT_DIR
   artifacts:
