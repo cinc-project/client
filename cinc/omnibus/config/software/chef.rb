@@ -75,11 +75,11 @@ build do
   # use the rake install task to build/install chef-config
   bundle "exec rake install", env: env
   
-  chef_zero_dist = block do
-          shellout!("find #{install_dir} -wholename '*/lib/chef_zero/dist.rb'").stdout.chomp
+  block 'patch chef-zero gem' do
+    chef_zero_dist = shellout!("find #{install_dir} -wholename '*/lib/chef_zero/dist.rb'").stdout.chomp
+    patch source: "chef-zero-dist.patch", target: chef_zero_dist
   end
-  patch source: "chef-zero-dist.patch", target: chef_zero_dist
-  
+
   gemspec_name = windows? ? "chef-universal-mingw32.gemspec" : "chef.gemspec"
   # This step will build native components as needed - the event log dll is
   # generated as part of this step.  This is why we need devkit.
