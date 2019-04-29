@@ -71,17 +71,18 @@ build do
   
   # install the whole bundle first
   bundle "install --without #{excluded_groups.join(' ')}", env: env
-  command "echo \"74: $(ls #{install_dir}/embedded/lib/chef-zero/*)\" || echo 'nok74'"
   # use the rake install task to build/install chef-config
   bundle "exec rake install", env: env
-
+  
+  chef_zero_dist = block do
+          shellout!("find #{install_dir} -wholename '*/lib/chef_zero/dist.rb'").stdout.chomp
+  end
+  patch source: "chef-zero-dist.patch", target: chef_zero_dist
+  
   gemspec_name = windows? ? "chef-universal-mingw32.gemspec" : "chef.gemspec"
-  command "echo \"79: $(ls #{install_dir}/embedded/lib/chef-zero/*)\" || echo 'nok79'"
   # This step will build native components as needed - the event log dll is
   # generated as part of this step.  This is why we need devkit.
   gem "build #{gemspec_name}", env: env
-  command "echo \"83: $(ls #{install_dir}/embedded/lib/chef-zero/*)\" || echo 'nok83'"
-  patch source: "chef-zero-dist.patch", target: "#{install_dir}/embedded/lib/chef-zero/dist.rb"
 
   # ensure we put the gems in the right place to get picked up by the publish scripts
   delete "pkg"

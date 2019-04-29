@@ -12,7 +12,7 @@ client_patch:
   stage: patch
   script:
     - apt-get update
-    - apt-get install -y git rename
+    - apt-get install -y rename
     - echo "Cloning from $ORIGIN"
     - git clone --depth=1 $ORIGIN
     - cd chef/bin
