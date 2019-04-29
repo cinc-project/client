@@ -76,8 +76,7 @@ build do
   bundle "exec rake install", env: env
   
   block 'patch chef-zero gem' do
-    chef_zero_dist = shellout!("find #{install_dir} -wholename '*/lib/chef_zero/dist.rb'").stdout.chomp
-    patch source: "chef-zero-dist.patch", target: chef_zero_dist
+    patch source: "chef-zero-dist.patch", target: shellout!("find #{install_dir} -wholename '*/lib/chef_zero/dist.rb'").stdout.chomp
   end
 
   gemspec_name = windows? ? "chef-universal-mingw32.gemspec" : "chef.gemspec"
