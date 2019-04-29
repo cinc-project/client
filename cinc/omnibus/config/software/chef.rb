@@ -51,6 +51,7 @@ dependency "ruby"
 dependency "rubygems"
 dependency "bundler"
 dependency "ohai"
+dependency "chef-zero" # To build from github
 dependency "appbundler"
 dependency "libarchive" # for archive resource
 
@@ -60,7 +61,7 @@ build do
   patch source: "dist.rb.patch", target: "./lib/chef/dist.rb"
   patch source: "chef.gemspec.patch", target: "./chef.gemspec"
   # For chef-zero test, to be removed once merged and published with dist.rb
-  patch source: "tmp-gemfile-for-chef-zero.patch", target: "./Gemfile"
+  # patch source: "tmp-gemfile-for-chef-zero.patch", target: "./Gemfile"
 
   # compiled ruby on windows 2k8R2 x86 is having issues compiling
   # native extensions for pry-byebug so excluding for now
