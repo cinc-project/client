@@ -11,13 +11,8 @@ variables:
 client_patch:
   stage: patch
   script:
-    - apt-get update
-    - apt-get install -y rename
     - echo "Cloning from $ORIGIN"
     - git clone --depth=1 $ORIGIN
-    - cd chef/bin
-    - rename 's/chef/cinc/' *
-    - cd ../..
     - cp -R cinc/* chef/
   artifacts:
     expire_in: 1d
@@ -29,11 +24,11 @@ client-package:deb:
   stage: package
   script:
     - apt-get update
-    - apt-get install -y git build-essential
+    - apt-get install -y build-essential
     - gem install omnibus
     - cd chef/omnibus
     - bundle install --without development
-    - bundle exec omnibus build cinc --log-level debug
+    - bundle exec omnibus build cinc
     - ls -alh */*
     - mv pkg/*.deb $CI_PROJECT_DIR
   artifacts:

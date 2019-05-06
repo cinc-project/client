@@ -59,13 +59,11 @@ build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   patch source: "dist.rb.patch", target: "./lib/chef/dist.rb"
-  patch source: "chef.gemspec.patch", target: "./chef.gemspec"
-  # For chef-zero test, to be removed once merged and published with dist.rb
-  # patch source: "tmp-gemfile-for-chef-zero.patch", target: "./Gemfile"
+  # patch source: "chef.gemspec.patch", target: "./chef.gemspec"
 
   # compiled ruby on windows 2k8R2 x86 is having issues compiling
   # native extensions for pry-byebug so excluding for now
-  excluded_groups = %w{server docgen maintenance pry travis integration ci}
+  excluded_groups = %w{server docgen maintenance pry travis integration ci chefstyle}
   excluded_groups << "ruby_prof" if aix?
   excluded_groups << "ruby_shadow" if aix?
   excluded_groups << "ed25519" if solaris2?
@@ -76,11 +74,15 @@ build do
   # use the rake install task to build/install chef-config
   bundle "exec rake install", env: env
   
-  block 'patch chef-zero gem' do
-    patch source: "chef-zero-dist.patch", target: shellout!("find #{install_dir} -wholename '*/lib/chef_zero/dist.rb'").stdout.chomp
+  block do
+    binstub_dir = "#{shellout!("#{install_dir}/embedded/bin/gem which chef-bin").stdout.chomp}/../../bin/*"
+    Dir[binstub_dir].each do |binstub|
+      move binstub binstub.gsub(/chef/,'cinc')
+    end
+    patch source: "chef-zero-dist.patch", target: "#{shellout!("#{install_dir}/embedded/bin/gem which chef").stdout.chomp}/dist.rb"
   end
-
   gemspec_name = windows? ? "chef-universal-mingw32.gemspec" : "chef.gemspec"
+
   # This step will build native components as needed - the event log dll is
   # generated as part of this step.  This is why we need devkit.
   gem "build #{gemspec_name}", env: env
@@ -90,30 +92,13 @@ build do
   mkdir "pkg"
   copy "chef*.gem", "pkg"
 
-  # the binstubs do not ship in the rubygem, but have to ship in the tests in order to test,
-  # we need to copy those manually over to embedded/bin
-  extra_bin_files = []
-  Dir["#{project_dir}/spec/support/bin/*"].each do |binstub|
-    extra_bin_files << File.basename(binstub)
-    copy binstub, "#{install_dir}/embedded/bin"
-  end
-
-  # restore the binstubs into the ruby gem library location as well
-  block "Install binstubs into the gem" do
-    chef_gem_path = File.expand_path("../..", shellout!("#{install_dir}/embedded/bin/gem which chef").stdout.chomp)
-
-    Dir["#{project_dir}/spec/support/bin/*"].each do |binstub|
-      copy_file binstub, "#{chef_gem_path}/bin"
-    end
-  end
-
   # Always deploy the powershell modules in the correct place.
   if windows?
     mkdir "#{install_dir}/modules/chef"
     copy "distro/powershell/chef/*", "#{install_dir}/modules/chef"
   end
 
-  # The extra_bin_files arg is for binstubs we do not ship in the gem
-  appbundle "chef", extra_bin_files: extra_bin_files, env: env
-  appbundle "ohai", env: env
+  appbundle "chef", lockdir: project_dir, gem: "chef-bin", without: excluded_groups, env: env
+  appbundle "chef", lockdir: project_dir, gem: "chef", without: excluded_groups, env: env
+  appbundle "chef", lockdir: project_dir, gem: "ohai", without: excluded_groups, env: env
 end
