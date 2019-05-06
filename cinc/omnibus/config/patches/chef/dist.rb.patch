@@ -1,16 +1,20 @@
---- b/lib/chef/dist.rb	2019-04-19 21:00:51.529341878 +0000
-+++ a/lib/chef/dist.rb	2019-04-19 21:02:11.652087582 +0000
-@@ -1,18 +1,18 @@
+diff --git a/lib/chef/dist.rb b/lib/chef/dist.rb
+index ed9307900..119a4551e 100644
+--- a/lib/chef/dist.rb
++++ b/lib/chef/dist.rb
+@@ -1,19 +1,19 @@
  class Chef
    class Dist
      # This class is not fully implemented, depending on it is not recommended!
-     # When referencing a product directly, like Chef (Now Chef Infra)
+-    # When referencing a product directly, like Chef (Now Chef Infra)
 -    PRODUCT = "Chef Infra Client".freeze
++    # When referencing a product directly, like Chef (Now Cinc)
 +    PRODUCT = "Cinc Client".freeze
  
      # The name of the server product
 -    SERVER_PRODUCT = "Chef Infra Server".freeze
 +    SERVER_PRODUCT = "Cinc Server".freeze
+ 
      # The client's alias (chef-client)
 -    CLIENT = "chef-client".freeze
 +    CLIENT = "cinc-client".freeze
