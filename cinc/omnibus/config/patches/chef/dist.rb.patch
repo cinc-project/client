@@ -8,6 +8,9 @@
 -    PRODUCT = "Chef Infra Client".freeze
 +    PRODUCT = "Cinc Client".freeze
  
+     # The name of the server product
+-    SERVER_PRODUCT = "Chef Infra Server".freeze
++    SERVER_PRODUCT = "Cinc Server".freeze
      # The client's alias (chef-client)
 -    CLIENT = "chef-client".freeze
 +    CLIENT = "cinc-client".freeze
