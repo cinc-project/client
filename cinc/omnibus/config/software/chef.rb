@@ -75,9 +75,11 @@ build do
   bundle "exec rake install", env: env
   
   block "Late patches and binstubs" do
-    Dir["#{File.expand_path("../..",shellout!("#{install_dir}/embedded/bin/gem which chef-bin").stdout.chomp)}/bin/*"].each do |binstub|
-      move binstub binstub.gsub(/chef/,'cinc')
+    binstub_dir = "#{File.expand_path("../..",shellout!("#{install_dir}/embedded/bin/gem which chef-bin").stdout.chomp)}/bin/*"
+    Dir[binstub_dir].each do |binstub|
+      move binstub, binstub.gsub(/chef/,'cinc')
     end
+
     patch source: "chef-zero-dist.patch", target: "#{File.expand_path("..",shellout!("#{install_dir}/embedded/bin/gem which chef-zero").stdout.chomp)}/dist.rb"
   end
   gemspec_name = windows? ? "chef-universal-mingw32.gemspec" : "chef.gemspec"
