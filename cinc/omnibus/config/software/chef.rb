@@ -74,7 +74,7 @@ build do
   # use the rake install task to build/install chef-config
   bundle "exec rake install", env: env
   
-  block do
+  block "Late patches and binstubs" do
     binstub_dir = "#{File.expand_path("../..",shellout!("#{install_dir}/embedded/bin/gem which chef-bin").stdout.chomp)}/bin/*"
     Dir[binstub_dir].each do |binstub|
       move binstub binstub.gsub(/chef/,'cinc')
