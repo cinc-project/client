@@ -77,7 +77,7 @@ build do
   block "Late patches and binstubs" do
     binstub_dir = "#{File.expand_path("../..",shellout!("#{install_dir}/embedded/bin/gem which chef-bin").stdout.chomp)}/bin/*"
     Dir[binstub_dir].each do |binstub|
-      move binstub, binstub.gsub(/chef/,'cinc')
+      move binstub, binstub.gsub(/chef(?=[^\/]+$)/,'cinc')
     end
 
     patch source: "chef-zero-dist.patch", target: shellout!("find #{install_dir} -wholename '*/lib/chef_zero/dist.rb'").stdout.chomp
