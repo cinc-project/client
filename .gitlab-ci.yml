@@ -42,6 +42,8 @@ client-test:deb:
     - client-package:deb
   script:
     - dpkg -i cinc*.deb
+    - /opt/cinc/bin/cinc-client --version
+    - /opt/cinc/bin/cinc-solo -l info
     - cinc-client --version
     - cinc-solo -l info
 
