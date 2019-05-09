@@ -80,7 +80,7 @@ build do
       move binstub, binstub.gsub(/chef/,'cinc')
     end
 
-    patch source: "chef-zero-dist.patch", target: "#{File.expand_path("..",shellout!("#{install_dir}/embedded/bin/gem which chef-zero").stdout.chomp)}/dist.rb"
+    patch source: "chef-zero-dist.patch", target: shellout!("find #{install_dir} -wholename '*/lib/chef_zero/dist.rb'").stdout.chomp
   end
   gemspec_name = windows? ? "chef-universal-mingw32.gemspec" : "chef.gemspec"
 
