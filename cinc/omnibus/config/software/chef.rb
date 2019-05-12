@@ -61,7 +61,7 @@ build do
   patch source: "dist.rb.patch", target: "./lib/chef/dist.rb"
   patch source: "chef-bin-gemspec.patch", target: "./chef-bin/chef-bin.gemspec"
   Dir["../chef-bin/bin/*"].each do |binstub|
-    move binstub, binstub.gsub(/chef/,'cinc')
+    move binstub, binstub.gsub(/chef(?=[^\/]+$)/,'cinc')
   end
   # compiled ruby on windows 2k8R2 x86 is having issues compiling
   # native extensions for pry-byebug so excluding for now
