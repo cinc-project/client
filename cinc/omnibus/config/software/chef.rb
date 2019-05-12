@@ -59,8 +59,10 @@ build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   patch source: "dist.rb.patch", target: "./lib/chef/dist.rb"
-  # patch source: "chef.gemspec.patch", target: "./chef.gemspec"
-
+  patch source: "chef-bin-gemspec.patch", target: "../chef-bin/chef.gemspec"
+  Dir["../chef-bin/bin/*"].each do |binstub|
+    move binstub binstub.gsub(/chef/,'cinc')
+  end
   # compiled ruby on windows 2k8R2 x86 is having issues compiling
   # native extensions for pry-byebug so excluding for now
   excluded_groups = %w{server docgen maintenance pry travis integration ci chefstyle}
@@ -70,17 +72,12 @@ build do
   
   # install the whole bundle first
   bundle "install --without #{excluded_groups.join(' ')}", env: env
-
+    
+  patch source: "chef-zero-dist.patch", target: "#{File.expand_path("..",shellout!("#{install_dir}/embedded/bin/gem which chef-zero").stdout.chomp)}/dist.rb"
+  
   # use the rake install task to build/install chef-config
   bundle "exec rake install", env: env
   
-  block do
-    binstub_dir = "#{File.expand_path("../..",shellout!("#{install_dir}/embedded/bin/gem which chef-bin").stdout.chomp)}/bin/*"
-    Dir[binstub_dir].each do |binstub|
-      move binstub binstub.gsub(/chef/,'cinc')
-    end
-    patch source: "chef-zero-dist.patch", target: "#{File.expand_path("..",shellout!("#{install_dir}/embedded/bin/gem which chef-zero").stdout.chomp)}/dist.rb"
-  end
   gemspec_name = windows? ? "chef-universal-mingw32.gemspec" : "chef.gemspec"
 
   # This step will build native components as needed - the event log dll is
