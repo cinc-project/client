@@ -59,7 +59,7 @@ build do
   env = with_standard_compiler_flags(with_embedded_path)
 
   patch source: "dist.rb.patch", target: "./lib/chef/dist.rb"
-  patch source: "chef-bin-gemspec.patch", target: "../chef-bin/chef.gemspec"
+  patch source: "chef-bin-gemspec.patch", target: "./chef-bin/chef-bin.gemspec"
   Dir["../chef-bin/bin/*"].each do |binstub|
     move binstub, binstub.gsub(/chef/,'cinc')
   end
@@ -75,9 +75,9 @@ build do
   
   # use the rake install task to build/install chef-config
   bundle "exec rake install", env: env
-  block do
-   patch source: "chef-zero-dist.patch", target: "#{File.expand_path("..",shellout!("#{install_dir}/embedded/bin/gem which chef-zero").stdout.chomp)}/dist.rb"
-  end
+  #block do
+  # patch source: "chef-zero-dist.patch", target: "#{File.expand_path("..",shellout!("#{install_dir}/embedded/bin/gem which chef-zero").stdout.chomp)}/dist.rb"
+  #send
   gemspec_name = windows? ? "chef-universal-mingw32.gemspec" : "chef.gemspec"
 
   # This step will build native components as needed - the event log dll is
