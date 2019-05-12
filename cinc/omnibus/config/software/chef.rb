@@ -72,11 +72,10 @@ build do
   
   # install the whole bundle first
   bundle "install --without #{excluded_groups.join(' ')}", env: env
-    
-  patch source: "chef-zero-dist.patch", target: "#{File.expand_path("..",shellout!("#{install_dir}/embedded/bin/gem which chef-zero").stdout.chomp)}/dist.rb"
   
   # use the rake install task to build/install chef-config
   bundle "exec rake install", env: env
+  patch source: "chef-zero-dist.patch", target: "#{File.expand_path("..",shellout!("#{install_dir}/embedded/bin/gem which chef-zero").stdout.chomp)}/dist.rb"
   
   gemspec_name = windows? ? "chef-universal-mingw32.gemspec" : "chef.gemspec"
 
