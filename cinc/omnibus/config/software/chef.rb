@@ -61,11 +61,6 @@ build do
   patch source: "dist.rb.patch", target: "./lib/chef/dist.rb"
   patch source: "chef-bin-gemspec.patch", target: "./chef-bin/chef-bin.gemspec"
   
-  block do
-    Dir["#{project_dir}/chef-bin/bin/*"].each do |binstub|
-      move binstub, binstub.gsub(/chef(?=[^\/]+$)/,'cinc')
-    end
-  end
   # compiled ruby on windows 2k8R2 x86 is having issues compiling
   # native extensions for pry-byebug so excluding for now
   excluded_groups = %w{server docgen maintenance pry travis integration ci chefstyle}

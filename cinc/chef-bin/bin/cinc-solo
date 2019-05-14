@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 #
-# ./cinc-client - Run the cinc client
+# ./chef-solo - Run the chef client, in stand-alone mode
 #
 # Author:: AJ Christensen (<aj@chef.io>)
 # Copyright:: Copyright 2008-2018, Chef Software Inc.
@@ -19,7 +19,6 @@
 # limitations under the License.
 
 $:.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
-require "chef"
-require "chef/application/client"
+require "chef/application/solo"
 
-Chef::Application::Client.new.run
+Chef::Application::Solo.new.run(enforce_license: false)
