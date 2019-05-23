@@ -1,6 +1,7 @@
 environment:
   # ORIGIN: https://github.com/chef/chef.git
   ORIGIN: -b dist_solo_zero https://github.com/cc-build/chef.git
+  MSYSTEM: msys64
   matrix:
     - ruby_version: "25-x64"
 
@@ -12,6 +13,8 @@ build_script:
   - C:\msys64\usr\bin\bash --login -c "pacman -Syu --noconfirm"
   - C:\msys64\usr\bin\bash --login -c "pacman -Su --noconfirm"
   - C:\msys64\usr\bin\bash --login -c "pacman -S --noconfirm mingw-w64-x86_64-toolchain"
+  - mkdir c:\msys2
+  - mklink /J c:\msys2\msys64 c:\msys64
   - systeminfo
   - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
   - echo %PATH%
