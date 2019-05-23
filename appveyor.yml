@@ -19,7 +19,7 @@ build_script:
   - mklink /J c:\msys2 c:\msys64
   - dir c:\msys2\mingw64\bin\*.dll
   - cd c:
-  - dir libgcc_s_dw*.dll /SET
+  - dir libgcc_s_dw*.dll /S
   - cd c:\projects\client
   - systeminfo
   - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
