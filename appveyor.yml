@@ -20,11 +20,11 @@ build_script:
   - C:\msys64\usr\bin\bash --login -c "pacman -S --needed --noconfirm base-devel"
   - C:\msys64\usr\bin\bash --login -c "pacman -S --needed --noconfirm mingw-w64-x86_64-toolchain"
   - mkdir c:\msys64\bin
-  - echo "c:\\msys64\\usr\\bin\\bsdtar.exe %*" > c:\msys64\bin\tar.bat
-  - echo "c:\\msys64\\usr\\bin\\patch.exe %*" > c:\msys64\bin\patch.bat
+  - echo c:\msys64\usr\bin\bsdtar.exe %* > c:\msys64\bin\tar.bat
+  - echo c:\msys64\usr\bin\patch.exe %* > c:\msys64\bin\patch.bat
   - mklink /J c:\msys2 c:\msys64
   - systeminfo
-  - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
+  - SET PATH=c:\msys2\bin;C:\Ruby%ruby_version%\bin;%PATH%
   - echo %PATH%
   - where tar
   - appveyor DownloadFile http://curl.haxx.se/ca/cacert.pem -FileName C:\cacert.pem
