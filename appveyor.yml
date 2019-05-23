@@ -12,6 +12,7 @@ build_script:
   - C:\msys64\usr\bin\bash --login -c "pacman -Sy --noconfirm pacman"
   - C:\msys64\usr\bin\bash --login -c "pacman -Syu --noconfirm"
   - C:\msys64\usr\bin\bash --login -c "pacman -Su --noconfirm"
+  - C:\msys64\usr\bin\bash --login -c "pacman -S --noconfirm base-devel"
   - C:\msys64\usr\bin\bash --login -c "pacman -S --noconfirm mingw-w64-x86_64-toolchain"
   - mkdir c:\msys2
   - mklink /J c:\msys2\msys64 c:\msys64
