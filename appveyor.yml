@@ -22,11 +22,11 @@ build_script:
   - mkdir c:\msys64\bin
   - echo "c:\\msys64\\usr\\bin\\bsdtar.exe %*" > c:\msys64\bin\tar.bat
   - echo "c:\\msys64\\usr\\bin\\patch.exe %*" > c:\msys64\bin\patch.bat
-  - where tar
   - mklink /J c:\msys2 c:\msys64
   - systeminfo
-  - SET PATH=c:\msys2\bin;C:\Ruby%ruby_version%\bin;%PATH%
+  - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
   - echo %PATH%
+  - where tar
   - appveyor DownloadFile http://curl.haxx.se/ca/cacert.pem -FileName C:\cacert.pem
   - set SSL_CERT_FILE=C:\cacert.pem
   - SET BUNDLE_WITHOUT=server:docgen:pry:integration:ci
