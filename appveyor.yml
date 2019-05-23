@@ -1,3 +1,6 @@
+platform:
+  - x64
+  
 environment:
   # ORIGIN: https://github.com/chef/chef.git
   ORIGIN: -b dist_solo_zero https://github.com/cc-build/chef.git
