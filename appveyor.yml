@@ -5,6 +5,7 @@ environment:
   # ORIGIN: https://github.com/chef/chef.git
   ORIGIN: -b dist_solo_zero https://github.com/cc-build/chef.git
   MSYSTEM: mingw64
+  OMNIBUS_WINDOWS_ARCH: x64
 
   matrix:
     - ruby_version: "26-x64"
