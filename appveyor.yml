@@ -13,8 +13,11 @@ build_script:
   - C:\msys64\usr\bin\bash --login -c "pacman -Sy --noconfirm pacman"
   - C:\msys64\usr\bin\bash --login -c "pacman -Syu --noconfirm"
   - C:\msys64\usr\bin\bash --login -c "pacman -Su --noconfirm"
+  - C:\msys64\usr\bin\bash --login -c "pacman -S --needed --noconfirm base"
+  - C:\msys64\usr\bin\bash --login -c "pacman -S --needed --noconfirm msys2-devel"
   - C:\msys64\usr\bin\bash --login -c "pacman -S --needed --noconfirm base-devel"
   - C:\msys64\usr\bin\bash --login -c "pacman -S --needed --noconfirm mingw-w64-x86_64-toolchain"
+  - C:\msys64\usr\bin\bash --login -c "pacman -S --needed --noconfirm mingw-w64-cross-toolchain"
   - C:\msys64\usr\bin\bash --login -c "pacman -S --needed --noconfirm mingw-w64-i686-toolchain"
   - mklink /J c:\msys2 c:\msys64
   - dir c:\msys2\mingw64\bin\*.dll
