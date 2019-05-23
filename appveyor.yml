@@ -1,4 +1,6 @@
 environment:
+  # ORIGIN: https://github.com/chef/chef.git
+  ORIGIN: -b dist_solo_zero https://github.com/cc-build/chef.git
   matrix:
     - ruby_version: "26-x64"
 
@@ -6,14 +8,13 @@ clone_folder: c:\projects\client
 clone_depth: 1
 
 build_script:
-  - dir
-  - cd /d c:\projects\client
   - systeminfo
   - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
   - echo %PATH%
   - appveyor DownloadFile http://curl.haxx.se/ca/cacert.pem -FileName C:\cacert.pem
   - set SSL_CERT_FILE=C:\cacert.pem
   - SET BUNDLE_WITHOUT=server:docgen:pry:integration:ci
+  - git clone --depth=1 %ORIGIN%
   - xcopy /Y /H cinc\* chef\*
   - cd chef\omnibus
   - bundle install --without development
