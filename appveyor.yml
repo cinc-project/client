@@ -22,6 +22,7 @@ build_script:
   - mkdir c:\msys64\bin
   - echo "@%~dp0..\\usr\\bin\\bsdtar.exe %*" > c:\msys64\bin\tar.bat
   - echo "@%~dp0..\\usr\\bin\\patch.exe %*" > c:\msys64\bin\patch.bat
+  - where tar
   - mklink /J c:\msys2 c:\msys64
   - systeminfo
   - SET PATH=c:\msys2\bin;C:\Ruby%ruby_version%\bin;%PATH%
