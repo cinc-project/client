@@ -5,8 +5,8 @@ stages:
  - test
 
 variables:
-  ORIGIN: https://github.com/chef/chef.git
-  # ORIGIN: -b distro_identity https://github.com/cc-build/chef.git
+  # ORIGIN: https://github.com/chef/chef.git
+  ORIGIN: -b dist_solo_zero https://github.com/cc-build/chef.git
 
 client_patch:
   stage: patch
@@ -62,19 +62,28 @@ client-package:rpm:
     - yum clean all
     - rvm use $RUBY_VERSION --default
     - gem install bundler -v $(grep :bundler chef/omnibus_overrides.rb | cut -d'"' -f2)
-    - ruby -v
     - gem install omnibus
     - cd chef/omnibus
     - bundle install --without development
-    - bundle exec omnibus build cinc --log-level info
-    - ls -alh */*
-    - mv pkg/*.rpm $CI_PROJECT_DIR
+    - bundle exec omnibus build cinc
+    - mv pkg/*.deb $CI_PROJECT_DIR
   variables:
     RUBY_VERSION: 2.5.5
   artifacts:
     expire_in: 1mo
     paths:
       - ./*.rpm
+      
+client-test:rpm:
+  stage: test
+  dependencies:
+    - client-package:rpm
+  script:
+    - yum install cinc*.rpm
+    - /opt/cinc/bin/cinc-client --version
+    - /opt/cinc/bin/cinc-solo -l info
+    - cinc-client --version
+    - cinc-solo -l info
 
 client-package:windows:
   when: manual
