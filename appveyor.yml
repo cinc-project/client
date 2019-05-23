@@ -2,10 +2,10 @@ environment:
   # ORIGIN: https://github.com/chef/chef.git
   ORIGIN: -b dist_solo_zero https://github.com/cc-build/chef.git
   MSYSTEM: mingw64
-  OMNIBUS_TOOLCHAIN_INSTALL_DIR: "c:\msys64"
+  OMNIBUS_TOOLCHAIN_INSTALL_DIR: c:\msys64
 
   matrix:
-    - ruby_version: "25-x64"
+    - ruby_version: "26-x64"
 
 clone_folder: c:\projects\client
 clone_depth: 1
