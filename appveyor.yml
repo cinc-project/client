@@ -15,7 +15,7 @@ build_script:
   - set SSL_CERT_FILE=C:\cacert.pem
   - SET BUNDLE_WITHOUT=server:docgen:pry:integration:ci
   - git clone --depth=1 %ORIGIN%
-  - xcopy /Y /H cinc\* chef\*
+  - xcopy /Y /E /H cinc\* chef\
   - cd chef\omnibus
   - bundle install --without development
   - bundle exec omnibus build cinc
