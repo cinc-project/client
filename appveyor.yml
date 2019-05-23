@@ -1,0 +1,15 @@
+build_script:
+  - systeminfo
+  - winrm quickconfig -q
+  - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
+  - echo %PATH%
+  - appveyor DownloadFile http://curl.haxx.se/ca/cacert.pem -FileName C:\cacert.pem
+  - set SSL_CERT_FILE=C:\cacert.pem
+  - SET BUNDLE_WITHOUT=server:docgen:pry:integration:ci
+  - xcopy /Y /H cinc\* chef\*
+  - cd chef\omnibus
+  - bundle install --without development
+  - bundle exec omnibus build cinc
+
+artifacts:
+  - path: pkg\*.deb
