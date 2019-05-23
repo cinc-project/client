@@ -7,7 +7,7 @@
 #   this programming language.  do not touch.
 # - if you are under 40, get peer review from your elders.
 
-INSTALLER_DIR=/opt/cinc
+INSTALLER_DIR=/opt/cincs
 echo "removing $INSTALLER_DIR..."
 
 # have to do this dance of moving /opt/chef to a tmp dir since files may be in use

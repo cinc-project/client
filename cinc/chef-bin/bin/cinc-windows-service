@@ -1,10 +1,8 @@
 #!/usr/bin/env ruby
 #
-# ./cinc-client - Run the cinc client
+# Author:: Jay Mundrawala (<jdm@chef.io>)
 #
-# Author:: AJ Christensen (<aj@chef.io>)
-# Copyright:: Copyright 2008-2018, Chef Software Inc.
-# License:: Apache License, Version 2.0
+# Copyright:: 2014-2018, Chef Software, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,9 +15,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+
+# Note:
+# The file is used by appbundler to generate a ruby file that
+# we can execute using the correct gems. The batch file we
+# generate will call that file, and will be registered as
+# a windows service.
 
 $:.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 require "chef"
-require "chef/application/client"
+require "chef/application/windows_service"
 
-Chef::Application::Client.new.run
+if Chef::Platform.windows?
+  Chef::Application::WindowsService.mainloop
+else
+  puts "cinc-windows-service is only available on Windows platforms."
+end

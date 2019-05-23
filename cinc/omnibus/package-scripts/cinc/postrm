@@ -33,7 +33,7 @@ else
 fi
 
 cleanup_symlinks() {
-  binaries="cinc-client chef-solo chef-apply chef-shell knife ohai"
+  binaries="cinc-client cinc-solo cinc-apply cinc-shell knife ohai"
   for binary in $binaries; do
     rm -f $PREFIX/bin/$binary
   done
