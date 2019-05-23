@@ -8,12 +8,10 @@ clone_folder: c:\projects\client
 clone_depth: 1
 
 build_script:
-  - appveyor DownloadFile http://repo.msys2.org/distrib/msys2-x86_64-latest.exe
-  - "msys2-x86_64-latest.exe --platform minimal --script auto-install.js -v"
-  - 'C:\msys64\usr\bin\bash --login -c "pacman -Sy --noconfirm pacman"'
-  - 'C:\msys64\usr\bin\bash --login -c "pacman -Syu --noconfirm"'
-  - 'C:\msys64\usr\bin\bash --login -c "pacman -Su --noconfirm"'
-  - 'C:\msys64\usr\bin\bash --login -c "pacman -S --noconfirm mingw-w64-x86_64-toolchain"'
+  - C:\msys64\usr\bin\bash --login -c "pacman -Sy --noconfirm pacman"
+  - C:\msys64\usr\bin\bash --login -c "pacman -Syu --noconfirm"
+  - C:\msys64\usr\bin\bash --login -c "pacman -Su --noconfirm"
+  - C:\msys64\usr\bin\bash --login -c "pacman -S --noconfirm mingw-w64-x86_64-toolchain"
   - systeminfo
   - SET PATH=C:\Ruby%ruby_version%\bin;%PATH%
   - echo %PATH%
