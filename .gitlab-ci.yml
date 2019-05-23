@@ -7,6 +7,8 @@ stages:
 variables:
   # ORIGIN: https://github.com/chef/chef.git
   ORIGIN: -b dist_solo_zero https://github.com/cc-build/chef.git
+  DEB_WHEN: manual
+  RPM_WHEN: manual
 
 client_patch:
   stage: patch
@@ -20,7 +22,7 @@ client_patch:
       - chef/
   
 client-package:deb:
-  # when: manual
+  when: $DEB_WHEN
   stage: package
   script:
     - apt-get update
@@ -36,6 +38,7 @@ client-package:deb:
       - ./*.deb
 
 client-test:deb:
+  when: $DEB_WHEN
   stage: test
   dependencies:
     - client-package:deb
@@ -47,7 +50,7 @@ client-test:deb:
     - cinc-solo -l info
 
 client-package:rpm:
-  when: manual
+  when: $RPM_WHEN
   image: "centos:centos7"
   stage: package
   script:
@@ -75,6 +78,7 @@ client-package:rpm:
       - ./*.rpm
       
 client-test:rpm:
+  when: $RPM_WHEN
   stage: test
   dependencies:
     - client-package:rpm

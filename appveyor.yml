@@ -9,7 +9,8 @@ clone_depth: 1
 
 build_script:
   - appveyor DownloadFile http://repo.msys2.org/distrib/msys2-x86_64-latest.exe  
-  - appveyor DownloadFile https://raw.githubusercontent.com/Alexpux/MSYS2-packages/master/msys2-installer/auto-install.js msys2-x86_64-latest.exe --platform minimal --script auto-install.js -v
+  - appveyor DownloadFile https://raw.githubusercontent.com/Alexpux/MSYS2-packages/master/msys2-installer/auto-install.js
+  - msys2-x86_64-latest.exe --platform minimal --script auto-install.js -v
   - C:\msys64\usr\bin\bash --login -c "pacman -Sy --noconfirm pacman"
   - C:\msys64\usr\bin\bash --login -c "pacman -Syu --noconfirm"
   - C:\msys64\usr\bin\bash --login -c "pacman -Su --noconfirm"
