@@ -37,6 +37,7 @@ build_script:
   - bundle install --without development
   - where gcc
   - gcc --version
+  - bash -c 'which gcc; gcc --version;'
   - where bash
   - bundle exec omnibus build cinc
 
