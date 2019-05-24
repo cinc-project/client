@@ -77,6 +77,7 @@ client-package:rpm:
       
 client-test:rpm:
   when: manual
+  image: "centos:centos7"
   stage: test
   dependencies:
     - client-package:rpm
