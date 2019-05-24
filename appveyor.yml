@@ -18,8 +18,8 @@ build_script:
   - echo c:\msys64\usr\bin\bsdtar.exe %%%%^* > c:\msys64\bin\tar.bat
   - echo c:\msys64\usr\bin\patch.exe %%%%^* > c:\msys64\bin\patch.bat
   - type c:\msys64\bin\tar.bat
-  - c:\msys64\bin\tar.bat --help
-  - C:\msys64\usr\bin\bash --login -c "pacman -Sy --noconfirm pacman"
+  - C:\msys64\bin\tar.bat --help
+  - C:\msys64\usr\bin\bash --login -c "pacman -Syu --noconfirm pacman"
   - C:\msys64\usr\bin\bash --login -c "pacman -Syu --noconfirm"
   - C:\msys64\usr\bin\bash --login -c "pacman -Su --noconfirm"
   - C:\msys64\usr\bin\bash --login -c "pacman -S --needed --noconfirm base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake git"
