@@ -36,6 +36,8 @@ build_script:
   - cd chef\omnibus
   - bundle install --without development
   - where gcc
+  - gcc --version
+  - where bash
   - bundle exec omnibus build cinc
 
 artifacts:
