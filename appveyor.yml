@@ -35,6 +35,7 @@ build_script:
   - xcopy /Y /E /H cinc\* chef\
   - cd chef\omnibus
   - bundle install --without development
+  - where gcc
   - bundle exec omnibus build cinc
 
 artifacts:
