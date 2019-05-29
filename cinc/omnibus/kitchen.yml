@@ -7,30 +7,28 @@
 driver:
   name: ec2
   region: eu-west-1
-  availability_zone: c
+  availability_zone: b
+  retryable_tries: 60
+  retryable_sleep: 10
   require_chef_omnibus: true
   interface: dns
-  synced_folders:
-    - ['../..', '/vagrant/code']
-    - ['../../omnibus', '/home/vagrant/omnibus']
-    - ['../../omnibus-software', '/home/vagrant/omnibus-software']
 
 provisioner:
   name: chef_zero
-  product_name: cinc
-  product_version: latest
-  chef_omnibus_root: /opt/cinc
+  product_name: angrychef
+  product_version: 14
+  chef_omnibus_root: /opt/angrychef
+  data_path: "../.."
 
 platforms:
   - name: windows-2012r2
     driver:
-      instance_type: t3.medium
+      instance_type: t3.xlarge
       synced_folders:
       # We have to mount this repos enclosing folder as the Omnibus build
       # gets cranky if the mounted Chef source folder is a symlink. This
       # mounts at `C:\vagrant\code` and the Chef source folder is available
       # at `C:\vagrant\code\chef`
-      - ['../..', '/vagrant/code']
       communicator: winrm
     transport:
       name: winrm
