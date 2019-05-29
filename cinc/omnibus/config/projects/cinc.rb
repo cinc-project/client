@@ -38,5 +38,8 @@ end
 
 resources_path "#{resources_path}/../chef"
 
-msi_upgrade_code = "D7FDDC1A-7668-404E-AD2F-61F875632A9C"
+msi_upgrade_code = "413a207e-0023-467d-bd40-3af155a16679"
 project_location_dir = "cinc"
+package :msi do
+  signing_identity NULL
+end
