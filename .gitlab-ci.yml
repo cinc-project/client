@@ -3,6 +3,7 @@ stages:
  - patch
  - package
  - test
+ - deploy
 
 variables:
   # ORIGIN: https://github.com/chef/chef.git
@@ -18,7 +19,7 @@ client_patch:
     expire_in: 1d
     paths:
       - chef/
-  
+
 client-package:deb:
   when: manual
   stage: package
@@ -47,12 +48,30 @@ client-test:deb:
     - cinc-client --version
     - cinc-solo -l info
 
+client-deploy:deb:
+  when: manual
+  stage: deploy
+  dependencies:
+    - client-package:deb
+    - client-test:deb
+  before_script:
+    - '( apt-get update -y && apt-get install rsync openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "${SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - rsync -avH *.deb cc-build@${MIRROR_HOST}:~/ftp/cinc/debian/9/
+    - ssh cc-build@${MIRROR_HOST} ~/trigger-cc-build
+
 client-package:rpm:
   when: manual
   image: "centos:centos7"
   stage: package
   script:
-    - yum -y update 
+    - yum -y update
     - yum -y install git bzip2 which rpmbuild gpg openssl-devel readline-devel zlib-devel autoconf bison flex gcc gcc-c++ gettext kernel-devel make m4 ncurses-devel patch rpm-build rpm-sign
     - export PATH=/usr/local/rvm/gems/ruby-$RUBY_VERSION/bin:/usr/local/rvm/gems/ruby-$RUBY_VERSION@global/bin:/usr/local/rvm/rubies/ruby-$RUBY_VERSION/bin:/usr/local/rvm/bin:$PATH
     - export GEM_HOME=/usr/local/rvm/gems/ruby-$RUBY_VERSION
@@ -74,7 +93,7 @@ client-package:rpm:
     expire_in: 1mo
     paths:
       - ./*.rpm
-      
+
 client-test:rpm:
   when: manual
   image: "centos:centos7"
@@ -86,4 +105,22 @@ client-test:rpm:
     - /opt/cinc/bin/cinc-client --version
     - /opt/cinc/bin/cinc-solo -l info
     - cinc-client --version
-    - cinc-solo -l info    
+    - cinc-solo -l info
+
+client-deploy:rpm:
+  when: manual
+  stage: deploy
+  dependencies:
+    - client-package:rpm
+    - client-test:rpm
+  before_script:
+    - yum -y install openssh-clients rsync
+    - eval $(ssh-agent -s)
+    - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "${SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - rsync -avH *.rpm cc-build@${MIRROR_HOST}:~/ftp/cinc/el/7/
+    - ssh cc-build@${MIRROR_HOST} ~/trigger-cc-build
