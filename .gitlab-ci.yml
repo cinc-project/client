@@ -110,6 +110,7 @@ client-test:rpm:
 
 client-deploy:rpm:
   when: manual
+  image: "centos:centos7"
   stage: deploy
   dependencies:
     - client-package:rpm
