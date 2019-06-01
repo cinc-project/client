@@ -101,7 +101,7 @@ client-test:rpm:
   dependencies:
     - client-package:rpm
   script:
-    - yum install cinc*.rpm
+    - yum -y install cinc*.rpm
     - /opt/cinc/bin/cinc-client --version
     - /opt/cinc/bin/cinc-solo -l info
     - cinc-client --version
