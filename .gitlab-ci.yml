@@ -63,6 +63,7 @@ client-deploy:deb:
     - echo "${SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
+    - ssh cc-build@${MIRROR_HOST} "mkdir -p ~/ftp/cinc/debian/9"
     - rsync -avH *.deb cc-build@${MIRROR_HOST}:~/ftp/cinc/debian/9/
     - ssh cc-build@${MIRROR_HOST} ~/trigger-cc-build
 
@@ -122,5 +123,6 @@ client-deploy:rpm:
     - echo "${SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
   script:
+    - ssh cc-build@${MIRROR_HOST} "mkdir -p ~/ftp/cinc/el/7"
     - rsync -avH *.rpm cc-build@${MIRROR_HOST}:~/ftp/cinc/el/7/
     - ssh cc-build@${MIRROR_HOST} ~/trigger-cc-build
