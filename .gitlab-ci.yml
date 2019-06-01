@@ -65,7 +65,7 @@ client-deploy:deb:
   script:
     - ssh cc-build@${MIRROR_HOST} "mkdir -p ~/ftp/cinc/debian/9"
     - rsync -avH *.deb cc-build@${MIRROR_HOST}:~/ftp/cinc/debian/9/
-    - ssh cc-build@${MIRROR_HOST} ~/trigger-cc-build
+    - ssh cc-build@${MIRROR_HOST} "/home/cc-build/trigger-cc-build"
 
 client-package:rpm:
   when: manual
@@ -125,4 +125,4 @@ client-deploy:rpm:
   script:
     - ssh cc-build@${MIRROR_HOST} "mkdir -p ~/ftp/cinc/el/7"
     - rsync -avH *.rpm cc-build@${MIRROR_HOST}:~/ftp/cinc/el/7/
-    - ssh cc-build@${MIRROR_HOST} ~/trigger-cc-build
+    - ssh cc-build@${MIRROR_HOST} "/home/cc-build/trigger-cc-build"
