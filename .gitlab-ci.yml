@@ -35,66 +35,67 @@ client_patch:
   script:
     - source /home/omnibus/load-omnibus-toolchain.sh
     - cd chef/omnibus
-    - bundle install --without development
+    - bundle install --without development --path bundle/vendor
     - bundle exec omnibus build cinc
-    - mkdir files
-    - mv pkg/* ${CI_PROJECT_DIR}/files/
+    - mkdir data
+    - mv pkg/* ${CI_PROJECT_DIR}/data/
   cache:
     paths:
       - cache/*
   artifacts:
     expire_in: 1mo
     paths:
-      - files/*
+      - data/*
+      - bundle/vendor/*
 
 client-package:debian-8:
   extends: .client-package
   image: ccbuild/omnibus-debian:8
   after_script:
-    - mkdir -p ${CI_PROJECT_DIR}/files/debian
-    - mv ${CI_PROJECT_DIR}/files ${CI_PROJECT_DIR}/files/debian/8
+    - mkdir -p ${CI_PROJECT_DIR}/data/debian
+    - mv ${CI_PROJECT_DIR}/data ${CI_PROJECT_DIR}/data/debian/8
 
 client-package:debian-9:
   extends: .client-package
   image: ccbuild/omnibus-debian:9
   after_script:
-    - mkdir -p ${CI_PROJECT_DIR}/files/debian
-    - mv ${CI_PROJECT_DIR}/files ${CI_PROJECT_DIR}/files/debian/9
+    - mkdir -p ${CI_PROJECT_DIR}/data/debian
+    - mv ${CI_PROJECT_DIR}/data ${CI_PROJECT_DIR}/data/debian/9
 
 client-package:ubuntu-14.04:
   extends: .client-package
   image: ccbuild/omnibus-ubuntu:14.04
   after_script:
-    - mkdir -p ${CI_PROJECT_DIR}/files/ubuntu
-    - mv ${CI_PROJECT_DIR}/files ${CI_PROJECT_DIR}/files/ubuntu/14.04
+    - mkdir -p ${CI_PROJECT_DIR}/data/ubuntu
+    - mv ${CI_PROJECT_DIR}/data ${CI_PROJECT_DIR}/data/ubuntu/14.04
 
 client-package:ubuntu-16.04:
   extends: .client-package
   image: ccbuild/omnibus-ubuntu:16.04
   after_script:
-    - mkdir -p ${CI_PROJECT_DIR}/files/ubuntu
-    - mv ${CI_PROJECT_DIR}/files ${CI_PROJECT_DIR}/files/ubuntu/16.04
+    - mkdir -p ${CI_PROJECT_DIR}/data/ubuntu
+    - mv ${CI_PROJECT_DIR}/data ${CI_PROJECT_DIR}/data/ubuntu/16.04
 
 client-package:ubuntu-18.04:
   extends: .client-package
   image: ccbuild/omnibus-ubuntu:18.04
   after_script:
-    - mkdir -p ${CI_PROJECT_DIR}/files/ubuntu
-    - mv ${CI_PROJECT_DIR}/files ${CI_PROJECT_DIR}/files/ubuntu/18.04
+    - mkdir -p ${CI_PROJECT_DIR}/data/ubuntu
+    - mv ${CI_PROJECT_DIR}/data ${CI_PROJECT_DIR}/data/ubuntu/18.04
 
 client-package:centos-6:
   extends: .client-package
   image: ccbuild/omnibus-centos:6
   after_script:
-    - mkdir -p ${CI_PROJECT_DIR}/files/centos
-    - mv ${CI_PROJECT_DIR}/files ${CI_PROJECT_DIR}/files/centos/6
+    - mkdir -p ${CI_PROJECT_DIR}/data/centos
+    - mv ${CI_PROJECT_DIR}/data ${CI_PROJECT_DIR}/data/centos/6
 
 client-package:centos-7:
   extends: .client-package
   image: ccbuild/omnibus-centos:7
   after_script:
-    - mkdir -p ${CI_PROJECT_DIR}/files/centos
-    - mv ${CI_PROJECT_DIR}/files ${CI_PROJECT_DIR}/files/centos/7
+    - mkdir -p ${CI_PROJECT_DIR}/data/centos
+    - mv ${CI_PROJECT_DIR}/data ${CI_PROJECT_DIR}/data/centos/7
 
 .client-test:
   stage: test
@@ -112,7 +113,7 @@ client-test:debian-8:
   dependencies:
     - client-package:debian-8
   before_script:
-    - dpkg -i files/debian/8/cinc*.deb
+    - dpkg -i data/debian/8/cinc*.deb
 
 client-test:debian-9:
   extends: .client-test
@@ -120,7 +121,7 @@ client-test:debian-9:
   dependencies:
     - client-package:debian-9
   before_script:
-    - dpkg -i files/debian/9/cinc*.deb
+    - dpkg -i data/debian/9/cinc*.deb
 
 client-test:ubuntu-14.04:
   extends: .client-test
@@ -128,7 +129,7 @@ client-test:ubuntu-14.04:
   dependencies:
     - client-package:ubuntu-14.04
   before_script:
-    - dpkg -i files/ubuntu/14.04/cinc*.deb
+    - dpkg -i data/ubuntu/14.04/cinc*.deb
 
 client-test:ubuntu-16.04:
   extends: .client-test
@@ -136,7 +137,7 @@ client-test:ubuntu-16.04:
   dependencies:
     - client-package:ubuntu-16.04
   before_script:
-    - dpkg -i files/ubuntu/16.04/cinc*.deb
+    - dpkg -i data/ubuntu/16.04/cinc*.deb
 
 client-test:ubuntu-18.04:
   extends: .client-test
@@ -144,7 +145,7 @@ client-test:ubuntu-18.04:
   dependencies:
     - client-package:ubuntu-18.04
   before_script:
-    - dpkg -i files/ubuntu/18.04/cinc*.deb
+    - dpkg -i data/ubuntu/18.04/cinc*.deb
 
 client-test:centos-6:
   extends: .client-test
@@ -152,7 +153,7 @@ client-test:centos-6:
   dependencies:
     - client-package:centos-6
   before_script:
-    - yum -y install files/centos/6/cinc*.rpm
+    - yum -y install data/centos/6/cinc*.rpm
 
 client-test:centos-7:
   extends: .client-test
@@ -160,7 +161,7 @@ client-test:centos-7:
   dependencies:
     - client-package:centos-7
   before_script:
-    - yum -y install files/centos/6/cinc*.rpm
+    - yum -y install data/centos/6/cinc*.rpm
 
 client-deploy:
   when: manual
@@ -184,4 +185,4 @@ client-deploy:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - ssh cc-build@${MIRROR_HOST} "mkdir -p /data/incoming/files/"
-    - rsync -avH files/ cc-build@${MIRROR_HOST}:/data/incoming/files/
+    - rsync -avH data/ cc-build@${MIRROR_HOST}:/data/incoming/files/
