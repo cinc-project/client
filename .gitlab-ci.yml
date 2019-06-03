@@ -17,6 +17,9 @@ client_patch:
     - echo "Cloning from $ORIGIN"
     - git clone --depth=1 $ORIGIN
     - cp -R cinc/* chef/
+    - mkdir -p ${CI_PROJECT_DIR}/{cache,src}
+    - echo "cache_dir ${CI_PROJECT_DIR}/cache" >> chef/omnibus/omnibus.rb
+    - echo "source_dir ${CI_PROJECT_DIR}/src" >> chef/omnibus/omnibus.rb
   artifacts:
     expire_in: 1d
     paths:
@@ -30,19 +33,19 @@ client-package:deb:
     - client_patch
   script:
     - apt-get update
-    - source /home/omnibus/load-omnibus-toolchain.sh
+    - source /home/omnibus/load-omnibus-toolchain.sh | egrep -v "(CI|FF_|GITLAB_|SSH_KNOWN_HOSTS|SSH_PRIVATE_KEY)"
     - cd chef/omnibus
     - bundle install --without development
     - bundle exec omnibus build cinc
     - mv pkg/* $CI_PROJECT_DIR
   cache:
     paths:
-      - /var/cache/omnibus/cache/*
-      - /var/cache/omnibus/src/*
+      - cache/*
+      - src/*
   artifacts:
     expire_in: 1mo
     paths:
-      - ./*.rpm
+      - ./*.deb
       - ./*.json
 
 client-test:deb:
@@ -86,15 +89,15 @@ client-package:rpm:
   dependencies:
     - client_patch
   script:
-    - source /home/omnibus/load-omnibus-toolchain.sh
+    - source /home/omnibus/load-omnibus-toolchain.sh | egrep -v "(CI|FF_|GITLAB_|SSH_KNOWN_HOSTS|SSH_PRIVATE_KEY)"
     - cd chef/omnibus
     - bundle install --without development
     - bundle exec omnibus build cinc
     - mv pkg/* $CI_PROJECT_DIR
   cache:
     paths:
-      - /var/cache/omnibus/cache/*
-      - /var/cache/omnibus/src/*
+      - cache/*
+      - src/*
   artifacts:
     expire_in: 1mo
     paths:
