@@ -42,11 +42,11 @@ client_patch:
   cache:
     paths:
       - cache/*
+      - bundle/vendor/*
   artifacts:
     expire_in: 1mo
     paths:
       - data/*
-      - bundle/vendor/*
 
 client-package:debian-8:
   extends: .client-package
@@ -161,7 +161,7 @@ client-test:centos-7:
   dependencies:
     - client-package:centos-7
   before_script:
-    - yum -y install data/centos/6/cinc*.rpm
+    - yum -y install data/centos/7/cinc*.rpm
 
 client-deploy:
   when: manual
