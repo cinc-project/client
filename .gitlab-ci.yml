@@ -1,4 +1,4 @@
-image: "ruby:2.6"
+image: ccbuild/omnibus-debian
 stages:
  - patch
  - package
@@ -11,6 +11,8 @@ variables:
 
 client_patch:
   stage: patch
+  tags:
+    - osuosl
   script:
     - echo "Cloning from $ORIGIN"
     - git clone --depth=1 $ORIGIN
@@ -21,24 +23,31 @@ client_patch:
       - chef/
 
 client-package:deb:
-  when: manual
   stage: package
+  tags:
+    - osuosl
+  dependencies:
+    - client_patch
   script:
     - apt-get update
-    - apt-get install -y build-essential
-    - gem install omnibus
     - cd chef/omnibus
     - bundle install --without development
     - bundle exec omnibus build cinc
-    - mv pkg/*.deb $CI_PROJECT_DIR
+    - mv pkg/* $CI_PROJECT_DIR
+  cache:
+    paths:
+      - /var/cache/omnibus/cache/*
+      - /var/cache/omnibus/src/*
   artifacts:
     expire_in: 1mo
     paths:
-      - ./*.deb
+      - ./*.rpm
+      - ./*.json
 
 client-test:deb:
-  when: manual
   stage: test
+  tags:
+    - osuosl
   dependencies:
     - client-package:deb
   script:
@@ -51,11 +60,12 @@ client-test:deb:
 client-deploy:deb:
   when: manual
   stage: deploy
+  tags:
+    - osuosl
   dependencies:
     - client-package:deb
     - client-test:deb
   before_script:
-    - '( apt-get update -y && apt-get install rsync openssh-client -y )'
     - eval $(ssh-agent -s)
     - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh
@@ -64,41 +74,36 @@ client-deploy:deb:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - ssh cc-build@${MIRROR_HOST} "mkdir -p ~/ftp/cinc/debian/9"
-    - rsync -avH *.deb cc-build@${MIRROR_HOST}:~/ftp/cinc/debian/9/
+    - rsync -avH *.deb *.json cc-build@${MIRROR_HOST}:~/ftp/cinc/debian/9/
     - ssh cc-build@${MIRROR_HOST} "/home/cc-build/trigger-cc-build"
 
 client-package:rpm:
-  when: manual
-  image: "centos:centos7"
+  image: ccbuild/omnibus-centos
   stage: package
+  tags:
+    - osuosl
+  dependencies:
+    - client_patch
   script:
-    - yum -y update
-    - yum -y install git bzip2 which rpmbuild gpg openssl-devel readline-devel zlib-devel autoconf bison flex gcc gcc-c++ gettext kernel-devel make m4 ncurses-devel patch rpm-build rpm-sign
-    - export PATH=/usr/local/rvm/gems/ruby-$RUBY_VERSION/bin:/usr/local/rvm/gems/ruby-$RUBY_VERSION@global/bin:/usr/local/rvm/rubies/ruby-$RUBY_VERSION/bin:/usr/local/rvm/bin:$PATH
-    - export GEM_HOME=/usr/local/rvm/gems/ruby-$RUBY_VERSION
-    - export GEM_PATH=/usr/local/rvm/gems/ruby-$RUBY_VERSION:/usr/local/rvm/gems/ruby-$RUBY_VERSION@global
-    - gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-    - curl -L get.rvm.io | bash
-    - rvm install $RUBY_VERSION
-    - yum clean all
-    - rvm use $RUBY_VERSION --default
-    - gem install bundler -v $(grep :bundler chef/omnibus_overrides.rb | cut -d'"' -f2)
-    - gem install omnibus
     - cd chef/omnibus
     - bundle install --without development
     - bundle exec omnibus build cinc
-    - mv pkg/*.rpm $CI_PROJECT_DIR
-  variables:
-    RUBY_VERSION: 2.5.5
+    - mv pkg/* $CI_PROJECT_DIR
+  cache:
+    paths:
+      - /var/cache/omnibus/cache/*
+      - /var/cache/omnibus/src/*
   artifacts:
     expire_in: 1mo
     paths:
       - ./*.rpm
+      - ./*.json
 
 client-test:rpm:
-  when: manual
-  image: "centos:centos7"
+  image: ccbuild/omnibus-centos
   stage: test
+  tags:
+    - osuosl
   dependencies:
     - client-package:rpm
   script:
@@ -110,13 +115,14 @@ client-test:rpm:
 
 client-deploy:rpm:
   when: manual
-  image: "centos:centos7"
+  image: ccbuild/omnibus-centos
   stage: deploy
+  tags:
+    - osuosl
   dependencies:
     - client-package:rpm
     - client-test:rpm
   before_script:
-    - yum -y install openssh-clients rsync
     - eval $(ssh-agent -s)
     - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null
     - mkdir -p ~/.ssh
@@ -125,5 +131,5 @@ client-deploy:rpm:
     - chmod 644 ~/.ssh/known_hosts
   script:
     - ssh cc-build@${MIRROR_HOST} "mkdir -p ~/ftp/cinc/el/7"
-    - rsync -avH *.rpm cc-build@${MIRROR_HOST}:~/ftp/cinc/el/7/
+    - rsync -avH *.rpm *.json cc-build@${MIRROR_HOST}:~/ftp/cinc/el/7/
     - ssh cc-build@${MIRROR_HOST} "/home/cc-build/trigger-cc-build"
