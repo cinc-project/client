@@ -33,7 +33,7 @@ client-package:deb:
     - client_patch
   script:
     - apt-get update
-    - source /home/omnibus/load-omnibus-toolchain.sh | egrep -v "(CI|FF_|GITLAB_|SSH_KNOWN_HOSTS|SSH_PRIVATE_KEY)"
+    - source /home/omnibus/load-omnibus-toolchain.sh
     - cd chef/omnibus
     - bundle install --without development
     - bundle exec omnibus build cinc
@@ -89,7 +89,7 @@ client-package:rpm:
   dependencies:
     - client_patch
   script:
-    - source /home/omnibus/load-omnibus-toolchain.sh | egrep -v "(CI|FF_|GITLAB_|SSH_KNOWN_HOSTS|SSH_PRIVATE_KEY)"
+    - source /home/omnibus/load-omnibus-toolchain.sh
     - cd chef/omnibus
     - bundle install --without development
     - bundle exec omnibus build cinc
