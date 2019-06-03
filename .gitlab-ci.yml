@@ -37,64 +37,64 @@ client_patch:
     - cd chef/omnibus
     - bundle install --without development
     - bundle exec omnibus build cinc
+    - mkdir files
+    - mv pkg/* ${CI_PROJECT_DIR}/files/
   cache:
     paths:
       - cache/*
   artifacts:
     expire_in: 1mo
     paths:
-      - ./*.deb
-      - ./*.rpm
-      - ./*.json
+      - files/*
 
 client-package:debian-8:
   extends: .client-package
   image: ccbuild/omnibus-debian:8
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/files/debian/8
-    - mv pkg/* ${CI_PROJECT_DIR}/files/debian/8/
+    - mv ${CI_PROJECT_DIR}/files/* ${CI_PROJECT_DIR}/files/debian/8/
 
 client-package:debian-9:
   extends: .client-package
   image: ccbuild/omnibus-debian:9
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/files/debian/9
-    - mv pkg/* ${CI_PROJECT_DIR}/files/debian/9/
+    - mv ${CI_PROJECT_DIR}/files/* ${CI_PROJECT_DIR}/files/debian/9/
 
 client-package:ubuntu-14.04:
   extends: .client-package
   image: ccbuild/omnibus-ubuntu:14.04
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/files/ubuntu/14.04
-    - mv pkg/* ${CI_PROJECT_DIR}/files/ubuntu/14.04/
+    - mv ${CI_PROJECT_DIR}/files/* ${CI_PROJECT_DIR}/files/ubuntu/14.04/
 
 client-package:ubuntu-16.04:
   extends: .client-package
   image: ccbuild/omnibus-ubuntu:16.04
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/files/ubuntu/16.04
-    - mv pkg/* ${CI_PROJECT_DIR}/files/ubuntu/16.04/
+    - mv ${CI_PROJECT_DIR}/files/* ${CI_PROJECT_DIR}/files/ubuntu/16.04/
 
 client-package:ubuntu-18.04:
   extends: .client-package
   image: ccbuild/omnibus-ubuntu:18.04
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/files/ubuntu/18.04
-    - mv pkg/* ${CI_PROJECT_DIR}/files/ubuntu/18.04/
+    - mv ${CI_PROJECT_DIR}/files/* ${CI_PROJECT_DIR}/files/ubuntu/18.04/
 
 client-package:centos-6:
   extends: .client-package
   image: ccbuild/omnibus-centos:6
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/files/centos/6
-    - mv pkg/* ${CI_PROJECT_DIR}/files/centos/6/
+    - mv ${CI_PROJECT_DIR}/files/* ${CI_PROJECT_DIR}/files/centos/6/
 
 client-package:centos-7:
   extends: .client-package
   image: ccbuild/omnibus-centos:7
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/files/centos/7
-    - mv pkg/* ${CI_PROJECT_DIR}/files/centos/7/
+    - mv ${CI_PROJECT_DIR}/files/* ${CI_PROJECT_DIR}/files/centos/7/
 
 .client-test:
   stage: test
