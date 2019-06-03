@@ -183,13 +183,13 @@ client-deploy:
   tags:
     - osuosl
   dependencies:
-    - client-test:debian-8
-    - client-test:debian-9
-    - client-test:ubuntu-14.04
-    - client-test:ubuntu-16.04
-    - client-test:ubuntu-18.04
-    - client-test:centos-6
-    - client-test:centos-7
+    - client-package:debian-8
+    - client-package:debian-9
+    - client-package:ubuntu-14.04
+    - client-package:ubuntu-16.04
+    - client-package:ubuntu-18.04
+    - client-package:centos-6
+    - client-package:centos-7
   before_script:
     - eval $(ssh-agent -s)
     - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null
