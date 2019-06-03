@@ -51,6 +51,8 @@ client_patch:
 client-package:debian-8:
   extends: .client-package
   image: ccbuild/omnibus-debian:8
+  cache:
+    key: debian:8
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/data/debian/8
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/debian/8/
@@ -58,6 +60,8 @@ client-package:debian-8:
 client-package:debian-9:
   extends: .client-package
   image: ccbuild/omnibus-debian:9
+  cache:
+    key: debian:9
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/data/debian/9
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/debian/9/
@@ -65,6 +69,8 @@ client-package:debian-9:
 client-package:ubuntu-14.04:
   extends: .client-package
   image: ccbuild/omnibus-ubuntu:14.04
+  cache:
+    key: ubuntu:14.04
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/data/ubuntu/14.04
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/ubuntu/14.04/
@@ -72,6 +78,8 @@ client-package:ubuntu-14.04:
 client-package:ubuntu-16.04:
   extends: .client-package
   image: ccbuild/omnibus-ubuntu:16.04
+  cache:
+    key: ubuntu:16.04
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/data/ubuntu/16.04
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/ubuntu/16.04/
@@ -79,6 +87,8 @@ client-package:ubuntu-16.04:
 client-package:ubuntu-18.04:
   extends: .client-package
   image: ccbuild/omnibus-ubuntu:18.04
+  cache:
+    key: ubuntu:18.04
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/data/ubuntu/18.04
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/ubuntu/18.04/
@@ -86,6 +96,8 @@ client-package:ubuntu-18.04:
 client-package:centos-6:
   extends: .client-package
   image: ccbuild/omnibus-centos:6
+  cache:
+    key: centos:6
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/data/centos/6
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/centos/6/
@@ -93,6 +105,8 @@ client-package:centos-6:
 client-package:centos-7:
   extends: .client-package
   image: ccbuild/omnibus-centos:7
+  cache:
+    key: centos:7
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/data/centos/7
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/centos/7/
