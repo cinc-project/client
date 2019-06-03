@@ -37,7 +37,7 @@ client_patch:
     - cd chef/omnibus
     - bundle install --without development --path bundle/vendor
     - bundle exec omnibus build cinc
-    - mkdir data
+    - mkdir ${CI_PROJECT_DIR}/data
     - mv pkg/* ${CI_PROJECT_DIR}/data/
   cache:
     paths:
