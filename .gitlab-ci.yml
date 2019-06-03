@@ -18,8 +18,8 @@ client_patch:
     - git clone --depth=1 $ORIGIN
     - cp -R cinc/* chef/
     - mkdir -p ${CI_PROJECT_DIR}/{cache,src}
-    - echo "cache_dir ${CI_PROJECT_DIR}/cache" >> chef/omnibus/omnibus.rb
-    - echo "source_dir ${CI_PROJECT_DIR}/src" >> chef/omnibus/omnibus.rb
+    - echo "cache_dir '${CI_PROJECT_DIR}/cache'" >> chef/omnibus/omnibus.rb
+    - echo "source_dir '${CI_PROJECT_DIR}/src'" >> chef/omnibus/omnibus.rb
   artifacts:
     expire_in: 1d
     paths:
