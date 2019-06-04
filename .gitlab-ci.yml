@@ -201,15 +201,17 @@ client-deploy:
     - client-package:centos-6
     - client-package:centos-7
   script:
-    - ssh cc-build@${DOWNLOADS_HOST} "mkdir -p /data/incoming/cinc/files/"
+    - ssh cc-build@${DOWNLOADS_HOST} "mkdir -p /data/incoming/cinc/files"
     - rsync -avH --delete data/ cc-build@${DOWNLOADS_HOST}:/data/incoming/cinc/files/
+    - ssh cc-build@${DOWNLOADS_HOST} "chmod 755 /data/incoming/cinc/files"
 
 client-publish:
   when: manual
   stage: publish
   extends: .ssh-setup
+  dependencies: []
   tags:
     - downloads
   script:
-    - rsync -avH /data/incoming/cinc/files/ /data/mirror/cinc/files/
+    - sudo /usr/bin/rsync -avH /data/incoming/cinc/files/ /data/mirror/cinc/files/
     - ssh -q cc-build@${MIRROR_HOST} "~/sync-from-master"
