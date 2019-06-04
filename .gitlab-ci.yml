@@ -38,7 +38,7 @@ client_patch:
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
     - bundle exec omnibus build cinc --override append_timestamp:false
     - mkdir ${CI_PROJECT_DIR}/data
-    - mv -v pkg/* ${CI_PROJECT_DIR}/data/
+    - mv -v pkg/cinc* ${CI_PROJECT_DIR}/data/
   cache:
     paths:
       - cache/*
