@@ -4,6 +4,7 @@ stages:
  - package
  - test
  - deploy
+ - publish
 
 variables:
   ORIGIN: https://github.com/chef/chef.git
@@ -176,9 +177,19 @@ client-test:centos-7:
   before_script:
     - yum -y install data/centos/7/cinc*.rpm
 
+.ssh-setup:
+  before_script:
+    - eval $(ssh-agent -s)
+    - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo "${SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+
 client-deploy:
   when: manual
   stage: deploy
+  extends: .ssh-setup
   tags:
     - osuosl
   dependencies:
@@ -189,13 +200,16 @@ client-deploy:
     - client-package:ubuntu-18.04
     - client-package:centos-6
     - client-package:centos-7
-  before_script:
-    - eval $(ssh-agent -s)
-    - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - echo "${SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
   script:
-    - ssh cc-build@${MIRROR_HOST} "mkdir -p /data/incoming/files/"
-    - rsync -avH data/ cc-build@${MIRROR_HOST}:/data/incoming/files/
+    - ssh cc-build@${DOWNLOADS_HOST} "mkdir -p /data/incoming/cinc/files/"
+    - rsync -avH --delete data/ cc-build@${DOWNLOADS_HOST}:/data/incoming/cinc/files/
+
+client-publish:
+  when: manual
+  stage: publish
+  extends: .ssh-setup
+  tags:
+    - downloads
+  script:
+    - rsync -avH /data/incoming/cinc/files/ /data/mirror/cinc/files/
+    - ssh -q cc-build@${MIRROR_HOST} "~/sync-from-master"
