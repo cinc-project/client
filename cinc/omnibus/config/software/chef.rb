@@ -57,20 +57,19 @@ dependency "libarchive" # for archive resource
 build do
   env = with_standard_compiler_flags(with_embedded_path)
 
-  patch source: "dist.rb.patch", target: "./lib/chef/dist.rb"
-  patch source: "chef-bin-gemspec.patch", target: "./chef-bin/chef-bin.gemspec"
-  
+  patch source: "cinc.patch"
+
   # compiled ruby on windows 2k8R2 x86 is having issues compiling
   # native extensions for pry-byebug so excluding for now
   excluded_groups = %w{server docgen maintenance pry travis integration ci chefstyle}
   excluded_groups << "ruby_prof" if aix?
   excluded_groups << "ruby_shadow" if aix?
   excluded_groups << "ed25519" if solaris2?
-  
+
   # install the whole bundle first
   bundle "install --without #{excluded_groups.join(' ')}", env: env
-  
-  
+
+
   # use the rake install task to build/install chef-config
   bundle "exec rake install", env: env
   # block do
