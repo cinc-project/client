@@ -25,6 +25,8 @@ instance_eval chef_project_contents
 
 name "cinc"
 friendly_name "Cinc Client"
+license "Apache-2.0"
+license_file "../LICENSE"
 
 if windows?
   # NOTE: Ruby DevKit fundamentally CANNOT be installed into "Program Files"
