@@ -31,7 +31,7 @@ https://gitlab.com/cc-build/outspec for the build code for the Community Edition
 
 https://github.com/biome-sh/biome for the Community fork of Chef Habitat (likely to be replaced in time with a dist.rb strategy + build pipeline)
 
-Our existing builds can be found here: https://cc-build.osuosl.org/ Please note these should only be used for experimentation purposes at this time, using them for other purposes could put you in violation of Chef's Policy on trademark and expose you to legal actions.
+Our existing builds can be found here: http://downloads.cc-build.org Please note these should only be used for experimentation purposes at this time, using them for other purposes could put you in violation of Chef's Policy on trademark and expose you to legal actions.
 
 ## TODO
 
@@ -39,12 +39,16 @@ Our existing builds can be found here: https://cc-build.osuosl.org/ Please note 
 - Evaluate compliance of resulting binaries
 - Hook pipeline into Chef's Expeditor to trigger builds whenever they release
 - MacOS builds?
+- Windows build pipeline
+- Yum/Deb repository generation
+- Omnitruck / mixlib-install integration
+- Make a final decisions on project names
 
 # Authors
 
 Originally written by Tensibai Zhaoying tensibai@iabis.net
 
-Contributions by Lance Albertson <email?>, Artem Sidorenko <email?> and Marc Chamberland chamberland.marc@gmail.com
+Contributions by Lance Albertson lance@osuosl.org, Artem Sidorenko <email?> and Marc Chamberland chamberland.marc@gmail.com
 
 ## License and copyright
 
