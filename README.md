@@ -18,7 +18,7 @@ In the following formats:
 
 More support will be added over time.
 
-To build: go to pipelines and launch a pipeline on branch master, add a variable `ORIGIN` with which source you want to user (default to https://github.omc/chef/chef on master branch)
+To build: go to pipelines and launch a pipeline on branch master, add a variable `ORIGIN` with which source you want to use (default to https://github.com/chef/chef on master branch)
 To use a specific branch or a PR as source, find the branch and source of the PR and use `-b <branch name> https://github.com/<author>/chef` as value
 
 ## Contributing
@@ -42,7 +42,7 @@ Our existing builds can be found here: https://cc-build.osuosl.org/ Please note 
 
 # Authors
 
-Originally written by Tensibai Zhaoying <email?>
+Originally written by Tensibai Zhaoying tensibai@iabis.net
 
 Contributions by Lance Albertson <email?>, Artem Sidorenko <email?> and Marc Chamberland chamberland.marc@gmail.com
 
