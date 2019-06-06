@@ -29,6 +29,8 @@ build_script:
   - cd chef\omnibus
   - bundle install --without development
   - bundle exec omnibus build cinc
+  - dir pkg/*
 
 artifacts:
   - path: pkg\*
+  
