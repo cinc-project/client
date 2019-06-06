@@ -23,7 +23,7 @@ build_script:
   - /opscode/angrychef/embedded/bin/berks vendor -b omnibus/Berksfile /chef/cookbooks
   - /opscode/angrychef/bin/chef-solo -o omnibus
   - SET BUNDLE_WITHOUT=server:docgen:pry:integration:ci
-  - /omnibus/load-omnibus-toolchain.ps1
+  - /omnibus/load-omnibus-toolchain.bat
   - git clone --depth=1 %ORIGIN%
   - xcopy /Y /E /H cinc\* chef\
   - cd chef\omnibus
