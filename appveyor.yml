@@ -14,32 +14,21 @@ clone_folder: c:\projects\client
 clone_depth: 1
 
 build_script:
-  - mkdir c:\msys64\bin
-  - echo c:\msys64\usr\bin\bsdtar.exe %%%%^* > c:\msys64\bin\tar.bat
-  - echo c:\msys64\usr\bin\patch.exe %%%%^* > c:\msys64\bin\patch.bat
-  - type c:\msys64\bin\tar.bat
-  - C:\msys64\bin\tar.bat --help
-  - C:\msys64\usr\bin\bash --login -c "pacman -Syu --noconfirm pacman"
-  - C:\msys64\usr\bin\bash --login -c "pacman -Syu --noconfirm"
-  - C:\msys64\usr\bin\bash --login -c "pacman -Su --noconfirm"
-  - C:\msys64\usr\bin\bash --login -c "pacman -S --needed --noconfirm base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake git"
-  - mklink /J c:\msys2 c:\msys64
   - systeminfo
-  - SET PATH=c:\msys2\mingw64\bin;c:\msys2\bin;c:\msys2\usr\bin;C:\Ruby%ruby_version%\bin;%PATH%
-  - echo %PATH%
-  - where tar
   - appveyor DownloadFile http://curl.haxx.se/ca/cacert.pem -FileName C:\cacert.pem
   - set SSL_CERT_FILE=C:\cacert.pem
+  - . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project angrychef -v 14
+  - git clone -b v5.7.2 https://github.com/chef-cookbooks/omnibus.git
+  - /opscode/angrychef/embedded/bin/gem install berkshelf --no-rdoc --no-ri
+  - /opscode/angrychef/embedded/bin/berks vendor -b omnibus/Berksfile /chef/cookbooks
+  - chef-solo -o omnibus
   - SET BUNDLE_WITHOUT=server:docgen:pry:integration:ci
+  - /omnibus/load-omnibus-toolchain.ps1
   - git clone --depth=1 %ORIGIN%
   - xcopy /Y /E /H cinc\* chef\
   - cd chef\omnibus
   - bundle install --without development
-  - where gcc
-  - gcc --version
-  - bash -c 'which gcc; gcc --version; env'
-  - where bash
   - bundle exec omnibus build cinc
 
 artifacts:
-  - path: pkg\*.msi
+  - path: pkg\*

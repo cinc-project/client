@@ -1,5 +1,5 @@
 #
-# Copyright 2012-2016, Chef Software, Inc.
+# Copyright 2012-2018, Chef Software Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,34 +14,90 @@
 # limitations under the License.
 #
 
-#
-# This is a clone of the Chef project that we can install on the Chef build and
-# test machines. As such this project definition is just a thin wrapper around
-# `config/project/chef.rb`.
-#
-current_file = __FILE__
-chef_project_contents = IO.read(File.expand_path("../chef.rb", __FILE__))
-instance_eval chef_project_contents
-
 name "cinc"
 friendly_name "Cinc Client"
+maintainer "Cc-build Team"
+homepage "https://www.chef.io"
 license "Apache-2.0"
 license_file "../LICENSE"
+
+build_iteration 1
+# Do not use __FILE__ after this point, use current_file. If you use __FILE__
+# after this point, any dependent defs (ex: angrychef) that use instance_eval
+# will fail to work correctly.
+current_file ||= __FILE__
+version_file = File.expand_path("../../../../VERSION", current_file)
+build_version IO.read(version_file).strip
 
 if windows?
   # NOTE: Ruby DevKit fundamentally CANNOT be installed into "Program Files"
   #       Native gems will use gcc which will barf on files with spaces,
   #       which is only fixable if everyone in the world fixes their Makefiles
-  install_dir "#{default_root}/#{name}"
+  install_dir  "#{default_root}/cc-build/#{name}"
   package_name "cinc"
 else
   install_dir "#{default_root}/#{name}"
 end
 
-resources_path "#{resources_path}/../chef"
+override :chef, version: "local_source"
 
-msi_upgrade_code = "413a207e-0023-467d-bd40-3af155a16679"
-project_location_dir = "cinc"
+# Load dynamically updated overrides
+overrides_path = File.expand_path("../../../../omnibus_overrides.rb", current_file)
+instance_eval(IO.read(overrides_path), overrides_path)
+
+dependency "preparation"
+
+dependency "chef"
+
+#
+# addons which require omnibus software defns (not direct deps of chef itself - RFC-063)
+#
+dependency "nokogiri" # (nokogiri cannot go in the Gemfile, see wall of text in the software defn)
+
+# FIXME?: might make sense to move dependencies below into the omnibus-software chef
+#  definition or into a chef-complete definition added to omnibus-software.
+dependency "gem-permissions"
+dependency "shebang-cleanup"
+dependency "version-manifest"
+dependency "openssl-customization"
+
+# devkit needs to come dead last these days so we do not use it to compile any gems
+if windows?
+  override :"ruby-windows-devkit", version: "4.5.2-20111229-1559" if windows_arch_i386?
+  dependency "ruby-windows-devkit"
+  dependency "ruby-windows-devkit-bash"
+end
+
+dependency "ruby-cleanup"
+
+package :rpm do
+  signing_passphrase ENV["OMNIBUS_RPM_SIGNING_PASSPHRASE"]
+  compression_level 1
+  compression_type :xz
+end
+
+package :deb do
+  compression_level 1
+  compression_type :xz
+end
+
+proj_to_work_around_cleanroom = self
+package :pkg do
+  identifier "com.cc-build.pkg.#{proj_to_work_around_cleanroom.name}"
+  signing_identity "Developer ID Installer: cc-build team"
+end
+compress :dmg
+
+msi_upgrade_code = "D607A85C-BDFA-4F08-83ED-2ECB4DCD6BC5"
+project_location_dir = name
 package :msi do
-  signing_identity NULL
+  fast_msi true
+  upgrade_code msi_upgrade_code
+  wix_candle_extension "WixUtilExtension"
+  wix_light_extension "WixUtilExtension"
+  parameters CincLogDllPath: windows_safe_path(gem_path("chef-[0-9]*-mingw32/ext/win32-eventlog/chef-log.dll")),
+             ProjectLocationDir: "cinc"
+end
+
+package :appx do
 end
