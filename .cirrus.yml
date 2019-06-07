@@ -1,5 +1,5 @@
 windows_container:
-  image: cirrusci/windowsservercore:2019
+  image: cirrusci/windowsservercore:2016
   os_version: 2016
 
 task:
