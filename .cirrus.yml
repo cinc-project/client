@@ -21,3 +21,4 @@ task:
   - bundle install --without development
   - bundle exec omnibus build cinc
   - dir pkg/*
+  
