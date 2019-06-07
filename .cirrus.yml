@@ -1,6 +1,6 @@
 windows_container:
   image: cirrusci/windowsservercore:2019
-  os_version: 2019
+  os_version: 2016
 
 task:
   timeout_in: 120m
