@@ -8,6 +8,7 @@ task:
     ORIGIN: -b dist_solo_zero https://github.com/cc-build/chef.git
     
   script: 
+  - systeminfo
   - ps: . { iwr -useb https://omnitruck.chef.io/install.ps1 } | iex; install -project angrychef -v 14
   - git clone -b v5.7.2 https://github.com/chef-cookbooks/omnibus.git
   - /opscode/angrychef/embedded/bin/gem install berkshelf --no-rdoc --no-ri
