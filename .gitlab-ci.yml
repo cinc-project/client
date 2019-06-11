@@ -143,7 +143,7 @@ client-test:windows-2012r2:
   dependencies:
     - client-package:windows-2012r2
   before_script:
-    - $msi = Get-Childitem -Path *.msi ${CI_PROJECT_DIR}/data/windows/2012r2/
+    - $msi = Get-ChildItem -Path *.msi $env:CI_PROJECT_DIR/data/windows/2012r2/
     - Start-Process -FilePath "msiexec.exe" -ArgumentList "/qn /i $msi" -Wait -NoNewWindow
   script:
     - C:\cc-build\cinc\bin\cinc-client.bat --version
@@ -151,7 +151,7 @@ client-test:windows-2012r2:
     - cinc-client --version
     - cinc-solo -l info
   after_script:
-    - $msi = Get-Childitem -Path *.msi ${CI_PROJECT_DIR}/data/windows/2012r2/
+    - $msi = Get-ChildItem -Path *.msi $env:CI_PROJECT_DIR/data/windows/2012r2/
     - Start-Process -FilePath "msiexec.exe" -ArgumentList "/qn /x $msi" -Wait -NoNewWindow
 
 client-test:debian-8:
