@@ -143,15 +143,14 @@ client-test:windows-2012r2:
   dependencies:
     - client-package:windows-2012r2
   before_script:
-    - C:\omnibus\load-omnibus-toolchain.ps1
-    - Start-Process -FilePath "msiexec.exe" -ArgumentList "/qn /i (find $env:CI_PROJECT_DIR/data/windows/2012r2/ -name \"*.msi\")" -Wait -NoNewWindow
+    - ./scripts/install-cinc.ps1
   script:
     - C:\cc-build\cinc\bin\cinc-client.bat --version
     - C:\cc-build\cinc\bin\cinc-solo.bat -l info
     - cinc-client --version
     - cinc-solo -l info
   after_script:
-    - Start-Process -FilePath "msiexec.exe" -ArgumentList "/qn /x (find $env:CI_PROJECT_DIR/data/windows/2012r2/ -name \"*.msi\")" -Wait -NoNewWindow
+    - ./scripts/uninstall-cinc.ps1
 
 client-test:debian-8:
   extends: .client-test
