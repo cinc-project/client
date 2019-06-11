@@ -53,7 +53,7 @@ client-package:windows-2012r2:
   tags:
     - windows-x64
   script:
-    - C:\omnibus\load-omnibus-toolchain.ps1
+    - powershell C:\omnibus\load-omnibus-toolchain.ps1
     - cd chef\omnibus
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
     - bundle exec omnibus build cinc --override append_timestamp:false
