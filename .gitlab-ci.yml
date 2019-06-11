@@ -53,13 +53,13 @@ client-package:windows-2012r2:
   tags:
     - windows-x64
   script:
-    - powershell C:\omnibus\load-omnibus-toolchain.ps1
+    - C:\omnibus\load-omnibus-toolchain.ps1
     - cd chef\omnibus
-    - powershell bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
-    - powershell bundle exec omnibus build cinc --override append_timestamp:false
-    - powershell mkdir.exe -p ${CI_PROJECT_DIR}/data/windows/2012r2
-    - powershell mv.exe -v pkg/cinc* ${CI_PROJECT_DIR}/data/windows/2012r2
-    - powershell bundle exec omnibus clean cinc
+    - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
+    - bundle exec omnibus build cinc --override append_timestamp:false
+    - mkdir.exe -p ${CI_PROJECT_DIR}/data/windows/2012r2
+    - mv.exe -v pkg/cinc* ${CI_PROJECT_DIR}/data/windows/2012r2
+    - bundle exec omnibus clean cinc
   cache:
     key: windows:2012r2
 
@@ -143,16 +143,16 @@ client-test:windows-2012r2:
   dependencies:
     - client-package:windows-2012r2
   before_script:
-    - powershell $msi = Get-Childitem -Path *.msi ${CI_PROJECT_DIR}/data/windows/2012r2/
-    - powershell Start-Process -FilePath "msiexec.exe" -ArgumentList "/qn /i $msi" -Wait -NoNewWindow
+    - $msi = Get-Childitem -Path *.msi ${CI_PROJECT_DIR}/data/windows/2012r2/
+    - Start-Process -FilePath "msiexec.exe" -ArgumentList "/qn /i $msi" -Wait -NoNewWindow
   script:
     - C:\cc-build\cinc\bin\cinc-client.bat --version
     - C:\cc-build\cinc\bin\cinc-solo.bat -l info
     - cinc-client --version
     - cinc-solo -l info
   after_script:
-    - powershell $msi = Get-Childitem -Path *.msi ${CI_PROJECT_DIR}/data/windows/2012r2/
-    - powershell Start-Process -FilePath "msiexec.exe" -ArgumentList "/qn /x $msi" -Wait -NoNewWindow
+    - $msi = Get-Childitem -Path *.msi ${CI_PROJECT_DIR}/data/windows/2012r2/
+    - Start-Process -FilePath "msiexec.exe" -ArgumentList "/qn /x $msi" -Wait -NoNewWindow
 
 client-test:debian-8:
   extends: .client-test
