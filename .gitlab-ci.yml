@@ -48,6 +48,21 @@ client_patch:
     paths:
       - data/*
 
+client-package:windows-2012r2:
+  extends: .client-package
+  tags:
+    - windows-x64
+  script:
+    - C:\omnibus\load-omnibus-toolchain.ps1
+    - cd chef\omnibus
+    - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
+    - bundle exec omnibus build cinc --override append_timestamp:false
+    - mkdir.exe -p ${CI_PROJECT_DIR}/data/windows/2012r2
+    - mv.exe -v pkg/cinc* ${CI_PROJECT_DIR}/data/windows/2012r2
+    - bundle exec omnibus clean cinc
+  cache:
+    key: windows:2012r2
+
 client-package:debian-8:
   extends: .client-package
   image: ccbuild/omnibus-debian:8
@@ -120,6 +135,24 @@ client-package:centos-7:
     - /opt/cinc/bin/cinc-solo -l info
     - cinc-client --version
     - cinc-solo -l info
+
+client-test:windows-2012r2:
+  extends: .client-test
+  tags:
+    - windows-x64
+  dependencies:
+    - client-package:windows-2012r2
+  before_script:
+    - $msi = Get-Childitem -Path *.msi ${CI_PROJECT_DIR}/data/windows/2012r2/
+    - Start-Process -FilePath "msiexec.exe" -ArgumentList "/qn /i $msi" -Wait -NoNewWindow
+  script:
+    - C:\cc-build\cinc\bin\cinc-client.bat --version
+    - C:\cc-build\cinc\bin\cinc-solo.bat -l info
+    - cinc-client --version
+    - cinc-solo -l info
+  after_script:
+    - $msi = Get-Childitem -Path *.msi ${CI_PROJECT_DIR}/data/windows/2012r2/
+    - Start-Process -FilePath "msiexec.exe" -ArgumentList "/qn /x $msi" -Wait -NoNewWindow
 
 client-test:debian-8:
   extends: .client-test
@@ -200,6 +233,7 @@ client-deploy:
     - client-package:ubuntu-18.04
     - client-package:centos-6
     - client-package:centos-7
+    - client-package:windows-2012r2
   script:
     - ssh cc-build@${DOWNLOADS_HOST} "mkdir -p /data/incoming/cinc/files"
     - rsync -avH --delete data/ cc-build@${DOWNLOADS_HOST}:/data/incoming/cinc/files/
