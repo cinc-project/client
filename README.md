@@ -48,7 +48,7 @@ Our existing builds can be found here: http://downloads.cc-build.org Please note
 
 Originally written by Tensibai Zhaoying tensibai@iabis.net
 
-Contributions by Lance Albertson lance@osuosl.org, Artem Sidorenko <email?> and Marc Chamberland chamberland.marc@gmail.com
+Contributions by Lance Albertson lance@osuosl.org, Artem Sidorenko artem@posteo.de and Marc Chamberland chamberland.marc@gmail.com
 
 ## License and copyright
 
