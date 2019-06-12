@@ -145,6 +145,7 @@ client-test:windows-2012r2:
   before_script:
     - ./scripts/install-cinc.ps1
   script:
+    - $ErrorActionPreference = "Stop"
     - C:\cc-build\cinc\bin\cinc-client.bat --version
     - C:\cc-build\cinc\bin\cinc-solo.bat -l info
     - cinc-client --version
