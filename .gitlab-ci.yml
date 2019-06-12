@@ -53,6 +53,7 @@ client-package:windows-2012r2:
   tags:
     - windows-x64
   script:
+    - $ErrorActionPreference = "Stop"
     - C:\omnibus\load-omnibus-toolchain.ps1
     - cd chef\omnibus
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
@@ -143,6 +144,7 @@ client-package:centos-7:
     - ./scripts/install-cinc.ps1
   script:
     - $ErrorActionPreference = "Stop"
+    - $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
     - echo $env:PATH
     - C:\cc-build\cinc\bin\cinc-client.bat --version
     - C:\cc-build\cinc\bin\cinc-solo.bat -l info

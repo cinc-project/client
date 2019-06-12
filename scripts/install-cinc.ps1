@@ -1,4 +1,8 @@
 $ErrorActionPreference = "Stop"
+if (Test-Path C:\cc-build) {
+    Write-Host "Found existing directory C:\cc-build, removing.."
+    Remove-Item -Recurse -Force C:\cc-build
+}
 Write-Host "Finding MSI..."
 $msi = gci -recurse -filter '*.msi' $env:CI_PROJECT_DIR/data/windows/ | select -expand FullName
 Write-Host "Found MSI at $msi, installing..."
