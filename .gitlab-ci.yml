@@ -57,9 +57,9 @@ client-package:macos-10.14:
     - cd chef/omnibus
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
     - sudo bundle exec omnibus build cinc --override append_timestamp:false
-    - mkdir -p ${CI_PROJECT_DIR}/data/macos_os_x/10.14
+    - mkdir -p ${CI_PROJECT_DIR}/data/macos/10.14
     - sudo chown -R omnibus:omnibus pkg
-    - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/macos_os_x/10.14/
+    - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/macos/10.14/
     - sudo bundle exec omnibus clean cinc
     - sudo rm -rf /opt/cinc/*
   cache:
