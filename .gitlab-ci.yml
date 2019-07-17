@@ -48,6 +48,23 @@ client_patch:
     paths:
       - data/*
 
+client-package:macos-10.14:
+  extends: .client-package
+  tags:
+    - macos-10.14
+  script:
+    - source /Users/omnibus/load-omnibus-toolchain.sh
+    - cd chef/omnibus
+    - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
+    - sudo bundle exec omnibus build cinc --override append_timestamp:false
+    - mkdir -p ${CI_PROJECT_DIR}/data/macos/10.14
+    - sudo chown -R omnibus:omnibus pkg
+    - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/macos/10.14/
+    - sudo bundle exec omnibus clean cinc
+    - sudo rm -rf /opt/cinc/*
+  cache:
+    key: macos:10.14
+
 client-package:windows-2012r2:
   extends: .client-package
   tags:
@@ -153,6 +170,20 @@ client-package:centos-7:
   after_script:
     - ./scripts/uninstall-cinc.ps1
 
+client-test:macos-10.14:
+  extends: .client-test
+  tags:
+    - macos-10.14
+  dependencies:
+    - client-package:macos-10.14
+  script:
+    - sudo scripts/install-cinc-macos.sh
+    - /opt/cinc/bin/cinc-client --version
+    - sudo /opt/cinc/bin/cinc-solo -l info
+    - cinc-client --version
+    - sudo cinc-solo -l info
+    - sudo scripts/uninstall-cinc-macos.sh
+
 client-test:windows-2012r2:
   extends: .client-test-windows
   dependencies:
@@ -238,6 +269,7 @@ client-deploy:
     - client-package:centos-6
     - client-package:centos-7
     - client-package:windows-2012r2
+    - client-package:macos-10.14
   script:
     - ssh cc-build@${DOWNLOADS_HOST} "mkdir -p /data/incoming/cinc/files"
     - rsync -avH --delete data/ cc-build@${DOWNLOADS_HOST}:/data/incoming/cinc/files/

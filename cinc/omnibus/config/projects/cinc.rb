@@ -84,7 +84,7 @@ end
 proj_to_work_around_cleanroom = self
 package :pkg do
   identifier "com.cc-build.pkg.#{proj_to_work_around_cleanroom.name}"
-  signing_identity "Developer ID Installer: cc-build team"
+  signing_identity nil
 end
 compress :dmg
 
