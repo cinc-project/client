@@ -8,6 +8,7 @@ stages:
 
 variables:
   ORIGIN: https://github.com/chef/chef.git
+  REF: master
 
 client_patch:
   stage: patch
@@ -15,7 +16,7 @@ client_patch:
     - osuosl
   script:
     - echo "Cloning from $ORIGIN"
-    - git clone --depth=1 $ORIGIN
+    - git clone --depth=1 -b $REF $ORIGIN
     - cp -R cinc/* chef/
     - mkdir -p ${CI_PROJECT_DIR}/{cache,cache/git_cache}
     - echo "cache_dir '${CI_PROJECT_DIR}/cache'" >> chef/omnibus/omnibus.rb
