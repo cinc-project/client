@@ -23,7 +23,7 @@ To use a specific branch or a PR as source, find the branch and source of the PR
 
 ## Contributing
 
-See https://gitlab.com/cc-build/organization-subjects/wikis/Home/Proposal\_A/contributing for more information about the process of making chef/chef (and other relevant repos) easily distributable under alternate names.
+See https://gitlab.com/cc-build/organization-subjects/wikis/Home/Proposal_A/contributing for more information about the process of making chef/chef (and other relevant repos) easily distributable under alternate names.
 
 ## Related community efforts
 
