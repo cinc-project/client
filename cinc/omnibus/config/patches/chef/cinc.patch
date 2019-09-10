@@ -1,4 +1,4 @@
-From d22a70593d0d4384e5aa8d707db889580e60b258 Mon Sep 17 00:00:00 2001
+From 26c009c3c47aa1a4d8e98ca98cc6f3f840ec43a8 Mon Sep 17 00:00:00 2001
 From: Lance Albertson <lance@osuosl.org>
 Date: Tue, 4 Jun 2019 14:04:38 -0700
 Subject: [PATCH] Cinc stable patches
@@ -16,7 +16,7 @@ index 66d14f3f5..832ca205f 100644
 +  spec.executables = %w{ cinc-apply cinc-client cinc-resource-inspector cinc-service-manager cinc-shell cinc-solo cinc-windows-service }
  end
 diff --git a/lib/chef/dist.rb b/lib/chef/dist.rb
-index baf43c912..b5b4a7138 100644
+index baf43c912..ef6c91431 100644
 --- a/lib/chef/dist.rb
 +++ b/lib/chef/dist.rb
 @@ -2,49 +2,49 @@ class Chef
@@ -44,7 +44,7 @@ index baf43c912..b5b4a7138 100644
  
      # product website address
 -    WEBSITE = "https://chef.io".freeze
-+    WEBSITE = "https://gitlab.com/cc-build/organization-subjects/wikis/home".freeze
++    WEBSITE = "https://gitlab.com/cinc-project/organization-subjects/wikis/home".freeze
  
      # Chef-Zero's product name
 -    ZERO = "Chef Infra Zero".freeze

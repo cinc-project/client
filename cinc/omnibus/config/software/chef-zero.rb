@@ -21,7 +21,7 @@ default_version "brand_refactor"
 license "Apache-2.0"
 license_file "LICENSE"
 
-source git: "https://github.com/cc-build/chef-zero.git"
+source git: "https://github.com/cinc-project/chef-zero.git"
 
 relative_path "chef-zero"
 

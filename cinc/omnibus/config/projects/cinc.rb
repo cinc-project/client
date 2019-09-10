@@ -16,8 +16,8 @@
 
 name "cinc"
 friendly_name "Cinc Client"
-maintainer "Cc-build Team"
-homepage "https://www.chef.io"
+maintainer "Cinc Project"
+homepage "https://www.cinc.sh"
 license "Apache-2.0"
 license_file "../LICENSE"
 
@@ -33,7 +33,7 @@ if windows?
   # NOTE: Ruby DevKit fundamentally CANNOT be installed into "Program Files"
   #       Native gems will use gcc which will barf on files with spaces,
   #       which is only fixable if everyone in the world fixes their Makefiles
-  install_dir  "#{default_root}/cc-build/#{name}"
+  install_dir  "#{default_root}/cinc-project/#{name}"
   package_name "cinc"
 else
   install_dir "#{default_root}/#{name}"
@@ -83,7 +83,7 @@ end
 
 proj_to_work_around_cleanroom = self
 package :pkg do
-  identifier "com.cc-build.pkg.#{proj_to_work_around_cleanroom.name}"
+  identifier "com.cinc-project.pkg.#{proj_to_work_around_cleanroom.name}"
   signing_identity nil
 end
 compress :dmg
