@@ -23,15 +23,15 @@ To use a specific branch or a PR as source, find the branch and source of the PR
 
 ## Contributing
 
-See https://gitlab.com/cc-build/organization-subjects/wikis/Home/Proposal_A/contributing for more information about the process of making chef/chef (and other relevant repos) easily distributable under alternate names.
+See https://gitlab.com/cinc-project/organization-subjects/wikis/Home/Proposal_A/contributing for more information about the process of making chef/chef (and other relevant repos) easily distributable under alternate names.
 
 ## Related community efforts
 
-https://gitlab.com/cc-build/outspec for the build code for the Community Edition of Inspec (please note the name "outspec" is a placeholder)
+https://gitlab.com/cinc-project/auditor for the build code for the Community Edition of Inspec.
 
 https://github.com/biome-sh/biome for the Community fork of Chef Habitat (likely to be replaced in time with a dist.rb strategy + build pipeline)
 
-Our existing builds can be found here: http://downloads.cc-build.org Please note these should only be used for experimentation purposes at this time, using them for other purposes could put you in violation of Chef's Policy on trademark and expose you to legal actions.
+Our existing builds can be found here: http://downloads.cinc.sh Please note these should only be used for experimentation purposes at this time, using them for other purposes could put you in violation of Chef's Policy on trademark and expose you to legal actions.
 
 ## TODO
 
