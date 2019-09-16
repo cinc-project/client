@@ -274,9 +274,9 @@ client-deploy:
     - client-package:windows-2012r2
     - client-package:macos-10.14
   script:
-    - ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/files/cinc/${CHANNEL}"
-    - rsync -avH --delete data/ cinc@${DOWNLOADS_HOST}:/data/incoming/files/cinc/${CHANNEL}/
-    - ssh cinc@${DOWNLOADS_HOST} "chmod 755 /data/incoming/files/cinc/${CHANNEL}"
+    - ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/files/${CHANNEL}/cinc"
+    - rsync -avH --delete data/ cinc@${DOWNLOADS_HOST}:/data/incoming/files/${CHANNEL}/cinc/
+    - ssh cinc@${DOWNLOADS_HOST} "chmod 755 /data/incoming/files/${CHANNEL}/cinc"
 
 client-publish:
   when: manual
@@ -286,5 +286,5 @@ client-publish:
   tags:
     - downloads
   script:
-    - sudo /usr/bin/rsync -avH /data/incoming/files/cinc/${CHANNEL} /data/mirror/files/cinc/${CHANNEL}
+    - sudo /usr/bin/rsync -avH /data/incoming/files/${CHANNEL}/cinc /data/mirror/files/${CHANNEL}/cinc
     - ssh -q cinc@${MIRROR_HOST} "~/sync-from-master"
