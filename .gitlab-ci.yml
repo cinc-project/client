@@ -287,5 +287,5 @@ client-publish:
     - downloads
   script:
     - sudo mkdir -p /data/mirror/files/${CHANNEL}/cinc
-    - sudo /usr/bin/rsync -avH /data/incoming/files/${CHANNEL}/cinc /data/mirror/files/${CHANNEL}/cinc
+    - sudo /usr/bin/rsync -avH /data/incoming/files/${CHANNEL}/cinc/ /data/mirror/files/${CHANNEL}/cinc/
     - ssh -q cinc@${MIRROR_HOST} "~/sync-from-master"
