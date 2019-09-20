@@ -5,6 +5,7 @@ stages:
  - test
  - deploy
  - publish
+ - cleanup
 
 variables:
   ORIGIN: https://github.com/chef/chef.git
@@ -289,3 +290,13 @@ client-publish:
     - sudo mkdir -p /data/mirror/files/${CHANNEL}/cinc
     - sudo /usr/bin/rsync -avH /data/incoming/files/${CHANNEL}/cinc/ /data/mirror/files/${CHANNEL}/cinc/
     - ssh -q cinc@${MIRROR_HOST} "~/sync-from-master"
+
+cleanup:
+  stage: cleanup
+  variables:
+    GIT_CHECKOUT: "false"
+  tags:
+    - macos-10.14
+  when: always
+  script:
+    - sudo rm -rf chef/
