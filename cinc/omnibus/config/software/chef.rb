@@ -72,9 +72,6 @@ build do
 
   # use the rake install task to build/install chef-config
   bundle "exec rake install", env: env
-  # block do
-  #  patch source: "chef-zero-dist.patch", target: shellout!("#{install_dir}/embedded/bin/gem which chef_zero/dist").stdout.chomp
-  # end
   gemspec_name = windows? ? "chef-universal-mingw32.gemspec" : "chef.gemspec"
 
   # This step will build native components as needed - the event log dll is
