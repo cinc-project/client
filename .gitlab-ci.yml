@@ -5,6 +5,7 @@ stages:
  - test
  - deploy
  - publish
+ - cleanup
 
 variables:
   ORIGIN: https://github.com/chef/chef.git
@@ -102,14 +103,14 @@ client-package:debian-9:
     - mkdir -p ${CI_PROJECT_DIR}/data/debian/9
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/debian/9/
 
-client-package:ubuntu-14.04:
+client-package:debian-10:
   extends: .client-package
-  image: cincproject/omnibus-ubuntu:14.04
+  image: cincproject/omnibus-debian:10
   cache:
-    key: ubuntu:14.04
+    key: debian:10
   after_script:
-    - mkdir -p ${CI_PROJECT_DIR}/data/ubuntu/14.04
-    - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/ubuntu/14.04/
+    - mkdir -p ${CI_PROJECT_DIR}/data/debian/10
+    - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/debian/10/
 
 client-package:ubuntu-16.04:
   extends: .client-package
@@ -208,13 +209,13 @@ client-test:debian-9:
   before_script:
     - dpkg -i data/debian/9/cinc*.deb
 
-client-test:ubuntu-14.04:
+client-test:debian-10:
   extends: .client-test
-  image: cincproject/omnibus-ubuntu:14.04
+  image: cincproject/omnibus-debian:10
   dependencies:
-    - client-package:ubuntu-14.04
+    - client-package:debian-10
   before_script:
-    - dpkg -i data/ubuntu/14.04/cinc*.deb
+    - dpkg -i data/debian/10/cinc*.deb
 
 client-test:ubuntu-16.04:
   extends: .client-test
@@ -266,7 +267,7 @@ client-deploy:
   dependencies:
     - client-package:debian-8
     - client-package:debian-9
-    - client-package:ubuntu-14.04
+    - client-package:debian-10
     - client-package:ubuntu-16.04
     - client-package:ubuntu-18.04
     - client-package:centos-6
@@ -289,3 +290,13 @@ client-publish:
     - sudo mkdir -p /data/mirror/files/${CHANNEL}/cinc
     - sudo /usr/bin/rsync -avH /data/incoming/files/${CHANNEL}/cinc/ /data/mirror/files/${CHANNEL}/cinc/
     - ssh -q cinc@${MIRROR_HOST} "~/sync-from-master"
+
+cleanup:
+  stage: cleanup
+  variables:
+    GIT_CHECKOUT: "false"
+  tags:
+    - macos-10.14
+  when: always
+  script:
+    - sudo rm -rf chef/
