@@ -293,6 +293,7 @@ client-publish:
 
 cleanup:
   stage: cleanup
+  dependencies: []
   variables:
     GIT_CHECKOUT: "false"
   tags:
