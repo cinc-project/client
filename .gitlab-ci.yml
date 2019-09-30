@@ -63,9 +63,9 @@ client-package:macos-10.14:
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
     - sudo rm -rf /var/cache/omnibus/pkg/*
     - sudo bundle exec omnibus build cinc --override append_timestamp:false
-    - mkdir -p ${CI_PROJECT_DIR}/data/macos/10.14
+    - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/10.14
     - sudo chown -R omnibus:omnibus pkg
-    - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/macos/10.14/
+    - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/10.14/
     - sudo bundle exec omnibus clean cinc
     - sudo rm -rf /opt/cinc/*
   cache:
@@ -138,8 +138,8 @@ client-package:centos-6:
   cache:
     key: centos:6
   after_script:
-    - mkdir -p ${CI_PROJECT_DIR}/data/centos/6
-    - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/centos/6/
+    - mkdir -p ${CI_PROJECT_DIR}/data/el/6
+    - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/el/6/
 
 client-package:centos-7:
   extends: .client-package
@@ -147,8 +147,8 @@ client-package:centos-7:
   cache:
     key: centos:7
   after_script:
-    - mkdir -p ${CI_PROJECT_DIR}/data/centos/7
-    - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/centos/7/
+    - mkdir -p ${CI_PROJECT_DIR}/data/el/7
+    - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/el/7/
 
 .client-test:
   stage: test
@@ -241,7 +241,7 @@ client-test:centos-6:
   dependencies:
     - client-package:centos-6
   before_script:
-    - yum -y install data/centos/6/cinc*.rpm
+    - yum -y install data/el/6/cinc*.rpm
 
 client-test:centos-7:
   extends: .client-test
@@ -249,7 +249,7 @@ client-test:centos-7:
   dependencies:
     - client-package:centos-7
   before_script:
-    - yum -y install data/centos/7/cinc*.rpm
+    - yum -y install data/el/7/cinc*.rpm
 
 .ssh-setup:
   before_script:
