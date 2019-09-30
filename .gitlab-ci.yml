@@ -42,6 +42,7 @@ client_patch:
     - bundle exec omnibus build cinc --override append_timestamp:false
     - mkdir ${CI_PROJECT_DIR}/data
     - mv -v pkg/cinc* ${CI_PROJECT_DIR}/data/
+    - cp ../VERSION ${CI_PROJECT_DIR}/
   cache:
     paths:
       - cache/*
@@ -50,6 +51,7 @@ client_patch:
     expire_in: 1mo
     paths:
       - data/*
+      - VERSION
 
 client-package:macos-10.14:
   extends: .client-package
@@ -275,9 +277,9 @@ client-deploy:
     - client-package:windows-2012r2
     - client-package:macos-10.14
   script:
-    - ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/files/${CHANNEL}/cinc"
-    - rsync -avH --delete data/ cinc@${DOWNLOADS_HOST}:/data/incoming/files/${CHANNEL}/cinc/
-    - ssh cinc@${DOWNLOADS_HOST} "chmod 755 /data/incoming/files/${CHANNEL}/cinc"
+    - ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)"
+    - rsync -avH --delete data/ cinc@${DOWNLOADS_HOST}:/data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)/
+    - ssh cinc@${DOWNLOADS_HOST} "chmod 755 /data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)/"
 
 client-publish:
   when: manual
