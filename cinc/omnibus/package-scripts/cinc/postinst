@@ -103,8 +103,8 @@ ln -sf $INSTALLER_DIR/bin/cinc-client $PREFIX/bin || error_exit "Cannot link cin
 
 wrapper_links="chef-apply chef-client chef-shell chef-solo"
 link_target="cinc-wrapper"
-for link in $wrapper_links ; do
-  if [ !-e $PREFIX/bin/$link ] ; then
+for link in $wrapper_links; do
+  if [ ! -e $PREFIX/bin/$link ]; then
     echo "Symlinking $link command to cinc-wrapper for compatibility..."
     ln -sf $INSTALLER_DIR/bin/$link_target $PREFIX/bin/$link || error_exit "Cannot link $link_target to $PREFIX/bin/$link"
   fi
