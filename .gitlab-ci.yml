@@ -159,6 +159,8 @@ client-package:centos-7:
     - /opt/cinc/bin/cinc-solo -l info
     - cinc-client --version
     - cinc-solo -l info
+    - chef-client --version
+    - chef-solo -l info
 
 .client-test-windows:
   tags:

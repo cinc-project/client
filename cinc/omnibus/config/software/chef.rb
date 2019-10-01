@@ -92,4 +92,14 @@ build do
   appbundle "chef", lockdir: project_dir, gem: "chef-bin", without: excluded_groups, env: env
   appbundle "chef", lockdir: project_dir, gem: "chef", without: excluded_groups, env: env
   appbundle "chef", lockdir: project_dir, gem: "ohai", without: excluded_groups, env: env
+
+  # Cinc wrapper
+  %w(
+    chef-apply
+    chef-client
+    chef-shell
+    chef-solo
+  ).each do |cmd|
+    copy "#{project_dir}/cinc/cinc-wrapper", "#{install_dir}/bin/#{cmd}"
+  end
 end
