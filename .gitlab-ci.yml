@@ -150,6 +150,15 @@ client-package:centos-7:
     - mkdir -p ${CI_PROJECT_DIR}/data/el/7
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/el/7/
 
+client-package:centos-8:
+  extends: .client-package
+  image: cincproject/omnibus-centos:8
+  cache:
+    key: centos:8
+  after_script:
+    - mkdir -p ${CI_PROJECT_DIR}/data/el/8
+    - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/el/8/
+
 .client-test:
   stage: test
   tags:
@@ -251,6 +260,14 @@ client-test:centos-7:
   before_script:
     - yum -y install data/el/7/cinc*.rpm
 
+client-test:centos-8:
+  extends: .client-test
+  image: cincproject/omnibus-centos:8
+  dependencies:
+    - client-package:centos-8
+  before_script:
+    - yum -y install data/el/8/cinc*.rpm
+
 .ssh-setup:
   before_script:
     - eval $(ssh-agent -s)
@@ -274,6 +291,7 @@ client-deploy:
     - client-package:ubuntu-18.04
     - client-package:centos-6
     - client-package:centos-7
+    - client-package:centos-8
     - client-package:windows-2012r2
     - client-package:macos-10.14
   script:
