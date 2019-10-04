@@ -92,4 +92,6 @@ build do
   appbundle "chef", lockdir: project_dir, gem: "chef-bin", without: excluded_groups, env: env
   appbundle "chef", lockdir: project_dir, gem: "chef", without: excluded_groups, env: env
   appbundle "chef", lockdir: project_dir, gem: "ohai", without: excluded_groups, env: env
+
+  copy "#{project_dir}/cinc/cinc-wrapper", "#{install_dir}/bin/"
 end

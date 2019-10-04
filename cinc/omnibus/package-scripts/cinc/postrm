@@ -37,6 +37,15 @@ cleanup_symlinks() {
   for binary in $binaries; do
     rm -f $PREFIX/bin/$binary
   done
+
+  wrapper_links="chef-apply chef-client chef-shell chef-solo"
+  link_target="cinc-wrapper"
+  for link in $wrapper_links;  do
+    if [ -L $PREFIX/bin/$link -a "$(readlink $PREFIX/bin/$link)" = "$INSTALLER_DIR/bin/$link_target" ]; then
+      echo "Removing $link compatibility symlink..."
+      rm -f $PREFIX/bin/$link
+    fi
+  done
 }
 
 # Clean up binary symlinks if they exist
