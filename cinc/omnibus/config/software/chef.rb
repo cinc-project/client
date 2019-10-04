@@ -94,4 +94,7 @@ build do
   appbundle "chef", lockdir: project_dir, gem: "ohai", without: excluded_groups, env: env
 
   copy "#{project_dir}/cinc/cinc-wrapper", "#{install_dir}/bin/"
+  %w(chef-apply chef-client chef-shell chef-solo).each do |bin|
+    link "#{install_dir}/bin/cinc-wrapper", "#{install_dir}/bin/#{bin}"
+  end
 end
