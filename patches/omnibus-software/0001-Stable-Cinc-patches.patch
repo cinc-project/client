@@ -1,0 +1,33 @@
+From 02fa324565d3cf7946012426b70e7de3ee86c871 Mon Sep 17 00:00:00 2001
+From: Lance Albertson <lance@osuosl.org>
+Date: Sat, 5 Oct 2019 13:10:38 -0700
+Subject: [PATCH 1/2] Stable Cinc patches
+
+---
+ config/software/chef.rb | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/config/software/chef.rb b/config/software/chef.rb
+index 9648ac0..d1ce5f2 100644
+--- a/config/software/chef.rb
++++ b/config/software/chef.rb
+@@ -1,5 +1,6 @@
+ #
+ # Copyright 2012-2019, Chef Software Inc.
++# Copyright 2019, Cinc Project
+ #
+ # Licensed under the Apache License, Version 2.0 (the "License");
+ # you may not use this file except in compliance with the License.
+@@ -100,4 +101,9 @@ build do
+       appbundle "ohai", env: env
+     end
+   end
++
++  copy "#{project_dir}/cinc/cinc-wrapper", "#{install_dir}/bin/"
++  %w(chef-apply chef-client chef-shell chef-solo).each do |bin|
++    link "#{install_dir}/bin/cinc-wrapper", "#{install_dir}/bin/#{bin}"
++  end
+ end
+-- 
+2.20.1
+

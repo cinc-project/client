@@ -17,17 +17,12 @@ client_patch:
   tags:
     - osuosl
   script:
-    - echo "Cloning from $ORIGIN"
-    - git clone --depth=1 -b $REF $ORIGIN
-    - cp -R cinc/* chef/
-    - mkdir -p ${CI_PROJECT_DIR}/{cache,cache/git_cache}
-    - echo "cache_dir '${CI_PROJECT_DIR}/cache'" >> chef/omnibus/omnibus.rb
-    - echo "git_cache_dir '${CI_PROJECT_DIR}/cache/git_cache'" >> chef/omnibus/omnibus.rb
-    - sed -i -e 's/^use_git_caching false/use_git_caching true/g' chef/omnibus/omnibus.rb
+    - ./patch.sh
   artifacts:
     expire_in: 1d
     paths:
       - chef/
+      - omnibus-software/
 
 .client-package:
   stage: package
@@ -172,6 +167,7 @@ client-package:centos-8:
     - /opt/cinc/bin/chef-solo -l info
     - chef-client --version
     - chef-solo -l info
+    - /opt/cinc/bin/cinc-zero --version
 
 .client-test-windows:
   tags:
@@ -186,6 +182,7 @@ client-package:centos-8:
     - C:\cinc-project\cinc\bin\cinc-solo.bat -l info
     - cinc-client --version
     - cinc-solo -l info
+    - C:\cinc-project\cinc\bin\cinc-zero.bat --version
   after_script:
     - ./scripts/uninstall-cinc.ps1
 
@@ -201,6 +198,7 @@ client-test:macos-10.14:
     - sudo /opt/cinc/bin/cinc-solo -l info
     - cinc-client --version
     - sudo cinc-solo -l info
+    - /opt/cinc/bin/cinc-zero --version
     - sudo scripts/uninstall-cinc-macos.sh
 
 client-test:windows-2012r2:
