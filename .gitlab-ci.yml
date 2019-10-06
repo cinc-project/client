@@ -167,7 +167,7 @@ client-package:centos-8:
     - /opt/cinc/bin/chef-solo -l info
     - chef-client --version
     - chef-solo -l info
-    - /opt/cinc/bin/cinc-zero --version
+    - /opt/cinc/embedded/bin/cinc-zero --version
 
 .client-test-windows:
   tags:
@@ -182,7 +182,7 @@ client-package:centos-8:
     - C:\cinc-project\cinc\bin\cinc-solo.bat -l info
     - cinc-client --version
     - cinc-solo -l info
-    - C:\cinc-project\cinc\bin\cinc-zero.bat --version
+    - C:\cinc-project\cinc\embedded\bin\cinc-zero.bat --version
   after_script:
     - ./scripts/uninstall-cinc.ps1
 
@@ -198,7 +198,7 @@ client-test:macos-10.14:
     - sudo /opt/cinc/bin/cinc-solo -l info
     - cinc-client --version
     - sudo cinc-solo -l info
-    - /opt/cinc/bin/cinc-zero --version
+    - /opt/cinc/embedded/bin/cinc-zero --version
     - sudo scripts/uninstall-cinc-macos.sh
 
 client-test:windows-2012r2:
