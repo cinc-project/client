@@ -71,6 +71,26 @@ client-package:macos-10.14:
   cache:
     key: macos:10.14
 
+client-package:macos-10.15:
+  extends: .client-package
+  tags:
+    - macos-10.15
+  script:
+    - source /Users/omnibus/load-omnibus-toolchain.sh
+    - cd chef/omnibus
+    - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
+    - sudo rm -rf /var/cache/omnibus/pkg/*
+    - /usr/local/bin/gsed -i "s:^cache_dir.*:cache_dir '/var/cache/omnibus/cache':" omnibus.rb
+    - /usr/local/bin/gsed -i "s:^git_cache_dir.*:git_cache_dir '/var/cache/omnibus/git_cache':" omnibus.rb
+    - sudo bundle exec omnibus build cinc --override append_timestamp:false
+    - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/10.15
+    - sudo chown -R omnibus:omnibus pkg
+    - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/10.15/
+    - sudo bundle exec omnibus clean cinc
+    - sudo rm -rf /opt/cinc/*
+  cache:
+    key: macos:10.15
+
 client-package:windows-2012r2:
   extends: .client-package
   tags:
@@ -203,6 +223,20 @@ client-test:macos-10.14:
     - sudo cinc-solo -l info
     - sudo scripts/uninstall-cinc-macos.sh
 
+client-test:macos-10.15:
+  extends: .client-test
+  tags:
+    - macos-10.15
+  dependencies:
+    - client-package:macos-10.15
+  script:
+    - sudo scripts/install-cinc-macos.sh
+    - /opt/cinc/bin/cinc-client --version
+    - sudo /opt/cinc/bin/cinc-solo -l info
+    - cinc-client --version
+    - sudo cinc-solo -l info
+    - sudo scripts/uninstall-cinc-macos.sh
+
 client-test:windows-2012r2:
   extends: .client-test-windows
   dependencies:
@@ -313,6 +347,7 @@ client-deploy:
     - client-package:centos-8
     - client-package:windows-2012r2
     - client-package:macos-10.14
+    - client-package:macos-10.15
   script:
     - ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)"
     - rsync -avH --delete data/ cinc@${DOWNLOADS_HOST}:/data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)/
@@ -330,13 +365,21 @@ client-publish:
     - sudo /usr/bin/rsync -avH /data/incoming/files/${CHANNEL}/cinc/ /data/mirror/files/${CHANNEL}/cinc/
     - ssh -q cinc@${MIRROR_HOST} "~/sync-from-master"
 
-cleanup:
+.cleanup:
   stage: cleanup
   dependencies: []
   variables:
     GIT_CHECKOUT: "false"
-  tags:
-    - macos-10.14
   when: always
   script:
     - sudo rm -rf chef/
+
+cleanup:macos-10.14:
+  extends: .cleanup
+  tags:
+    - macos-10.14
+
+cleanup:macos-10.15:
+  extends: .cleanup
+  tags:
+    - macos-10.15
