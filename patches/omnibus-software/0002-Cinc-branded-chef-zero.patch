@@ -1,0 +1,72 @@
+From f4cfc10fb5d53839a7925811dc1286571f1c14e0 Mon Sep 17 00:00:00 2001
+From: Lance Albertson <lance@osuosl.org>
+Date: Sat, 5 Oct 2019 17:11:28 -0700
+Subject: [PATCH 2/2] Cinc branded chef-zero
+
+---
+ config/software/chef-zero.rb | 40 ++++++++++++++++++++++++++++++++++++
+ config/software/chef.rb      |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 config/software/chef-zero.rb
+
+diff --git a/config/software/chef-zero.rb b/config/software/chef-zero.rb
+new file mode 100644
+index 0000000..9e49ba4
+--- /dev/null
++++ b/config/software/chef-zero.rb
+@@ -0,0 +1,40 @@
++#
++# Copyright:: Copyright (c) 2019 Cinc Project
++# License:: Apache License, Version 2.0
++#
++# Licensed under the Apache License, Version 2.0 (the "License");
++# you may not use this file except in compliance with the License.
++# You may obtain a copy of the License at
++#
++#     http://www.apache.org/licenses/LICENSE-2.0
++#
++# Unless required by applicable law or agreed to in writing, software
++# distributed under the License is distributed on an "AS IS" BASIS,
++# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++# See the License for the specific language governing permissions and
++# limitations under the License.
++#
++
++name "chef-zero"
++default_version "stable/cinc"
++
++license "Apache-2.0"
++license_file "LICENSE"
++
++source git: "https://gitlab.com/cinc-project/chef-zero.git"
++
++relative_path "chef-zero"
++
++dependency "ruby"
++dependency "rubygems"
++dependency "bundler"
++
++build do
++  env = with_standard_compiler_flags(with_embedded_path)
++
++  bundle "install --without development chef pedant debug test", env: env
++
++  gem "build chef-zero.gemspec", env: env
++  gem "install chef-zero*.gem" \
++      "  --no-document", env: env
++end
+diff --git a/config/software/chef.rb b/config/software/chef.rb
+index d1ce5f2..52c5d81 100644
+--- a/config/software/chef.rb
++++ b/config/software/chef.rb
+@@ -54,6 +54,7 @@ dependency "bundler"
+ dependency "ohai"
+ dependency "appbundler"
+ dependency "libarchive" # for archive resource
++dependency "chef-zero"
+ 
+ build do
+   env = with_standard_compiler_flags(with_embedded_path)
+-- 
+2.20.1
+
