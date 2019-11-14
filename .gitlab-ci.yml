@@ -174,6 +174,15 @@ client-package:centos-8:
     - mkdir -p ${CI_PROJECT_DIR}/data/el/8
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/el/8/
 
+client-package:opensuse-15:
+  extends: .client-package
+  image: cincproject/omnibus-opensuse:15
+  cache:
+    key: opensuse:15
+  after_script:
+    - mkdir -p ${CI_PROJECT_DIR}/data/sles/15
+    - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/sles/15/
+
 .client-test:
   stage: test
   tags:
@@ -319,6 +328,14 @@ client-test:centos-8:
   before_script:
     - yum -y install data/el/8/cinc*.rpm
 
+client-test:opensuse-15:
+  extends: .client-test
+  image: cincproject/omnibus-opensuse:15
+  dependencies:
+    - client-package:opensuse-15
+  before_script:
+    - rpm -iU data/sles/15/cinc*.rpm
+
 .ssh-setup:
   before_script:
     - eval $(ssh-agent -s)
@@ -343,6 +360,7 @@ client-deploy:
     - client-package:centos-6
     - client-package:centos-7
     - client-package:centos-8
+    - client-package:opensuse-15
     - client-package:windows-2012r2
     - client-package:macos-10.14
     - client-package:macos-10.15
