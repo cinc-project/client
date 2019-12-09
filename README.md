@@ -1,6 +1,6 @@
 # cinc experiment
 
-With the recent announcement that Chef is opensourcing all it's software the community has started this effort to create a distribution that's built in collaboration with Chef and in compliance with the Chef Trademarks Policy.
+With the recent announcement that Chef is opensourcing all its software the community has started this effort to create a distribution that's built in collaboration with Chef and in compliance with the Chef Trademarks Policy.
 
 This repo contains all the required pipeline code to output functional builds of Chef with alternate names. This is not production ready, and compliance with Chef's policy on trademarks is still under evaluation, as such this code should _not_ be used for other purposes that development and experimentation.
 
