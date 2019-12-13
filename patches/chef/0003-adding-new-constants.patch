@@ -1,0 +1,65 @@
+From 0166eda162edde0f1808a66be2b297ad8fe45672 Mon Sep 17 00:00:00 2001
+From: Marc Chamberland <chamberland.marc@gmail.com>
+Date: Mon, 9 Dec 2019 16:56:30 -0500
+Subject: [PATCH] adding new constants
+
+Correcting nomenclature
+---
+ chef-bin/bin/cinc-windows-service   | 2 +-
+ chef-config/lib/chef-config/dist.rb | 4 ++--
+ lib/chef/dist.rb                    | 4 ++--
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/chef-bin/bin/cinc-windows-service b/chef-bin/bin/cinc-windows-service
+index f48db8b19..02d18d4de 100755
+--- a/chef-bin/bin/cinc-windows-service
++++ b/chef-bin/bin/cinc-windows-service
+@@ -30,5 +30,5 @@ require "chef/application/windows_service"
+ if Chef::Platform.windows?
+   Chef::Application::WindowsService.mainloop
+ else
+-  puts "chef-cinc-service is only available on Windows platforms."
++  puts "cinc-windows-service is only available on Windows platforms."
+ end
+diff --git a/chef-config/lib/chef-config/dist.rb b/chef-config/lib/chef-config/dist.rb
+index 01db6765f..1ad87d04a 100644
+--- a/chef-config/lib/chef-config/dist.rb
++++ b/chef-config/lib/chef-config/dist.rb
+@@ -1,10 +1,10 @@
+ module ChefConfig
+   class Dist
+     # The chef executable name. Also used in directory names.
+-    EXEC = "chef".freeze
++    EXEC = "cinc".freeze
+ 
+     # The suffix for Chef's /etc/chef, /var/chef and C:\\Chef directories
+     # "cinc" => /etc/cinc, /var/cinc, C:\\cinc
+-    DIR_SUFFIX = "chef".freeze
++    DIR_SUFFIX = "cinc".freeze
+   end
+ end
+diff --git a/lib/chef/dist.rb b/lib/chef/dist.rb
+index b6a314dd4..49e69e076 100644
+--- a/lib/chef/dist.rb
++++ b/lib/chef/dist.rb
+@@ -9,7 +9,7 @@ class Chef
+ 
+     # A short designation for the product, used in Windows event logs
+     # and some nomenclature.
+-    SHORT = "chef".freeze
++    SHORT = "cinc".freeze
+ 
+     # The name of the server product
+     SERVER_PRODUCT = "Cinc Server".freeze
+@@ -42,7 +42,7 @@ class Chef
+     SHELL = "cinc-shell".freeze
+ 
+     # The chef-apply executable
+-    APPLY = "chef-apply".freeze
++    APPLY = "cinc-apply".freeze
+ 
+     # Configuration related constants
+     # The chef-shell configuration file
+-- 
+2.17.1
+
