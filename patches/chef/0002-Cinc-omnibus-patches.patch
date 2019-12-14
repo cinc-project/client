@@ -1,7 +1,7 @@
-From 19799b2d1265d9f22b6df2f719a8ccdd7389e3ef Mon Sep 17 00:00:00 2001
+From 99726e468e5c1ba2456601b901cfebdc084835e3 Mon Sep 17 00:00:00 2001
 From: Lance Albertson <lance@osuosl.org>
 Date: Sat, 5 Oct 2019 13:00:14 -0700
-Subject: [PATCH 2/2] Cinc omnibus patches
+Subject: [PATCH] Cinc omnibus patches
 
 This pulls in changes that were originally in the client repository. The idea is
 that we can easily rebase the changes here from upstream and merge any future
@@ -17,7 +17,7 @@ Some other notable changes:
  chef-bin/bin/{chef-apply => cinc-apply}       |  2 +-
  chef-bin/bin/{chef-client => cinc-client}     |  2 +-
  ...urce-inspector => cinc-resource-inspector} |  0
- ...f-service-manager => cinc-service-manager} | 10 +++----
+ ...f-service-manager => cinc-service-manager} |  2 +-
  chef-bin/bin/{chef-shell => cinc-shell}       |  0
  chef-bin/bin/{chef-solo => cinc-solo}         |  2 +-
  ...f-windows-service => cinc-windows-service} |  2 +-
@@ -27,11 +27,11 @@ Some other notable changes:
  .../package-scripts/{chef => cinc}/postinst   | 29 ++++++++++++-------
  omnibus/package-scripts/{chef => cinc}/postrm | 11 ++++++-
  .../package-scripts/{chef => cinc}/preinst    |  6 ++--
- 13 files changed, 65 insertions(+), 45 deletions(-)
+ 13 files changed, 61 insertions(+), 41 deletions(-)
  rename chef-bin/bin/{chef-apply => cinc-apply} (93%)
  rename chef-bin/bin/{chef-client => cinc-client} (93%)
  rename chef-bin/bin/{chef-resource-inspector => cinc-resource-inspector} (100%)
- rename chef-bin/bin/{chef-service-manager => cinc-service-manager} (80%)
+ rename chef-bin/bin/{chef-service-manager => cinc-service-manager} (95%)
  rename chef-bin/bin/{chef-shell => cinc-shell} (100%)
  rename chef-bin/bin/{chef-solo => cinc-solo} (93%)
  rename chef-bin/bin/{chef-windows-service => cinc-windows-service} (93%)
@@ -72,26 +72,13 @@ similarity index 100%
 rename from chef-bin/bin/chef-resource-inspector
 rename to chef-bin/bin/cinc-resource-inspector
 diff --git a/chef-bin/bin/chef-service-manager b/chef-bin/bin/cinc-service-manager
-similarity index 80%
+similarity index 95%
 rename from chef-bin/bin/chef-service-manager
 rename to chef-bin/bin/cinc-service-manager
-index 9021824fe..0487b5887 100755
+index 64cc043a5..d8c9877a0 100755
 --- a/chef-bin/bin/chef-service-manager
 +++ b/chef-bin/bin/cinc-service-manager
-@@ -24,14 +24,14 @@ require "chef/application/windows_service_manager"
- 
- if Chef::Platform.windows?
-   chef_client_service = {
--    service_name: "chef-client",
--    service_display_name: "Chef Client Service",
--    service_description: "Runs Chef Client on regular, configurable intervals.",
--    service_file_path: File.expand_path("../chef-windows-service", $PROGRAM_NAME),
-+    service_name: "cinc-client",
-+    service_display_name: "Cinc Client Service",
-+    service_description: "Runs Cinc Client on regular, configurable intervals.",
-+    service_file_path: File.expand_path("../cinc-windows-service", $PROGRAM_NAME),
-     delayed_start: true,
-     dependencies: ["Winmgmt"],
+@@ -34,5 +34,5 @@ if Chef::Platform.windows?
    }
    Chef::Application::WindowsServiceManager.new(chef_client_service).run
  else
@@ -191,7 +178,7 @@ diff --git a/omnibus/config/projects/chef.rb b/omnibus/config/projects/cinc.rb
 similarity index 79%
 rename from omnibus/config/projects/chef.rb
 rename to omnibus/config/projects/cinc.rb
-index 6c0a5f112..ae248b86e 100644
+index b3768a58a..f2a534ff4 100644
 --- a/omnibus/config/projects/chef.rb
 +++ b/omnibus/config/projects/cinc.rb
 @@ -1,5 +1,6 @@
@@ -242,7 +229,7 @@ index 6c0a5f112..ae248b86e 100644
  end
 @@ -83,8 +84,8 @@ end
  
- proj_to_work_around_cleanroom = self
+ proj_to_work_around_cleanroom = self # wat voodoo hackery is this?
  package :pkg do
 -  identifier "com.getchef.pkg.#{proj_to_work_around_cleanroom.name}"
 -  signing_identity "Developer ID Installer: Chef Software, Inc. (EU3VF8YLX2)"
@@ -379,5 +366,5 @@ index e38c3f7a3..86548c869 100755
    (umask 077 && mkdir $tmp_dir) || exit 1
    # now we can clean up the tmp_dir we created safely
 -- 
-2.20.1
+2.17.1
 

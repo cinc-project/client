@@ -1,12 +1,12 @@
-From f8de51676aed1ae69a6b96b9e779cda5bd76d258 Mon Sep 17 00:00:00 2001
+From 48b1286ce5193537716a34e30b7f26c8a146f811 Mon Sep 17 00:00:00 2001
 From: Lance Albertson <lance@osuosl.org>
 Date: Tue, 4 Jun 2019 14:04:38 -0700
-Subject: [PATCH 1/2] Cinc stable patches
+Subject: [PATCH] Cinc stable patches
 
 ---
  chef-bin/chef-bin.gemspec |  2 +-
- lib/chef/dist.rb          | 28 ++++++++++++++--------------
- 2 files changed, 15 insertions(+), 15 deletions(-)
+ lib/chef/dist.rb          | 26 +++++++++++++-------------
+ 2 files changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/chef-bin/chef-bin.gemspec b/chef-bin/chef-bin.gemspec
 index 66d14f3f5..832ca205f 100644
@@ -20,15 +20,19 @@ index 66d14f3f5..832ca205f 100644
 +  spec.executables = %w{ cinc-apply cinc-client cinc-resource-inspector cinc-service-manager cinc-shell cinc-solo cinc-windows-service }
  end
 diff --git a/lib/chef/dist.rb b/lib/chef/dist.rb
-index baf43c912..ef6c91431 100644
+index d25dbff56..b6a314dd4 100644
 --- a/lib/chef/dist.rb
 +++ b/lib/chef/dist.rb
-@@ -2,49 +2,49 @@ class Chef
-   class Dist
+@@ -5,56 +5,56 @@ class Chef
+ 
      # This class is not fully implemented, depending on it is not recommended!
      # When referencing a product directly, like Chef (Now Chef Infra)
 -    PRODUCT = "Chef Infra Client".freeze
 +    PRODUCT = "Cinc Client".freeze
+ 
+     # A short designation for the product, used in Windows event logs
+     # and some nomenclature.
+     SHORT = "chef".freeze
  
      # The name of the server product
 -    SERVER_PRODUCT = "Chef Infra Server".freeze
@@ -43,8 +47,7 @@ index baf43c912..ef6c91431 100644
 +    AUTOMATE = "Cinc Dashboard".freeze
  
      # The chef executable, as in `chef gem install` or `chef generate cookbook`
--    EXEC = "chef".freeze
-+    EXEC = "cinc".freeze
+     EXEC = ChefConfig::Dist::EXEC.freeze
  
      # product website address
 -    WEBSITE = "https://chef.io".freeze
@@ -70,13 +73,16 @@ index baf43c912..ef6c91431 100644
 -    SHELL = "chef-shell".freeze
 +    SHELL = "cinc-shell".freeze
  
+     # The chef-apply executable
+     APPLY = "chef-apply".freeze
+ 
      # Configuration related constants
      # The chef-shell configuration file
 -    SHELL_CONF = "chef_shell.rb".freeze
 +    SHELL_CONF = "cinc_shell.rb".freeze
  
      # The configuration directory
-     CONF_DIR = "/etc/#{Chef::Dist::EXEC}".freeze
+     CONF_DIR = ChefConfig::Config.etc_chef_dir.freeze
  
      # The user's configuration directory
 -    USER_CONF_DIR = ".chef".freeze
@@ -88,5 +94,5 @@ index baf43c912..ef6c91431 100644
    end
  end
 -- 
-2.20.1
+2.17.1
 
