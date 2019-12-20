@@ -46,13 +46,15 @@ Our existing builds can be found here: http://downloads.cinc.sh Please note thes
 
 # Authors
 
+The Cinc Project
+
 Originally written by Tensibai Zhaoying tensibai@iabis.net
 
 Contributions by Lance Albertson lance@osuosl.org, Artem Sidorenko artem@posteo.de and Marc Chamberland chamberland.marc@gmail.com
 
 ## License and copyright
 
-Copyrights pending, but we fully intend to use a copyleft approach.
+Copyrights Cinc Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
