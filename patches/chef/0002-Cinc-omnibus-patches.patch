@@ -1,4 +1,4 @@
-From 99726e468e5c1ba2456601b901cfebdc084835e3 Mon Sep 17 00:00:00 2001
+From a13ea1aa832ccf8911eddb0a494704aeb1923b4e Mon Sep 17 00:00:00 2001
 From: Lance Albertson <lance@osuosl.org>
 Date: Sat, 5 Oct 2019 13:00:14 -0700
 Subject: [PATCH] Cinc omnibus patches
@@ -14,19 +14,19 @@ Some other notable changes:
 - Add support for Angry Cinc Client (useful for our build infrastructure)
 - Update Copyright to add "Cinc Project" to attribute our edits
 ---
- chef-bin/bin/{chef-apply => cinc-apply}       |  2 +-
- chef-bin/bin/{chef-client => cinc-client}     |  2 +-
- ...urce-inspector => cinc-resource-inspector} |  0
- ...f-service-manager => cinc-service-manager} |  2 +-
- chef-bin/bin/{chef-shell => cinc-shell}       |  0
- chef-bin/bin/{chef-solo => cinc-solo}         |  2 +-
- ...f-windows-service => cinc-windows-service} |  2 +-
- omnibus/Gemfile                               |  2 +-
- .../projects/{angrychef.rb => angrycinc.rb}   | 15 +++++-----
- omnibus/config/projects/{chef.rb => cinc.rb}  | 29 ++++++++++---------
- .../package-scripts/{chef => cinc}/postinst   | 29 ++++++++++++-------
- omnibus/package-scripts/{chef => cinc}/postrm | 11 ++++++-
- .../package-scripts/{chef => cinc}/preinst    |  6 ++--
+ chef-bin/bin/{chef-apply => cinc-apply}            |  2 +-
+ chef-bin/bin/{chef-client => cinc-client}          |  2 +-
+ ...-resource-inspector => cinc-resource-inspector} |  0
+ .../{chef-service-manager => cinc-service-manager} |  2 +-
+ chef-bin/bin/{chef-shell => cinc-shell}            |  0
+ chef-bin/bin/{chef-solo => cinc-solo}              |  2 +-
+ .../{chef-windows-service => cinc-windows-service} |  2 +-
+ omnibus/Gemfile                                    |  2 +-
+ .../config/projects/{angrychef.rb => angrycinc.rb} | 15 +++++------
+ omnibus/config/projects/{chef.rb => cinc.rb}       | 29 +++++++++++-----------
+ omnibus/package-scripts/{chef => cinc}/postinst    | 29 ++++++++++++++--------
+ omnibus/package-scripts/{chef => cinc}/postrm      | 11 +++++++-
+ omnibus/package-scripts/{chef => cinc}/preinst     |  6 ++---
  13 files changed, 61 insertions(+), 41 deletions(-)
  rename chef-bin/bin/{chef-apply => cinc-apply} (93%)
  rename chef-bin/bin/{chef-client => cinc-client} (93%)
@@ -366,5 +366,5 @@ index e38c3f7a3..86548c869 100755
    (umask 077 && mkdir $tmp_dir) || exit 1
    # now we can clean up the tmp_dir we created safely
 -- 
-2.17.1
+2.11.0
 
