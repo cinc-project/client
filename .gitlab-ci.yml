@@ -9,7 +9,7 @@ stages:
 
 variables:
   ORIGIN: https://github.com/chef/chef.git
-  REF: master
+  REF: chef-15
   CHANNEL: unstable
 
 client_patch:
