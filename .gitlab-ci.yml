@@ -31,10 +31,7 @@ client_patch:
   dependencies:
     - client_patch
   script:
-    - source /home/omnibus/load-omnibus-toolchain.sh
-    - cd chef/omnibus
-    - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
-    - bundle exec omnibus build cinc --override append_timestamp:false
+    - ./build.sh
     - mkdir ${CI_PROJECT_DIR}/data
     - mv -v pkg/cinc* ${CI_PROJECT_DIR}/data/
     - cp ../VERSION ${CI_PROJECT_DIR}/
