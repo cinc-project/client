@@ -30,8 +30,7 @@ for patch in $(find ${TOP_DIR}/patches/chef/ -type f | sort) ; do
   patch -p1 < $patch
 done
 cd omnibus
-echo "Cloning omnibus-software..."
-ruby ${TOP_DIR}/scripts/checkout-omnibus-software.rb
+ruby ${TOP_DIR}/scripts/checkout.rb -n omnibus-software -p $TOP_DIR
 cd $TOP_DIR/omnibus-software
 echo "Patching omnibus-software..."
 for patch in $(find ${TOP_DIR}/patches/omnibus-software/ -type f | sort) ; do
