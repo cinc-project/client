@@ -27,7 +27,7 @@ git_patch() {
 TOP_DIR="$(pwd)"
 source /home/omnibus/load-omnibus-toolchain.sh
 # remove any previous builds
-rm -rf chef omnibus-software chef-zero
+rm -rf chef omnibus-software chef-zero inspec
 git config --global user.email || git config --global user.email "maintainers@cinc.sh"
 echo "Cloning ${REF:-chef-15} branch from ${ORIGIN:-https://github.com/chef/chef.git}"
 git clone -q -b ${REF:-chef-15} ${ORIGIN:-https://github.com/chef/chef.git}
@@ -41,6 +41,10 @@ cd $TOP_DIR/chef
 ruby ${TOP_DIR}/scripts/checkout.rb -n chef-zero -r https://github.com/chef/chef-zero.git -p $TOP_DIR
 cd ${TOP_DIR}/chef-zero
 git_patch chef-zero
+cd $TOP_DIR/chef
+ruby ${TOP_DIR}/scripts/checkout.rb -g inspec-core -n inspec -r https://github.com/inspec/inspec.git -p $TOP_DIR
+cd ${TOP_DIR}/inspec
+git_patch inspec
 cd $TOP_DIR
 echo "Copying Cinc resources..."
 cp -rp cinc/* chef/
