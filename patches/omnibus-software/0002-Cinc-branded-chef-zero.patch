@@ -1,10 +1,10 @@
-From f4cfc10fb5d53839a7925811dc1286571f1c14e0 Mon Sep 17 00:00:00 2001
+From b442301e59d968ad6fbbcb8a9d5efaf51e419098 Mon Sep 17 00:00:00 2001
 From: Lance Albertson <lance@osuosl.org>
 Date: Sat, 5 Oct 2019 17:11:28 -0700
-Subject: [PATCH 2/2] Cinc branded chef-zero
+Subject: [PATCH] Cinc branded chef-zero
 
 ---
- config/software/chef-zero.rb | 40 ++++++++++++++++++++++++++++++++++++
+ config/software/chef-zero.rb | 40 ++++++++++++++++++++++++++++++++++++++++
  config/software/chef.rb      |  1 +
  2 files changed, 41 insertions(+)
  create mode 100644 config/software/chef-zero.rb
@@ -56,7 +56,7 @@ index 0000000..9e49ba4
 +      "  --no-document", env: env
 +end
 diff --git a/config/software/chef.rb b/config/software/chef.rb
-index d1ce5f2..52c5d81 100644
+index 3bcb17f..f162ed5 100644
 --- a/config/software/chef.rb
 +++ b/config/software/chef.rb
 @@ -54,6 +54,7 @@ dependency "bundler"
@@ -67,6 +67,3 @@ index d1ce5f2..52c5d81 100644
  
  build do
    env = with_standard_compiler_flags(with_embedded_path)
--- 
-2.20.1
-

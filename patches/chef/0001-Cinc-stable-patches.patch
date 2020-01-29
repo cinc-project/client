@@ -1,4 +1,4 @@
-From 93d12e2e6b2dae2b75a963644fb759441ebd7030 Mon Sep 17 00:00:00 2001
+From bc961b09c94be1f80156844d40da12b98fda7a33 Mon Sep 17 00:00:00 2001
 From: Lance Albertson <lance@osuosl.org>
 Date: Tue, 4 Jun 2019 14:04:38 -0700
 Subject: [PATCH] Cinc stable patches
@@ -120,6 +120,3 @@ index f5f63103f..140434e4a 100644
 +    SERVER_CONF_DIR = "/etc/cinc-server".freeze
    end
  end
--- 
-2.11.0
-
