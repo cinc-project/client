@@ -1,4 +1,5 @@
 /bundle/*
 /cache/*
 /chef*
+/chef-zero*
 /omnibus-software*
