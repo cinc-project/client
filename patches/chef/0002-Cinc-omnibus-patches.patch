@@ -1,4 +1,4 @@
-From a13ea1aa832ccf8911eddb0a494704aeb1923b4e Mon Sep 17 00:00:00 2001
+From b20572b10699da492eea96036d05e8baedf267f0 Mon Sep 17 00:00:00 2001
 From: Lance Albertson <lance@osuosl.org>
 Date: Sat, 5 Oct 2019 13:00:14 -0700
 Subject: [PATCH] Cinc omnibus patches
@@ -178,7 +178,7 @@ diff --git a/omnibus/config/projects/chef.rb b/omnibus/config/projects/cinc.rb
 similarity index 79%
 rename from omnibus/config/projects/chef.rb
 rename to omnibus/config/projects/cinc.rb
-index b3768a58a..f2a534ff4 100644
+index 115dc1149..f2a534ff4 100644
 --- a/omnibus/config/projects/chef.rb
 +++ b/omnibus/config/projects/cinc.rb
 @@ -1,5 +1,6 @@
@@ -232,7 +232,7 @@ index b3768a58a..f2a534ff4 100644
  proj_to_work_around_cleanroom = self # wat voodoo hackery is this?
  package :pkg do
 -  identifier "com.getchef.pkg.#{proj_to_work_around_cleanroom.name}"
--  signing_identity "Developer ID Installer: Chef Software, Inc. (EU3VF8YLX2)"
+-  signing_identity "Chef Software, Inc. (EU3VF8YLX2)"
 +  identifier "com.cinc-project.pkg.#{proj_to_work_around_cleanroom.name}"
 +  # signing_identity "Developer ID Installer: Chef Software, Inc. (EU3VF8YLX2)"
  end
@@ -365,6 +365,3 @@ index e38c3f7a3..86548c869 100755
    # if we can't create the tmp_dir then fail hard to prevent any possible security hole
    (umask 077 && mkdir $tmp_dir) || exit 1
    # now we can clean up the tmp_dir we created safely
--- 
-2.11.0
-

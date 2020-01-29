@@ -22,8 +22,8 @@ TOP_DIR="$(pwd)"
 source /home/omnibus/load-omnibus-toolchain.sh
 # remove any previous builds
 rm -rf chef omnibus-software
-echo "Cloning ${REF:-master} branch from ${ORIGIN:-https://github.com/chef/chef.git}"
-git clone -q --depth=1 -b ${REF:-master} ${ORIGIN:-https://github.com/chef/chef.git}
+echo "Cloning ${REF:-chef-15} branch from ${ORIGIN:-https://github.com/chef/chef.git}"
+git clone -q --depth=1 -b ${REF:-chef-15} ${ORIGIN:-https://github.com/chef/chef.git}
 cd chef
 echo "Patching chef..."
 for patch in $(find ${TOP_DIR}/patches/chef/ -type f | sort) ; do

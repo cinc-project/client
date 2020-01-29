@@ -1,4 +1,4 @@
-From 3acf490857e97416fe7003dabe1649c5e9d99638 Mon Sep 17 00:00:00 2001
+From 3064d84fea88c9933fe4b7f06b54fa57b0868c02 Mon Sep 17 00:00:00 2001
 From: Marc Chamberland <chamberland.marc@gmail.com>
 Date: Sat, 25 Jan 2020 16:55:25 -0500
 Subject: [PATCH] revert to "chef"
@@ -21,6 +21,3 @@ index b2dff9a76..484e1ea2f 100644
  
        # Whether Chef Zero should operate in a mode analogous to OSS Chef Server
        # 11 (true) or Chef Server 12 (false). Chef Zero can still serve
--- 
-2.11.0
-
