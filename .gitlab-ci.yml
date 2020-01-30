@@ -195,9 +195,9 @@ client-package:opensuse-15:
     - chef-client --version
     - chef-solo -l info
     - /opt/cinc/embedded/bin/cinc-zero --version
-    - /opt/cinc/embedded/bin/cinc-auditor version
-    - /opt/cinc/embedded/bin/cinc-auditor detect
-    - /opt/cinc/embedded/bin/inspec version
+    - /opt/cinc/bin/cinc-auditor version
+    - /opt/cinc/bin/cinc-auditor detect
+    - /opt/cinc/bin/inspec version
 
 .client-test-windows:
   tags:
@@ -213,8 +213,8 @@ client-package:opensuse-15:
     - cinc-client --version
     - cinc-solo -l info
     - C:\cinc-project\cinc\embedded\bin\cinc-zero.bat --version
-    - C:\cinc-project\cinc\embedded\bin\cinc-auditor.bat version
-    - C:\cinc-project\cinc\embedded\bin\cinc-auditor.bat detect
+    - C:\cinc-project\cinc\bin\cinc-auditor.bat version
+    - C:\cinc-project\cinc\bin\cinc-auditor.bat detect
   after_script:
     - ./scripts/uninstall-cinc.ps1
 
@@ -231,8 +231,9 @@ client-test:macos-10.14:
     - cinc-client --version
     - sudo cinc-solo -l info
     - /opt/cinc/embedded/bin/cinc-zero --version
-    - /opt/cinc/embedded/bin/cinc-auditor version
-    - /opt/cinc/embedded/bin/cinc-auditor detect
+    - /opt/cinc/bin/cinc-auditor version
+    - /opt/cinc/bin/cinc-auditor detect
+    - /opt/cinc/bin/inspec version
     - sudo scripts/uninstall-cinc-macos.sh
 
 client-test:macos-10.15:
@@ -248,8 +249,9 @@ client-test:macos-10.15:
     - cinc-client --version
     - sudo cinc-solo -l info
     - /opt/cinc/embedded/bin/cinc-zero --version
-    - /opt/cinc/embedded/bin/cinc-auditor version
-    - /opt/cinc/embedded/bin/cinc-auditor detect
+    - /opt/cinc/bin/cinc-auditor version
+    - /opt/cinc/bin/cinc-auditor detect
+    - /opt/cinc/bin/inspec version
     - sudo scripts/uninstall-cinc-macos.sh
 
 client-test:windows-2012r2:
