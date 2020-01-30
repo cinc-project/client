@@ -197,6 +197,7 @@ client-package:opensuse-15:
     - /opt/cinc/embedded/bin/cinc-zero --version
     - /opt/cinc/embedded/bin/cinc-auditor version
     - /opt/cinc/embedded/bin/cinc-auditor detect
+    - /opt/cinc/embedded/bin/inspec version
 
 .client-test-windows:
   tags:

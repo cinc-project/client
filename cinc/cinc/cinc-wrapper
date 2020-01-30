@@ -15,7 +15,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name="$(basename ${0/chef/cinc})"
+if [ "$(basename $0)" == "inspec" ] ; then
+  name="cinc-auditor"
+else
+  name="$(basename ${0/chef/cinc})"
+fi
 echo "Redirecting to ${name}..."
 
 exec /opt/cinc/bin/${name} $@
