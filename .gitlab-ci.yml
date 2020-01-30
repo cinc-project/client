@@ -22,6 +22,8 @@ client_patch:
     expire_in: 1d
     paths:
       - chef/
+      - chef-zero/
+      - inspec/
       - omnibus-software/
 
 .client-package:
