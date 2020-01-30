@@ -48,8 +48,3 @@ git_patch inspec
 cd $TOP_DIR
 echo "Copying Cinc resources..."
 cp -rp cinc/* chef/
-echo "Updating omnibus configuration..."
-mkdir -p ${CI_PROJECT_DIR:-$TOP_DIR}/{cache,cache/git_cache}
-echo "cache_dir '${CI_PROJECT_DIR:-$TOP_DIR}/cache'" >> chef/omnibus/omnibus.rb
-echo "git_cache_dir '${CI_PROJECT_DIR:-$TOP_DIR}/cache/git_cache'" >> chef/omnibus/omnibus.rb
-sed -i -e 's/^use_git_caching false/use_git_caching true/g' chef/omnibus/omnibus.rb
