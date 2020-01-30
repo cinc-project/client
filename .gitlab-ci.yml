@@ -57,7 +57,7 @@ client-package:macos-10.14:
     - cd chef/omnibus
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
     - sudo rm -rf /var/cache/omnibus/pkg/*
-    - sudo bundle exec omnibus build cinc --override append_timestamp:false
+    - sudo -E bundle exec omnibus build cinc --override append_timestamp:false
     - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/10.14
     - sudo chown -R omnibus:omnibus pkg
     - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/10.14/
@@ -75,9 +75,7 @@ client-package:macos-10.15:
     - cd chef/omnibus
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
     - sudo rm -rf /var/cache/omnibus/pkg/*
-    - /usr/local/bin/gsed -i "s:^cache_dir.*:cache_dir '/var/cache/omnibus/cache':" omnibus.rb
-    - /usr/local/bin/gsed -i "s:^git_cache_dir.*:git_cache_dir '/var/cache/omnibus/git_cache':" omnibus.rb
-    - sudo bundle exec omnibus build cinc --override append_timestamp:false
+    - sudo -E bundle exec omnibus build cinc --override append_timestamp:false
     - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/10.15
     - sudo chown -R omnibus:omnibus pkg
     - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/10.15/
