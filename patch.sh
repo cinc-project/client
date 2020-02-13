@@ -20,7 +20,7 @@
 git_patch() {
   if [ -n "${2}" ] ; then
     CINC_BRANCH="${2}"
-  elif [ "${REF}" == "master" -o -z "${REF}" ] ; then
+  elif [ "${REF}" == "master" -o "${REF}" == "chef-15" -o -z "${REF}" ] ; then
     CINC_BRANCH="stable/cinc"
   else
     CINC_BRANCH="stable/cinc-${REF}"
