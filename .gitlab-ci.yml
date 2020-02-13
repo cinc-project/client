@@ -12,7 +12,7 @@ variables:
   REF: chef-15
   CHANNEL: unstable
 
-client_patch:
+patch:
   stage: patch
   tags:
     - osuosl
@@ -22,19 +22,19 @@ client_patch:
     expire_in: 1d
     paths:
       - chef/
+      - chef-zero/
+      - inspec/
       - omnibus-software/
 
-.client-package:
+.package:
   stage: package
   tags:
     - osuosl
   dependencies:
-    - client_patch
+    - patch
   script:
-    - source /home/omnibus/load-omnibus-toolchain.sh
+    - ./build.sh
     - cd chef/omnibus
-    - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
-    - bundle exec omnibus build cinc --override append_timestamp:false
     - mkdir ${CI_PROJECT_DIR}/data
     - mv -v pkg/cinc* ${CI_PROJECT_DIR}/data/
     - cp ../VERSION ${CI_PROJECT_DIR}/
@@ -48,8 +48,8 @@ client_patch:
       - data/*
       - VERSION
 
-client-package:macos-10.14:
-  extends: .client-package
+package:macos-10.14:
+  extends: .package
   tags:
     - macos-10.14
   script:
@@ -57,7 +57,7 @@ client-package:macos-10.14:
     - cd chef/omnibus
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
     - sudo rm -rf /var/cache/omnibus/pkg/*
-    - sudo bundle exec omnibus build cinc --override append_timestamp:false
+    - sudo -E bundle exec omnibus build cinc --override append_timestamp:false
     - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/10.14
     - sudo chown -R omnibus:omnibus pkg
     - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/10.14/
@@ -66,8 +66,8 @@ client-package:macos-10.14:
   cache:
     key: macos:10.14
 
-client-package:macos-10.15:
-  extends: .client-package
+package:macos-10.15:
+  extends: .package
   tags:
     - macos-10.15
   script:
@@ -75,9 +75,7 @@ client-package:macos-10.15:
     - cd chef/omnibus
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
     - sudo rm -rf /var/cache/omnibus/pkg/*
-    - /usr/local/bin/gsed -i "s:^cache_dir.*:cache_dir '/var/cache/omnibus/cache':" omnibus.rb
-    - /usr/local/bin/gsed -i "s:^git_cache_dir.*:git_cache_dir '/var/cache/omnibus/git_cache':" omnibus.rb
-    - sudo bundle exec omnibus build cinc --override append_timestamp:false
+    - sudo -E bundle exec omnibus build cinc --override append_timestamp:false
     - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/10.15
     - sudo chown -R omnibus:omnibus pkg
     - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/10.15/
@@ -86,8 +84,8 @@ client-package:macos-10.15:
   cache:
     key: macos:10.15
 
-client-package:windows-2012r2:
-  extends: .client-package
+package:windows-2012r2:
+  extends: .package
   tags:
     - windows-x64
   script:
@@ -102,8 +100,8 @@ client-package:windows-2012r2:
   cache:
     key: windows:2012r2
 
-client-package:debian-8:
-  extends: .client-package
+package:debian-8:
+  extends: .package
   image: cincproject/omnibus-debian:8
   cache:
     key: debian:8
@@ -111,8 +109,8 @@ client-package:debian-8:
     - mkdir -p ${CI_PROJECT_DIR}/data/debian/8
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/debian/8/
 
-client-package:debian-9:
-  extends: .client-package
+package:debian-9:
+  extends: .package
   image: cincproject/omnibus-debian:9
   cache:
     key: debian:9
@@ -120,8 +118,8 @@ client-package:debian-9:
     - mkdir -p ${CI_PROJECT_DIR}/data/debian/9
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/debian/9/
 
-client-package:debian-10:
-  extends: .client-package
+package:debian-10:
+  extends: .package
   image: cincproject/omnibus-debian:10
   cache:
     key: debian:10
@@ -129,8 +127,8 @@ client-package:debian-10:
     - mkdir -p ${CI_PROJECT_DIR}/data/debian/10
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/debian/10/
 
-client-package:ubuntu-16.04:
-  extends: .client-package
+package:ubuntu-16.04:
+  extends: .package
   image: cincproject/omnibus-ubuntu:16.04
   cache:
     key: ubuntu:16.04
@@ -138,8 +136,8 @@ client-package:ubuntu-16.04:
     - mkdir -p ${CI_PROJECT_DIR}/data/ubuntu/16.04
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/ubuntu/16.04/
 
-client-package:ubuntu-18.04:
-  extends: .client-package
+package:ubuntu-18.04:
+  extends: .package
   image: cincproject/omnibus-ubuntu:18.04
   cache:
     key: ubuntu:18.04
@@ -147,8 +145,8 @@ client-package:ubuntu-18.04:
     - mkdir -p ${CI_PROJECT_DIR}/data/ubuntu/18.04
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/ubuntu/18.04/
 
-client-package:centos-6:
-  extends: .client-package
+package:centos-6:
+  extends: .package
   image: cincproject/omnibus-centos:6
   cache:
     key: centos:6
@@ -156,8 +154,8 @@ client-package:centos-6:
     - mkdir -p ${CI_PROJECT_DIR}/data/el/6
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/el/6/
 
-client-package:centos-7:
-  extends: .client-package
+package:centos-7:
+  extends: .package
   image: cincproject/omnibus-centos:7
   cache:
     key: centos:7
@@ -165,8 +163,8 @@ client-package:centos-7:
     - mkdir -p ${CI_PROJECT_DIR}/data/el/7
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/el/7/
 
-client-package:centos-8:
-  extends: .client-package
+package:centos-8:
+  extends: .package
   image: cincproject/omnibus-centos:8
   cache:
     key: centos:8
@@ -174,8 +172,8 @@ client-package:centos-8:
     - mkdir -p ${CI_PROJECT_DIR}/data/el/8
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/el/8/
 
-client-package:opensuse-15:
-  extends: .client-package
+package:opensuse-15:
+  extends: .package
   image: cincproject/omnibus-opensuse:15
   cache:
     key: opensuse:15
@@ -183,22 +181,14 @@ client-package:opensuse-15:
     - mkdir -p ${CI_PROJECT_DIR}/data/sles/15
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/sles/15/
 
-.client-test:
+.test:
   stage: test
   tags:
     - osuosl
   script:
-    - /opt/cinc/bin/cinc-client --version
-    - /opt/cinc/bin/cinc-solo -l info
-    - cinc-client --version
-    - cinc-solo -l info
-    - /opt/cinc/bin/chef-client --version
-    - /opt/cinc/bin/chef-solo -l info
-    - chef-client --version
-    - chef-solo -l info
-    - /opt/cinc/embedded/bin/cinc-zero --version
+    - /opt/cinc/bin/cinc-auditor exec test/integration
 
-.client-test-windows:
+.test-windows:
   tags:
     - windows-x64
   before_script:
@@ -207,132 +197,120 @@ client-package:opensuse-15:
     - $ErrorActionPreference = "Stop"
     - $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
     - echo $env:PATH
-    - C:\cinc-project\cinc\bin\cinc-client.bat --version
-    - C:\cinc-project\cinc\bin\cinc-solo.bat -l info
-    - cinc-client --version
-    - cinc-solo -l info
-    - C:\cinc-project\cinc\embedded\bin\cinc-zero.bat --version
+    - cinc-auditor.bat exec test\integration
   after_script:
     - ./scripts/uninstall-cinc.ps1
 
-client-test:macos-10.14:
-  extends: .client-test
+test:macos-10.14:
+  extends: .test
   tags:
     - macos-10.14
   dependencies:
-    - client-package:macos-10.14
+    - package:macos-10.14
   script:
     - sudo scripts/install-cinc-macos.sh
-    - /opt/cinc/bin/cinc-client --version
-    - sudo /opt/cinc/bin/cinc-solo -l info
-    - cinc-client --version
-    - sudo cinc-solo -l info
-    - /opt/cinc/embedded/bin/cinc-zero --version
+    - sudo /opt/cinc/bin/cinc-auditor exec test/integration
     - sudo scripts/uninstall-cinc-macos.sh
 
-client-test:macos-10.15:
-  extends: .client-test
+test:macos-10.15:
+  extends: .test
   tags:
     - macos-10.15
   dependencies:
-    - client-package:macos-10.15
+    - package:macos-10.15
   script:
     - sudo scripts/install-cinc-macos.sh
-    - /opt/cinc/bin/cinc-client --version
-    - sudo /opt/cinc/bin/cinc-solo -l info
-    - cinc-client --version
-    - sudo cinc-solo -l info
+    - sudo /opt/cinc/bin/cinc-auditor exec test/integration
     - sudo scripts/uninstall-cinc-macos.sh
 
-client-test:windows-2012r2:
-  extends: .client-test-windows
+test:windows-2012r2:
+  extends: .test-windows
   dependencies:
-    - client-package:windows-2012r2
+    - package:windows-2012r2
 
-client-test:debian-8:
-  extends: .client-test
+test:debian-8:
+  extends: .test
   image: cincproject/omnibus-debian:8
   dependencies:
-    - client-package:debian-8
+    - package:debian-8
   before_script:
     - dpkg -i data/debian/8/cinc*.deb
   after_script:
     - apt-get -y remove cinc
 
-client-test:debian-9:
-  extends: .client-test
+test:debian-9:
+  extends: .test
   image: cincproject/omnibus-debian:9
   dependencies:
-    - client-package:debian-9
+    - package:debian-9
   before_script:
     - dpkg -i data/debian/9/cinc*.deb
   after_script:
     - apt-get -y remove cinc
 
-client-test:debian-10:
-  extends: .client-test
+test:debian-10:
+  extends: .test
   image: cincproject/omnibus-debian:10
   dependencies:
-    - client-package:debian-10
+    - package:debian-10
   before_script:
     - dpkg -i data/debian/10/cinc*.deb
   after_script:
     - apt-get -y remove cinc
 
-client-test:ubuntu-16.04:
-  extends: .client-test
+test:ubuntu-16.04:
+  extends: .test
   image: cincproject/omnibus-ubuntu:16.04
   dependencies:
-    - client-package:ubuntu-16.04
+    - package:ubuntu-16.04
   before_script:
     - dpkg -i data/ubuntu/16.04/cinc*.deb
   after_script:
     - apt-get -y remove cinc
 
-client-test:ubuntu-18.04:
-  extends: .client-test
+test:ubuntu-18.04:
+  extends: .test
   image: cincproject/omnibus-ubuntu:18.04
   dependencies:
-    - client-package:ubuntu-18.04
+    - package:ubuntu-18.04
   before_script:
     - dpkg -i data/ubuntu/18.04/cinc*.deb
   after_script:
     - apt-get -y remove cinc
 
-client-test:centos-6:
-  extends: .client-test
+test:centos-6:
+  extends: .test
   image: cincproject/omnibus-centos:6
   dependencies:
-    - client-package:centos-6
+    - package:centos-6
   before_script:
     - yum -y install data/el/6/cinc*.rpm
   after_script:
     - yum -y remove cinc
 
-client-test:centos-7:
-  extends: .client-test
+test:centos-7:
+  extends: .test
   image: cincproject/omnibus-centos:7
   dependencies:
-    - client-package:centos-7
+    - package:centos-7
   before_script:
     - yum -y install data/el/7/cinc*.rpm
   after_script:
     - yum -y remove cinc
 
-
-client-test:centos-8:
-  extends: .client-test
+test:centos-8:
+  extends: .test
   image: cincproject/omnibus-centos:8
   dependencies:
-    - client-package:centos-8
+    - package:centos-8
   before_script:
     - yum -y install data/el/8/cinc*.rpm
 
-client-test:opensuse-15:
-  extends: .client-test
+test:opensuse-15:
+  extends: .test
   image: cincproject/omnibus-opensuse:15
   dependencies:
-    - client-package:opensuse-15
+    - package:opensuse-15
   before_script:
     - rpm -iU data/sles/15/cinc*.rpm
 
@@ -345,31 +323,31 @@ client-test:opensuse-15:
     - echo "${SSH_KNOWN_HOSTS}" > ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
 
-client-deploy:
+deploy:
   when: manual
   stage: deploy
   extends: .ssh-setup
   tags:
     - osuosl
   dependencies:
-    - client-package:debian-8
-    - client-package:debian-9
-    - client-package:debian-10
-    - client-package:ubuntu-16.04
-    - client-package:ubuntu-18.04
-    - client-package:centos-6
-    - client-package:centos-7
-    - client-package:centos-8
-    - client-package:opensuse-15
-    - client-package:windows-2012r2
-    - client-package:macos-10.14
-    - client-package:macos-10.15
+    - package:debian-8
+    - package:debian-9
+    - package:debian-10
+    - package:ubuntu-16.04
+    - package:ubuntu-18.04
+    - package:centos-6
+    - package:centos-7
+    - package:centos-8
+    - package:opensuse-15
+    - package:windows-2012r2
+    - package:macos-10.14
+    - package:macos-10.15
   script:
     - ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)"
     - rsync -avH --delete data/ cinc@${DOWNLOADS_HOST}:/data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)/
     - ssh cinc@${DOWNLOADS_HOST} "chmod 755 /data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)/"
 
-client-publish:
+publish:
   when: manual
   stage: publish
   extends: .ssh-setup
@@ -380,6 +358,16 @@ client-publish:
     - sudo mkdir -p /data/mirror/files/${CHANNEL}/cinc
     - sudo /usr/bin/rsync -avH /data/incoming/files/${CHANNEL}/cinc/ /data/mirror/files/${CHANNEL}/cinc/
     - ssh -q cinc@${MIRROR_HOST} "~/sync-from-master"
+
+publish-gems:
+  when: manual
+  stage: publish
+  tags:
+    - osuosl
+  dependencies:
+    - patch
+  script:
+    - ./publish-gems.sh
 
 .cleanup:
   stage: cleanup

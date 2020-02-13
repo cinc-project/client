@@ -1,3 +1,6 @@
+/bundle/*
 /cache/*
 /chef*
+/chef-zero*
+/inspec*
 /omnibus-software*

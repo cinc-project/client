@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/bin/bash -e
 #
-# Copyright:: Copyright 2019, Cinc Project
+# Author:: Lance Albertson <lance@osuosl.org>
+# Copyright:: Copyright 2020, Cinc Project
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +15,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-if [ "$(basename $0)" == "inspec" ] ; then
-  name="cinc-auditor"
-else
-  name="$(basename ${0/chef/cinc})"
-fi
-echo "Redirecting to ${name}..."
 
-exec /opt/cinc/bin/${name} $@
+TOP_DIR="$(pwd)"
+export CI_PROJECT_DIR=${CI_PROJECT_DIR:-${TOP_DIR}}
+source /home/omnibus/load-omnibus-toolchain.sh
+set -ex
+cd chef/omnibus
+bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
+bundle exec omnibus build cinc --override append_timestamp:false

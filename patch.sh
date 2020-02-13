@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # Author:: Lance Albertson <lance@osuosl.org>
-# Copyright:: Copyright 2019, Cinc Project
+# Copyright:: Copyright 2019-2020, Cinc Project
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,31 +17,33 @@
 # limitations under the License.
 
 # This will patch Chef using Cinc branded patches
+git_patch() {
+  if [ -n "${2}" ] ; then
+    CINC_BRANCH="${2}"
+  elif [ "${REF}" == "master" -o "${REF}" == "chef-15" -o -z "${REF}" ] ; then
+    CINC_BRANCH="stable/cinc"
+  else
+    CINC_BRANCH="stable/cinc-${REF}"
+  fi
+  echo "Patching ${1} from ${CINC_BRANCH}..."
+  git remote add -f --no-tags -t ${CINC_BRANCH} cinc https://gitlab.com/cinc-project/${1}.git
+  git merge --no-edit cinc/${CINC_BRANCH}
+}
 
 TOP_DIR="$(pwd)"
 source /home/omnibus/load-omnibus-toolchain.sh
+set -ex
 # remove any previous builds
 rm -rf chef omnibus-software
+git config --global user.email || git config --global user.email "maintainers@cinc.sh"
 echo "Cloning ${REF:-chef-15} branch from ${ORIGIN:-https://github.com/chef/chef.git}"
-git clone -q --depth=1 -b ${REF:-chef-15} ${ORIGIN:-https://github.com/chef/chef.git}
+git clone -q -b ${REF:-chef-15} ${ORIGIN:-https://github.com/chef/chef.git}
 cd chef
-echo "Patching chef..."
-for patch in $(find ${TOP_DIR}/patches/chef/ -type f | sort) ; do
-  patch -p1 < $patch
-done
+git_patch chef
 cd omnibus
-echo "Cloning omnibus-software..."
-ruby ${TOP_DIR}/scripts/checkout-omnibus-software.rb
+ruby ${TOP_DIR}/scripts/checkout.rb -n omnibus-software -p $TOP_DIR
 cd $TOP_DIR/omnibus-software
-echo "Patching omnibus-software..."
-for patch in $(find ${TOP_DIR}/patches/omnibus-software/ -type f | sort) ; do
-  patch -p1 < $patch
-done
+git_patch omnibus-software
 cd $TOP_DIR
 echo "Copying Cinc resources..."
 cp -rp cinc/* chef/
-echo "Updating omnibus configuration..."
-mkdir -p ${CI_PROJECT_DIR:-$TOP_DIR}/{cache,cache/git_cache}
-echo "cache_dir '${CI_PROJECT_DIR:-$TOP_DIR}/cache'" >> chef/omnibus/omnibus.rb
-echo "git_cache_dir '${CI_PROJECT_DIR:-$TOP_DIR}/cache/git_cache'" >> chef/omnibus/omnibus.rb
-sed -i -e 's/^use_git_caching false/use_git_caching true/g' chef/omnibus/omnibus.rb
