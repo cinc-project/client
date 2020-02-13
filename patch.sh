@@ -39,11 +39,11 @@ git config --global user.email || git config --global user.email "maintainers@ci
 echo "Cloning ${REF:-chef-15} branch from ${ORIGIN:-https://github.com/chef/chef.git}"
 git clone -q -b ${REF:-chef-15} ${ORIGIN:-https://github.com/chef/chef.git}
 cd chef
-git_patch chef ramereth/gemfile-patches
+git_patch chef
 cd omnibus
 ruby ${TOP_DIR}/scripts/checkout.rb -n omnibus-software -p $TOP_DIR
 cd $TOP_DIR/omnibus-software
-git_patch omnibus-software no-chef-zero
+git_patch omnibus-software
 cd $TOP_DIR
 echo "Copying Cinc resources..."
 cp -rp cinc/* chef/
