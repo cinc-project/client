@@ -209,7 +209,7 @@ client-test:macos-10.14:
     - client-package:macos-10.14
   script:
     - sudo scripts/install-cinc-macos.sh
-    - /opt/cinc/bin/cinc-auditor exec --sudo test/integration
+    - sudo /opt/cinc/bin/cinc-auditor exec test/integration
     - sudo scripts/uninstall-cinc-macos.sh
 
 client-test:macos-10.15:
@@ -220,7 +220,7 @@ client-test:macos-10.15:
     - client-package:macos-10.15
   script:
     - sudo scripts/install-cinc-macos.sh
-    - /opt/cinc/bin/cinc-auditor exec --sudo test/integration
+    - sudo /opt/cinc/bin/cinc-auditor exec test/integration
     - sudo scripts/uninstall-cinc-macos.sh
 
 client-test:windows-2012r2:
