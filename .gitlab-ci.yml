@@ -360,6 +360,16 @@ client-publish:
     - sudo /usr/bin/rsync -avH /data/incoming/files/${CHANNEL}/cinc/ /data/mirror/files/${CHANNEL}/cinc/
     - ssh -q cinc@${MIRROR_HOST} "~/sync-from-master"
 
+publish-gems:
+  when: manual
+  stage: publish
+  tags:
+    - osuosl
+  dependencies:
+    - patch
+  script:
+    - ./publish-gems.sh
+
 .cleanup:
   stage: cleanup
   dependencies: []
