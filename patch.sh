@@ -43,7 +43,7 @@ git_patch chef
 cd omnibus
 ruby ${TOP_DIR}/scripts/checkout.rb -n omnibus-software -p $TOP_DIR
 cd $TOP_DIR/omnibus-software
-git_patch omnibus-software
+git_patch omnibus-software stable/cinc
 cd $TOP_DIR
 echo "Copying Cinc resources..."
 cp -rp cinc/* chef/
