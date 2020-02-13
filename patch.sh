@@ -18,7 +18,13 @@
 
 # This will patch Chef using Cinc branded patches
 git_patch() {
-  CINC_BRANCH=${2:-stable/cinc}
+  if [ -n "${2}" ] ; then
+    CINC_BRANCH="${2}"
+  elif [ "${REF}" == "master" -o -z "${REF}" ] ; then
+    CINC_BRANCH="stable/cinc"
+  else
+    CINC_BRANCH="stable/cinc-${REF}"
+  fi
   echo "Patching ${1} from ${CINC_BRANCH}..."
   git remote add -f --no-tags -t ${CINC_BRANCH} cinc https://gitlab.com/cinc-project/${1}.git
   git merge --no-edit cinc/${CINC_BRANCH}
@@ -26,8 +32,9 @@ git_patch() {
 
 TOP_DIR="$(pwd)"
 source /home/omnibus/load-omnibus-toolchain.sh
+set -ex
 # remove any previous builds
-rm -rf chef omnibus-software chef-zero inspec
+rm -rf chef omnibus-software
 git config --global user.email || git config --global user.email "maintainers@cinc.sh"
 echo "Cloning ${REF:-chef-15} branch from ${ORIGIN:-https://github.com/chef/chef.git}"
 git clone -q -b ${REF:-chef-15} ${ORIGIN:-https://github.com/chef/chef.git}
@@ -37,14 +44,6 @@ cd omnibus
 ruby ${TOP_DIR}/scripts/checkout.rb -n omnibus-software -p $TOP_DIR
 cd $TOP_DIR/omnibus-software
 git_patch omnibus-software no-chef-zero
-cd $TOP_DIR/chef
-ruby ${TOP_DIR}/scripts/checkout.rb -n chef-zero -r https://github.com/chef/chef-zero.git -p $TOP_DIR
-cd ${TOP_DIR}/chef-zero
-git_patch chef-zero
-cd $TOP_DIR/chef
-ruby ${TOP_DIR}/scripts/checkout.rb -g inspec-core -n inspec -r https://github.com/inspec/inspec.git -p $TOP_DIR
-cd ${TOP_DIR}/inspec
-git_patch inspec
 cd $TOP_DIR
 echo "Copying Cinc resources..."
 cp -rp cinc/* chef/

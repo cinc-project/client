@@ -186,18 +186,7 @@ client-package:opensuse-15:
   tags:
     - osuosl
   script:
-    - /opt/cinc/bin/cinc-client --version
-    - /opt/cinc/bin/cinc-solo -l info
-    - cinc-client --version
-    - cinc-solo -l info
-    - /opt/cinc/bin/chef-client --version
-    - /opt/cinc/bin/chef-solo -l info
-    - chef-client --version
-    - chef-solo -l info
-    - /opt/cinc/embedded/bin/cinc-zero --version
-    - /opt/cinc/bin/cinc-auditor version
-    - /opt/cinc/bin/cinc-auditor detect
-    - /opt/cinc/bin/inspec version
+    - /opt/cinc/bin/cinc-auditor exec test/integration
 
 .client-test-windows:
   tags:
@@ -208,13 +197,7 @@ client-package:opensuse-15:
     - $ErrorActionPreference = "Stop"
     - $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
     - echo $env:PATH
-    - C:\cinc-project\cinc\bin\cinc-client.bat --version
-    - C:\cinc-project\cinc\bin\cinc-solo.bat -l info
-    - cinc-client --version
-    - cinc-solo -l info
-    - C:\cinc-project\cinc\embedded\bin\cinc-zero.bat --version
-    - C:\cinc-project\cinc\bin\cinc-auditor.bat version
-    - C:\cinc-project\cinc\bin\cinc-auditor.bat detect
+    - cinc-auditor.bat exec test\integration
   after_script:
     - ./scripts/uninstall-cinc.ps1
 
@@ -226,14 +209,7 @@ client-test:macos-10.14:
     - client-package:macos-10.14
   script:
     - sudo scripts/install-cinc-macos.sh
-    - /opt/cinc/bin/cinc-client --version
-    - sudo /opt/cinc/bin/cinc-solo -l info
-    - cinc-client --version
-    - sudo cinc-solo -l info
-    - /opt/cinc/embedded/bin/cinc-zero --version
-    - /opt/cinc/bin/cinc-auditor version
-    - /opt/cinc/bin/cinc-auditor detect
-    - /opt/cinc/bin/inspec version
+    - /opt/cinc/bin/cinc-auditor exec --sudo test/integration
     - sudo scripts/uninstall-cinc-macos.sh
 
 client-test:macos-10.15:
@@ -244,14 +220,7 @@ client-test:macos-10.15:
     - client-package:macos-10.15
   script:
     - sudo scripts/install-cinc-macos.sh
-    - /opt/cinc/bin/cinc-client --version
-    - sudo /opt/cinc/bin/cinc-solo -l info
-    - cinc-client --version
-    - sudo cinc-solo -l info
-    - /opt/cinc/embedded/bin/cinc-zero --version
-    - /opt/cinc/bin/cinc-auditor version
-    - /opt/cinc/bin/cinc-auditor detect
-    - /opt/cinc/bin/inspec version
+    - /opt/cinc/bin/cinc-auditor exec --sudo test/integration
     - sudo scripts/uninstall-cinc-macos.sh
 
 client-test:windows-2012r2:
