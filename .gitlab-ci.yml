@@ -9,7 +9,7 @@ stages:
 
 variables:
   ORIGIN: https://github.com/chef/chef.git
-  REF: chef-15
+  REF: master
   CHANNEL: unstable
   CINC_PRODUCT: cinc
 
