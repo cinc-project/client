@@ -145,6 +145,15 @@ package:ubuntu-18.04:
     - mkdir -p ${CI_PROJECT_DIR}/data/ubuntu/18.04
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/ubuntu/18.04/
 
+package:ubuntu-20.04:
+  extends: .package
+  image: cincproject/omnibus-ubuntu:20.04
+  cache:
+    key: ubuntu:20.04
+  after_script:
+    - mkdir -p ${CI_PROJECT_DIR}/data/ubuntu/20.04
+    - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,deb,json} ${CI_PROJECT_DIR}/data/ubuntu/20.04/
+
 package:centos-6:
   extends: .package
   image: cincproject/omnibus-centos:6
@@ -278,6 +287,16 @@ test:ubuntu-18.04:
   after_script:
     - apt-get -y remove cinc
 
+test:ubuntu-20.04:
+  extends: .test
+  image: cincproject/omnibus-ubuntu:20.04
+  dependencies:
+    - package:ubuntu-20.04
+  before_script:
+    - dpkg -i data/ubuntu/20.04/cinc*.deb
+  after_script:
+    - apt-get -y remove cinc
+
 test:centos-6:
   extends: .test
   image: cincproject/omnibus-centos:6
@@ -335,6 +354,7 @@ deploy:
     - package:debian-10
     - package:ubuntu-16.04
     - package:ubuntu-18.04
+    - package:ubuntu-20.04
     - package:centos-6
     - package:centos-7
     - package:centos-8
