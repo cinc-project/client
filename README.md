@@ -1,56 +1,38 @@
-# cinc experiment
 
-With the recent announcement that Chef is opensourcing all its software the community has started this effort to create a distribution that's built in collaboration with Chef and in compliance with the Chef Trademarks Policy.
+Cinc-client is a FOSS distribution of Chef Infra&trade; client, licensed under Apache-2.0.
 
-This repo contains all the required pipeline code to output functional builds of Chef with alternate names. This is not production ready, and compliance with Chef's policy on trademarks is still under evaluation, as such this code should _not_ be used for other purposes that development and experimentation.
+This repo contains all the required pipeline code to output functional builds of of the Chef Infra&trade; codebase under the rebranded name Cinc Client, designed to be compliant with Chef Software's [Policy on Trademarks](https://www.chef.io/trademark-policy/)
 
 ## Functioning
 
-This repo currently runs on gitlab and builds:
+We use gitlab-ci. In our [fork of chef/chef](https://gitlab.com/cinc-project/upstream/chef) we maintain a branch named `stable/cinc`. This branch hosts a handful of commits required to rebrand the original code. When the pipeline runs, it clones a fresh copy of the upstream repository, merges in `stable/cinc` and executes the omnibus build.
 
-- the `chef-client` bin as `cinc-client`
-
-In the following formats:
-
-- .deb
-- .rpm
-- .msi
-
-More support will be added over time.
+We run builds for a variety of operating systems:
+- Ubuntu 16.04+
+- Centos 6+
+- Debian 8+
+- Opensuse 15
+- Windows 2012r2+
+- MacOS 10.14+
 
 To build: go to pipelines and launch a pipeline on branch master, add a variable `ORIGIN` with which source you want to use (default to https://github.com/chef/chef on master branch)
 To use a specific branch or a PR as source, find the branch and source of the PR and use `-b <branch name> https://github.com/<author>/chef` as value
 
+## Getting started with Cinc
+
+See the [quick start](https://www.cinc.sh/quickstart/) section of our website, or jump directly to [downloads](http://downloads.cinc.sh/files/stable/cinc/).
+
 ## Contributing
 
-See https://gitlab.com/cinc-project/organization-subjects/wikis/Home/Proposal_A/contributing for more information about the process of making chef/chef (and other relevant repos) easily distributable under alternate names.
-
-## Related community efforts
-
-https://gitlab.com/cinc-project/auditor for the build code for the Community Edition of Inspec.
-
-https://github.com/biome-sh/biome for the Community fork of Chef Habitat (likely to be replaced in time with a dist.rb strategy + build pipeline)
-
-Our existing builds can be found here: http://downloads.cinc.sh Please note these should only be used for experimentation purposes at this time, using them for other purposes could put you in violation of Chef's Policy on trademark and expose you to legal actions.
-
-## TODO
-
-- Add support for other ecosystem tools where appropriate
-- Evaluate compliance of resulting binaries
-- Hook pipeline into Chef's Expeditor to trigger builds whenever they release
-- MacOS builds?
-- Windows build pipeline
-- Yum/Deb repository generation
-- Omnitruck / mixlib-install integration
-- Make a final decisions on project names
+See the [contributing section of our website](https://www.cinc.sh/contributing/)
 
 # Authors
 
 The Cinc Project
 
-Originally written by Tensibai Zhaoying tensibai@iabis.net
+Originally written by [Tensibai Zhaoying](mailto:tensibai@iabis.net)
 
-Contributions by Lance Albertson lance@osuosl.org, Artem Sidorenko artem@posteo.de and Marc Chamberland chamberland.marc@gmail.com
+Contributions by [Lance Albertson](lance@osuosl.org), [Artem Sidorenko](artem@posteo.de) and [Marc Chamberland](chamberland.marc@gmail.com)
 
 ## License and copyright
 
