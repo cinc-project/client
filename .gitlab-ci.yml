@@ -11,6 +11,14 @@ variables:
   ORIGIN: https://github.com/chef/chef.git
   REF: chef-15
   CHANNEL: unstable
+  CINC_PRODUCT: cinc
+
+workflow:
+  rules:
+    # Run if we trigger a pipeline from the web
+    - if: $CI_PIPELINE_SOURCE == "web"
+    # Run if this is a merge request
+    - if: $CI_MERGE_REQUEST_ID
 
 patch:
   stage: patch
@@ -343,9 +351,14 @@ test:opensuse-15:
     - chmod 644 ~/.ssh/known_hosts
 
 deploy:
-  when: manual
+  allow_failure: false
   stage: deploy
   extends: .ssh-setup
+  # Only run if this is triggered from the web
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: manual
+    - when: never
   tags:
     - osuosl
   dependencies:
@@ -368,20 +381,29 @@ deploy:
     - ssh cinc@${DOWNLOADS_HOST} "chmod 755 /data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)/"
 
 publish:
-  when: manual
   stage: publish
   extends: .ssh-setup
   dependencies: []
+  # Only run if this is triggered from the web
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never
   tags:
     - downloads
   script:
     - sudo mkdir -p /data/mirror/files/${CHANNEL}/cinc
     - sudo /usr/bin/rsync -avH /data/incoming/files/${CHANNEL}/cinc/ /data/mirror/files/${CHANNEL}/cinc/
+    - sudo -E -u cinc /usr/local/bin/update-cinc-api
     - ssh -q cinc@${MIRROR_HOST} "~/sync-from-master"
 
 publish-gems:
-  when: manual
   stage: publish
+  # Only run if this is triggered from the web
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never
   tags:
     - osuosl
   dependencies:
