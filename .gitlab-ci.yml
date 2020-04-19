@@ -3,9 +3,9 @@ stages:
  - patch
  - package
  - test
+ - cleanup
  - deploy
  - publish
- - cleanup
 
 variables:
   ORIGIN: https://github.com/chef/chef.git
