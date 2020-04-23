@@ -411,6 +411,30 @@ publish-gems:
   script:
     - ./publish-gems.sh
 
+publish-docker:
+  image: docker:latest
+  services:
+  - docker:dind
+  stage: publish
+  # Only run if this is triggered from the web
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - if: $CHANNEL == "unstable"
+      when: never
+    - when: never
+  tags:
+    - osuosl
+  dependencies:
+    - patch
+  # binaries required for script
+  before_script:
+    - apk add curl bash
+  script:
+    - bash docker.sh
+  variables:
+    DOCKER_TLS_CERTDIR: "/certs"
+
 .cleanup:
   stage: cleanup
   dependencies: []
