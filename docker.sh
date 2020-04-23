@@ -23,6 +23,8 @@ rm -rf /tmp/docker-token
 cd chef
 
 VERSION="$(cat VERSION)"
+MAJ="$(cat VERSION | cut -d '.' -f 1)"
+MIN="$(cat VERSION | cut -d '.' -f 2)"
 URL="http://downloads.cinc.sh/files/${CHANNEL}/cinc/${VERSION}/el/6/cinc-${VERSION}-1.el6.x86_64.rpm"
 COUNT=0
 SLEEP=10
@@ -52,7 +54,17 @@ done
 
 set -x
 docker build --pull --no-cache -t cincproject/cinc:${VERSION} .
-docker tag cincproject/cinc:${VERSION} cincproject/cinc:latest
+# If we're building a current channel build, then tag appropriately
+if [ "${CHANNEL}" == "current" ] ; then
+  docker tag cincproject/cinc:${VERSION} cincproject/cinc:current
+  docker push cincproject/cinc:current
+else
+  docker tag cincproject/cinc:${VERSION} cincproject/cinc:latest
+  docker tag cincproject/cinc:${VERSION} cincproject/cinc:${MAJ}.${MIN}
+  docker tag cincproject/cinc:${VERSION} cincproject/cinc:${MAJ}
+  docker push cincproject/cinc:latest
+  docker push cincproject/cinc:${MAJ}.${MIN}
+  docker push cincproject/cinc:${MAJ}
+fi
 docker push cincproject/cinc:${VERSION}
-docker push cincproject/cinc:latest
 rm -rf ${HOME}/.docker

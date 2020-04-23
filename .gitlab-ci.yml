@@ -420,6 +420,8 @@ publish-docker:
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
       when: on_success
+    - if: $CHANNEL == "unstable"
+      when: never
     - when: never
   tags:
     - osuosl
