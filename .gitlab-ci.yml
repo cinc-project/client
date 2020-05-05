@@ -12,6 +12,7 @@ variables:
   REF: master
   CHANNEL: unstable
   CINC_PRODUCT: cinc
+  OMNIBUS_FIPS_MODE: "true"
 
 workflow:
   rules:
