@@ -45,12 +45,12 @@ if platform == 'windows'
   end
   describe command 'C:\cinc-project\cinc\embedded\bin\ruby.exe -ropenssl -e "puts OpenSSL.fips_mode"' do
     its('exit_status') { should eq 0 }
-    its('stdout') { should cmp 'false' }
+    its('stdout') { should match /false/ }
   end
 
   describe command 'C:\cinc-project\cinc\embedded\bin\ruby.exe -ropenssl -e "puts OpenSSL.fips_mode=true"' do
     its('exit_status') { should eq 0 }
-    its('stdout') { should cmp 'true' }
+    its('stdout') { should match /true/ }
   end
 else
   describe command 'chef-solo -l info' do
@@ -99,11 +99,11 @@ else
 
   describe command '/opt/cinc/embedded/bin/ruby -ropenssl -e "puts OpenSSL.fips_mode"' do
     its('exit_status') { should eq 0 }
-    its('stdout') { should cmp 'false' }
+    its('stdout') { should match /false/ }
   end
 
   describe command '/opt/cinc/embedded/bin/ruby -ropenssl -e "puts OpenSSL.fips_mode=true"' do
     its('exit_status') { should eq 0 }
-    its('stdout') { should cmp 'true' }
+    its('stdout') { should match /true/ }
   end
 end
