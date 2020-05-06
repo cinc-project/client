@@ -12,6 +12,7 @@ variables:
   REF: chef-15
   CHANNEL: unstable
   CINC_PRODUCT: cinc
+  OMNIBUS_FIPS_MODE: "true"
 
 workflow:
   rules:
@@ -71,6 +72,8 @@ package:macos-10.14:
     - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/10.14/
     - sudo bundle exec omnibus clean cinc
     - sudo rm -rf /opt/cinc/*
+  variables:
+    OMNIBUS_FIPS_MODE: "false"
   cache:
     key: macos:10.14
 
@@ -89,6 +92,8 @@ package:macos-10.15:
     - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/10.15/
     - sudo bundle exec omnibus clean cinc
     - sudo rm -rf /opt/cinc/*
+  variables:
+    OMNIBUS_FIPS_MODE: "false"
   cache:
     key: macos:10.15
 
