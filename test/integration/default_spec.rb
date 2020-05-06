@@ -97,13 +97,15 @@ else
     its('stdout') { should match /^Cinc Client:/ }
   end
 
-  describe command '/opt/cinc/embedded/bin/ruby -ropenssl -e "puts OpenSSL.fips_mode"' do
-    its('exit_status') { should eq 0 }
-    its('stdout') { should match /false/ }
-  end
+  unless os.family == 'darwin'
+    describe command '/opt/cinc/embedded/bin/ruby -ropenssl -e "puts OpenSSL.fips_mode"' do
+      its('exit_status') { should eq 0 }
+      its('stdout') { should match /false/ }
+    end
 
-  describe command '/opt/cinc/embedded/bin/ruby -ropenssl -e "puts OpenSSL.fips_mode=true"' do
-    its('exit_status') { should eq 0 }
-    its('stdout') { should match /true/ }
+    describe command '/opt/cinc/embedded/bin/ruby -ropenssl -e "puts OpenSSL.fips_mode=true"' do
+      its('exit_status') { should eq 0 }
+      its('stdout') { should match /true/ }
+    end
   end
 end
