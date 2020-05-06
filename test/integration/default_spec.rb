@@ -43,6 +43,15 @@ if platform == 'windows'
   describe command 'cinc-auditor.bat detect' do
     its('exit_status') { should eq 0 }
   end
+  describe command 'C:\cinc-project\cinc\embedded\bin\ruby.exe -ropenssl -e "puts OpenSSL.fips_mode"' do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should match /false/ }
+  end
+
+  describe command 'C:\cinc-project\cinc\embedded\bin\ruby.exe -ropenssl -e "puts OpenSSL.fips_mode=true"' do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should match /true/ }
+  end
 else
   describe command 'chef-solo -l info' do
     its('exit_status') { should eq 0 }
@@ -86,5 +95,17 @@ else
     its('exit_status') { should eq 0 }
     its('stdout') { should match /^Redirecting to cinc-solo/ }
     its('stdout') { should match /^Cinc Client:/ }
+  end
+
+  unless os.family == 'darwin'
+    describe command '/opt/cinc/embedded/bin/ruby -ropenssl -e "puts OpenSSL.fips_mode"' do
+      its('exit_status') { should eq 0 }
+      its('stdout') { should match /false/ }
+    end
+
+    describe command '/opt/cinc/embedded/bin/ruby -ropenssl -e "puts OpenSSL.fips_mode=true"' do
+      its('exit_status') { should eq 0 }
+      its('stdout') { should match /true/ }
+    end
   end
 end
