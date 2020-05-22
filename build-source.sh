@@ -18,15 +18,19 @@
 
 set -eu
 
+# Positional parameters:
+# $1 = cinc product short name [cinc|cinc-auditor|cinc-workstation]
+# $2 = $1's upstream counterpart repository name on disk [chef|inspec|chef-workstation]
 TOP_DIR="$(pwd)"
 export CI_PROJECT_DIR=${CI_PROJECT_DIR:-${TOP_DIR}}
 
 set -x
 
 version=$(cat chef/VERSION)
-destdir="${CI_PROJECT_DIR}/data/source/${version}"
+destdir="${CI_PROJECT_DIR}/data/source/$1/${version}"
 mkdir -p "${destdir}"
 
-cd chef
-git archive --prefix=cinc-${version}/ HEAD | gzip --no-name - \
-	> "${destdir}/cinc-${version}.tar.gz"
+cp README.md $2/README.cinc
+cd $2
+git archive --prefix=$1-${version}/ HEAD | gzip --no-name - \
+	> "${destdir}/$1-${version}.tar.gz"
