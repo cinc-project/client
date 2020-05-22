@@ -47,7 +47,7 @@ package:source:
   dependencies:
     - patch
   script:
-    - ./build-source.sh
+    - ./build-source.sh cinc chef
   artifacts:
     expire_in: 1mo
     paths:
