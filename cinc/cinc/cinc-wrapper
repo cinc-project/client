@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright:: Copyright 2019, Cinc Project
+# Copyright:: Copyright 2019-2020, Cinc Project
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,4 +22,4 @@ else
 fi
 echo "Redirecting to ${name}..."
 
-exec /opt/cinc/bin/${name} $@
+exec /opt/cinc/bin/${name} "$@"
