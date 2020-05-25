@@ -53,7 +53,7 @@ if platform == 'windows'
     its('stdout') { should match /true/ }
   end
 else
-  describe command 'chef-solo -l info' do
+  describe command 'chef-solo -l info -o ""' do
     its('exit_status') { should eq 0 }
     its('stdout') { should match /^Redirecting to cinc-solo/ }
     its('stdout') { should match /Cinc Zero/ }
