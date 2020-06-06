@@ -71,6 +71,8 @@ package:centos-7:aarch64:
     key: centos:7:aarch64
   tags:
     - docker-aarch64
+  variables:
+    OMNIBUS_FIPS_MODE: "false"
 
 package:centos-8:x86_64:
   extends: .centos-8:x86_64
@@ -89,6 +91,8 @@ package:centos-8:aarch64:
     key: centos:8:aarch64
   tags:
     - docker-aarch64
+  variables:
+    OMNIBUS_FIPS_MODE: "false"
 
 package:debian-8:x86_64:
   extends: .debian-8:x86_64
@@ -125,6 +129,8 @@ package:debian-10:aarch64:
     key: debian:10:aarch64
   tags:
     - docker-aarch64
+  variables:
+    OMNIBUS_FIPS_MODE: "false"
 
 package:macos-10.14:
   extends: .macos-10.14
@@ -133,6 +139,8 @@ package:macos-10.14:
     key: macos:10.14
   tags:
     - macos-10.14
+  variables:
+    OMNIBUS_FIPS_MODE: "false"
 
 package:macos-10.15:
   extends: .macos-10.15
@@ -141,6 +149,8 @@ package:macos-10.15:
     key: macos:10.15
   tags:
     - macos-10.15
+  variables:
+    OMNIBUS_FIPS_MODE: "false"
 
 package:opensuse-15:x86_64:
   extends: .opensuse-15:x86_64
@@ -159,6 +169,8 @@ package:opensuse-15:aarch64:
     key: opensuse:15:aarch64
   tags:
     - docker-aarch64
+  variables:
+    OMNIBUS_FIPS_MODE: "false"
 
 package:windows-2012r2:
   extends: .windows-2012r2
@@ -194,6 +206,8 @@ package:ubuntu-18.04:aarch64:
     key: ubuntu:18.04:aarch64
   tags:
     - docker-aarch64
+  variables:
+    OMNIBUS_FIPS_MODE: "false"
 
 package:ubuntu-20.04:x86_64:
   extends: .ubuntu-20.04:x86_64
@@ -212,6 +226,8 @@ package:ubuntu-20.04:aarch64:
     key: ubuntu:20.04:aarch64
   tags:
     - docker-aarch64
+  variables:
+    OMNIBUS_FIPS_MODE: "false"
 
 # Test stage
 
