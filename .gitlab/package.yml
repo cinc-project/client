@@ -41,6 +41,7 @@
     - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}
     - sudo chown -R omnibus:omnibus pkg
     - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}/
+  after_script:
     - sudo bundle exec omnibus clean cinc
     - sudo rm -rf /opt/cinc/*
   variables:
@@ -62,7 +63,12 @@
     - bundle exec omnibus build cinc --override append_timestamp:false
     - mkdir.exe -p ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
     - mv.exe -v pkg/cinc* ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
+  after_script:
+    - $ErrorActionPreference = "Stop"
+    - C:\omnibus\load-omnibus-toolchain.ps1
+    - cd chef\omnibus
     - bundle exec omnibus clean cinc
+    - Remove-Item -Recurse -Force C:\cinc-project
 
 .package:ubuntu:
   extends: .package
