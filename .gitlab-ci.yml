@@ -176,7 +176,7 @@ package:windows-2012r2:
   extends: .windows-2012r2
   extends: .package:windows
   cache:
-    key: windows:2012r2
+    key: windows-2012r2
   tags:
     - windows-x64
 
