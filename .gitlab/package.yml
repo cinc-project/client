@@ -1,0 +1,77 @@
+.package:
+  stage: package
+  dependencies:
+    - patch
+  script:
+    - ./build.sh
+    - cd chef/omnibus
+    - mkdir ${CI_PROJECT_DIR}/data
+    - mv -v pkg/cinc* ${CI_PROJECT_DIR}/data/
+    - cp ../VERSION ${CI_PROJECT_DIR}/
+  cache:
+    paths:
+      - cache/*
+      - bundle/vendor/*
+  artifacts:
+    expire_in: 1mo
+    paths:
+      - data/*
+      - VERSION
+
+.package:centos:
+  extends: .package
+  after_script:
+    - mkdir -p ${CI_PROJECT_DIR}/data/el/${PLATFORM_VER}
+    - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,json} ${CI_PROJECT_DIR}/data/el/${PLATFORM_VER}/
+
+.package:debian:
+  extends: .package
+  after_script:
+    - mkdir -p ${CI_PROJECT_DIR}/data/debian/${PLATFORM_VER}
+    - mv -v ${CI_PROJECT_DIR}/data/*.{deb,json} ${CI_PROJECT_DIR}/data/debian/${PLATFORM_VER}/
+
+.package:macos:
+  extends: .package
+  script:
+    - source /Users/omnibus/load-omnibus-toolchain.sh
+    - cd chef/omnibus
+    - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
+    - sudo rm -rf /var/cache/omnibus/pkg/*
+    - sudo -E bundle exec omnibus build cinc --override append_timestamp:false
+    - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}
+    - sudo chown -R omnibus:omnibus pkg
+    - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}/
+  after_script:
+    - sudo bundle exec omnibus clean cinc
+    - sudo rm -rf /opt/cinc/*
+  variables:
+    OMNIBUS_FIPS_MODE: "false"
+
+.package:opensuse:
+  extends: .package
+  after_script:
+    - mkdir -p ${CI_PROJECT_DIR}/data/sles/${PLATFORM_VER}
+    - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,json} ${CI_PROJECT_DIR}/data/sles/${PLATFORM_VER}/
+
+.package:windows:
+  extends: .package
+  script:
+    - $ErrorActionPreference = "Stop"
+    - C:\omnibus\load-omnibus-toolchain.ps1
+    - cd chef\omnibus
+    - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
+    - bundle exec omnibus build cinc --override append_timestamp:false
+    - mkdir.exe -p ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
+    - mv.exe -v pkg/cinc* ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
+  after_script:
+    - $ErrorActionPreference = "Stop"
+    - C:\omnibus\load-omnibus-toolchain.ps1
+    - cd chef\omnibus
+    - bundle exec omnibus clean cinc
+    - Remove-Item -Recurse -Force C:\cinc-project
+
+.package:ubuntu:
+  extends: .package
+  after_script:
+    - mkdir -p ${CI_PROJECT_DIR}/data/ubuntu/${PLATFORM_VER}
+    - mv -v ${CI_PROJECT_DIR}/data/*.{deb,json} ${CI_PROJECT_DIR}/data/ubuntu/${PLATFORM_VER}/
