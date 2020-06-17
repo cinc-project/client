@@ -1,0 +1,48 @@
+.test:
+  stage: test
+  script:
+    - /opt/cinc/bin/cinc-auditor exec test/integration
+
+.test:centos:
+  extends: .test
+  before_script:
+    - yum -y install data/el/${PLATFORM_VER}/cinc*.rpm
+  after_script:
+    - yum -y remove cinc
+
+.test:debian:
+  extends: .test
+  before_script:
+    - dpkg -i data/debian/${PLATFORM_VER}/cinc*.deb
+  after_script:
+    - apt-get -y remove cinc
+
+.test:macos:
+  extends: .test
+  script:
+    - sudo scripts/install-cinc-macos.sh
+    - sudo /opt/cinc/bin/cinc-auditor exec test/integration
+    - sudo scripts/uninstall-cinc-macos.sh
+
+.test:opensuse:
+  extends: .test
+  before_script:
+    - rpm -iU data/sles/${PLATFORM_VER}/cinc*.rpm
+
+.test:ubuntu:
+  extends: .test
+  before_script:
+    - dpkg -i data/ubuntu/${PLATFORM_VER}/cinc*.deb
+  after_script:
+    - apt-get -y remove cinc
+
+.test:windows:
+  before_script:
+    - ./scripts/install-cinc.ps1
+  script:
+    - $ErrorActionPreference = "Stop"
+    - $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+    - echo $env:PATH
+    - cinc-auditor.bat exec test\integration
+  after_script:
+    - ./scripts/uninstall-cinc.ps1
