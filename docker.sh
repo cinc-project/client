@@ -55,17 +55,9 @@ done
 
 set -x
 docker build --pull --no-cache -t cincproject/cinc:${VERSION} .
-# If we're building a current channel build, then tag appropriately
-if [ "${CHANNEL}" == "current" ] ; then
-  docker tag cincproject/cinc:${VERSION} cincproject/cinc:current
-  docker push cincproject/cinc:current
-else
-  docker tag cincproject/cinc:${VERSION} cincproject/cinc:latest
-  docker tag cincproject/cinc:${VERSION} cincproject/cinc:${MAJ}.${MIN}
-  docker tag cincproject/cinc:${VERSION} cincproject/cinc:${MAJ}
-  docker push cincproject/cinc:latest
-  docker push cincproject/cinc:${MAJ}.${MIN}
-  docker push cincproject/cinc:${MAJ}
-fi
+docker tag cincproject/cinc:${VERSION} cincproject/cinc:${MAJ}.${MIN}
+docker tag cincproject/cinc:${VERSION} cincproject/cinc:${MAJ}
+docker push cincproject/cinc:${MAJ}.${MIN}
+docker push cincproject/cinc:${MAJ}
 docker push cincproject/cinc:${VERSION}
 rm -rf ${HOME}/.docker
