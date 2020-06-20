@@ -21,16 +21,22 @@ set -eu
 # Positional parameters:
 # $1 = cinc product short name [cinc|cinc-auditor|cinc-workstation]
 # $2 = $1's upstream counterpart repository name on disk [chef|inspec|chef-workstation]
+product=$1
+upstream_product=$2
+
 TOP_DIR="$(pwd)"
 export CI_PROJECT_DIR=${CI_PROJECT_DIR:-${TOP_DIR}}
 
 set -x
 
 version=$(cat chef/VERSION)
-destdir="${CI_PROJECT_DIR}/data/source/$1/${version}"
+destdir="${CI_PROJECT_DIR}/data/source/${CHANNEL}/${product}"
+tarball="${product}-${version}.tar.xz"
 mkdir -p "${destdir}"
 
-cp README.md $2/README.cinc
-cd $2
-git archive --prefix=$1-${version}/ HEAD | gzip --no-name - \
-	> "${destdir}/$1-${version}.tar.gz"
+cp README.md ${upstream_product}/README.cinc
+cd $upstream_product
+git archive --prefix=${product}-${version}/ HEAD | xz > ${destdir}/$tarball
+cd $destdir
+sha256sum $tarball > $tarball.sha256sum
+sha512sum $tarball > $tarball.sha512sum
