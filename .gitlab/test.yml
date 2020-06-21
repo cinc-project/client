@@ -3,6 +3,13 @@
   script:
     - /opt/cinc/bin/cinc-auditor exec test/integration
 
+.test:amazonlinux:
+  extends: .test
+  before_script:
+    - yum -y install data/amazon/${PLATFORM_VER}/cinc*.rpm
+  after_script:
+    - yum -y remove cinc
+
 .test:centos:
   extends: .test
   before_script:
