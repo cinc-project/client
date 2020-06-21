@@ -18,6 +18,12 @@
       - data/*
       - VERSION
 
+.package:amazonlinux:
+  extends: .package
+  after_script:
+    - mkdir -p ${CI_PROJECT_DIR}/data/amazon/${PLATFORM_VER}
+    - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,json} ${CI_PROJECT_DIR}/data/amazon/${PLATFORM_VER}/
+
 .package:centos:
   extends: .package
   after_script:
