@@ -42,6 +42,19 @@ patch:
 
 # Package stage
 
+package:source:
+  stage: package
+  dependencies:
+    - patch
+  tags:
+    - docker-x86_64
+  script:
+    - ./build-source.sh cinc chef
+  artifacts:
+    expire_in: 1mo
+    paths:
+      - data/*
+
 package:amazonlinux-2:x86_64:
   extends: .package:amazonlinux
   image: cincproject/omnibus-amazonlinux:2
@@ -470,6 +483,7 @@ deploy:
   tags:
     - docker-x86_64
   dependencies:
+    - package:source
     - package:amazonlinux-2:aarch64
     - package:amazonlinux-2:x86_64
     - package:centos-6:x86_64
