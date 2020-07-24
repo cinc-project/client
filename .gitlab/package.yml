@@ -1,6 +1,6 @@
 .package:
   stage: package
-  dependencies:
+  needs:
     - patch
   script:
     - ./build.sh
