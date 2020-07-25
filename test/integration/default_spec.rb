@@ -97,8 +97,8 @@ else
     its('stdout') { should match /^Cinc Client:/ }
   end
 
-  # FIPS is not supported on MacOS or aarch64
-  unless os.family == 'darwin' || os.arch == 'aarch64'
+  # FIPS is not supported on MacOS, aarch64 and ppc64le
+  unless os.family == 'darwin' || os.arch == 'aarch64' || os.arch == 'ppc64le'
     describe command '/opt/cinc/embedded/bin/ruby -ropenssl -e "puts OpenSSL.fips_mode"' do
       its('exit_status') { should eq 0 }
       its('stdout') { should match /false/ }
