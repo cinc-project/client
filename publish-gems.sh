@@ -20,7 +20,7 @@ TOP_DIR="$(pwd)"
 export PATH="/opt/omnibus-toolchain/embedded/bin/:${PATH}"
 
 package_cloud_push () {
-  package_cloud push cinc-project/${CHANNEL:-unstable} $@
+  package_cloud push --yes cinc-project/${CHANNEL:-unstable} $@
 }
 
 source /home/omnibus/load-omnibus-toolchain.sh
