@@ -42,6 +42,19 @@ patch:
 
 # Package stage
 
+package:source:
+  stage: package
+  needs:
+    - patch
+  tags:
+    - docker-x86_64
+  script:
+    - ./build-source.sh cinc chef
+  artifacts:
+    expire_in: 1mo
+    paths:
+      - data/*
+
 package:amazonlinux-2:x86_64:
   extends: .package:amazonlinux
   image: cincproject/omnibus-amazonlinux:2
@@ -94,6 +107,17 @@ package:centos-7:aarch64:
     PLATFORM_VER: "7"
     OMNIBUS_FIPS_MODE: "false"
 
+package:centos-7:ppc64le:
+  extends: .package:centos
+  image: cincproject/omnibus-centos:7
+  cache:
+    key: centos:7:ppc64le
+  tags:
+    - docker-ppc64le
+  variables:
+    PLATFORM_VER: "7"
+    OMNIBUS_FIPS_MODE: "false"
+
 package:centos-8:x86_64:
   extends: .package:centos
   image: cincproject/omnibus-centos:8
@@ -111,6 +135,17 @@ package:centos-8:aarch64:
     key: centos:8:aarch64
   tags:
     - docker-aarch64
+  variables:
+    PLATFORM_VER: "8"
+    OMNIBUS_FIPS_MODE: "false"
+
+package:centos-8:ppc64le:
+  extends: .package:centos
+  image: cincproject/omnibus-centos:8
+  cache:
+    key: centos:8:ppc64le
+  tags:
+    - docker-ppc64le
   variables:
     PLATFORM_VER: "8"
     OMNIBUS_FIPS_MODE: "false"
@@ -253,7 +288,7 @@ package:ubuntu-20.04:aarch64:
 test:amazonlinux-2:x86_64:
   extends: .test:amazonlinux
   image: cincproject/omnibus-amazonlinux:2
-  dependencies:
+  needs:
     - package:amazonlinux-2:x86_64
   tags:
     - docker-x86_64
@@ -263,7 +298,7 @@ test:amazonlinux-2:x86_64:
 test:amazonlinux-2:aarch64:
   extends: .test:amazonlinux
   image: cincproject/omnibus-amazonlinux:2
-  dependencies:
+  needs:
     - package:amazonlinux-2:aarch64
   tags:
     - docker-aarch64
@@ -273,7 +308,7 @@ test:amazonlinux-2:aarch64:
 test:centos-6:x86_64:
   extends: .test:centos
   image: cincproject/omnibus-centos:6
-  dependencies:
+  needs:
     - package:centos-6:x86_64
   tags:
     - docker-x86_64
@@ -283,7 +318,7 @@ test:centos-6:x86_64:
 test:centos-7:x86_64:
   extends: .test:centos
   image: cincproject/omnibus-centos:7
-  dependencies:
+  needs:
     - package:centos-7:x86_64
   tags:
     - docker-x86_64
@@ -293,17 +328,27 @@ test:centos-7:x86_64:
 test:centos-7:aarch64:
   extends: .test:centos
   image: cincproject/omnibus-centos:7
-  dependencies:
+  needs:
     - package:centos-7:aarch64
   tags:
     - docker-aarch64
   variables:
     PLATFORM_VER: "7"
 
+test:centos-7:ppc64le:
+  extends: .test:centos
+  image: cincproject/omnibus-centos:7
+  needs:
+    - package:centos-7:ppc64le
+  tags:
+    - docker-ppc64le
+  variables:
+    PLATFORM_VER: "7"
+
 test:centos-8:x86_64:
   extends: .test:centos
   image: cincproject/omnibus-centos:8
-  dependencies:
+  needs:
     - package:centos-8:x86_64
   tags:
     - docker-x86_64
@@ -313,17 +358,27 @@ test:centos-8:x86_64:
 test:centos-8:aarch64:
   extends: .test:centos
   image: cincproject/omnibus-centos:8
-  dependencies:
+  needs:
     - package:centos-8:aarch64
   tags:
     - docker-aarch64
   variables:
     PLATFORM_VER: "8"
 
+test:centos-8:ppc64le:
+  extends: .test:centos
+  image: cincproject/omnibus-centos:8
+  needs:
+    - package:centos-8:ppc64le
+  tags:
+    - docker-ppc64le
+  variables:
+    PLATFORM_VER: "8"
+
 test:debian-9:x86_64:
   extends: .test:debian
   image: cincproject/omnibus-debian:9
-  dependencies:
+  needs:
     - package:debian-9:x86_64
   tags:
     - docker-x86_64
@@ -333,7 +388,7 @@ test:debian-9:x86_64:
 test:debian-10:x86_64:
   extends: .test:debian
   image: cincproject/omnibus-debian:10
-  dependencies:
+  needs:
     - package:debian-10:x86_64
   tags:
     - docker-x86_64
@@ -343,7 +398,7 @@ test:debian-10:x86_64:
 test:debian-10:aarch64:
   extends: .test:debian
   image: cincproject/omnibus-debian:10
-  dependencies:
+  needs:
     - package:debian-10:aarch64
   tags:
     - docker-aarch64
@@ -352,7 +407,7 @@ test:debian-10:aarch64:
 
 test:macos-10.14:
   extends: .test:macos
-  dependencies:
+  needs:
     - package:macos-10.14
   tags:
     - macos-10.14
@@ -361,7 +416,7 @@ test:macos-10.14:
 
 test:macos-10.15:
   extends: .test:macos
-  dependencies:
+  needs:
     - package:macos-10.15
   tags:
     - macos-10.15
@@ -371,7 +426,7 @@ test:macos-10.15:
 test:opensuse-15:x86_64:
   extends: .test:opensuse
   image: cincproject/omnibus-opensuse:15
-  dependencies:
+  needs:
     - package:opensuse-15:x86_64
   tags:
     - docker-x86_64
@@ -381,7 +436,7 @@ test:opensuse-15:x86_64:
 test:opensuse-15:aarch64:
   extends: .test:opensuse
   image: cincproject/omnibus-opensuse:15
-  dependencies:
+  needs:
     - package:opensuse-15:aarch64
   tags:
     - docker-aarch64
@@ -391,7 +446,7 @@ test:opensuse-15:aarch64:
 test:ubuntu-16.04:x86_64:
   extends: .test:ubuntu
   image: cincproject/omnibus-ubuntu:16.04
-  dependencies:
+  needs:
     - package:ubuntu-16.04:x86_64
   tags:
     - docker-x86_64
@@ -401,7 +456,7 @@ test:ubuntu-16.04:x86_64:
 test:ubuntu-18.04:x86_64:
   extends: .test:ubuntu
   image: cincproject/omnibus-ubuntu:18.04
-  dependencies:
+  needs:
     - package:ubuntu-18.04:x86_64
   tags:
     - docker-x86_64
@@ -411,7 +466,7 @@ test:ubuntu-18.04:x86_64:
 test:ubuntu-18.04:aarch64:
   extends: .test:ubuntu
   image: cincproject/omnibus-ubuntu:18.04
-  dependencies:
+  needs:
     - package:ubuntu-18.04:aarch64
   tags:
     - docker-aarch64
@@ -421,7 +476,7 @@ test:ubuntu-18.04:aarch64:
 test:ubuntu-20.04:x86_64:
   extends: .test:ubuntu
   image: cincproject/omnibus-ubuntu:20.04
-  dependencies:
+  needs:
     - package:ubuntu-20.04:x86_64
   tags:
     - docker-x86_64
@@ -431,7 +486,7 @@ test:ubuntu-20.04:x86_64:
 test:ubuntu-20.04:aarch64:
   extends: .test:ubuntu
   image: cincproject/omnibus-ubuntu:20.04
-  dependencies:
+  needs:
     - package:ubuntu-20.04:aarch64
   tags:
     - docker-aarch64
@@ -440,7 +495,7 @@ test:ubuntu-20.04:aarch64:
 
 test:windows-2012r2:
   extends: .test:windows
-  dependencies:
+  needs:
     - package:windows-2012r2
   tags:
     - windows-x64
@@ -470,12 +525,15 @@ deploy:
   tags:
     - docker-x86_64
   dependencies:
+    - package:source
     - package:amazonlinux-2:aarch64
     - package:amazonlinux-2:x86_64
     - package:centos-6:x86_64
     - package:centos-7:aarch64
+    - package:centos-7:ppc64le
     - package:centos-7:x86_64
     - package:centos-8:aarch64
+    - package:centos-8:ppc64le
     - package:centos-8:x86_64
     - package:debian-9:x86_64
     - package:debian-10:aarch64

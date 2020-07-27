@@ -44,6 +44,7 @@
     - apt-get -y remove cinc
 
 .test:windows:
+  stage: test
   before_script:
     - ./scripts/install-cinc.ps1
   script:

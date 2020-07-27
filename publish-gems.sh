@@ -32,12 +32,14 @@ gem build chef-utils.gemspec
 gem install -N chef-utils-[0-9]*.gem
 cd ${TOP_DIR}/chef
 gem build chef.gemspec
+gem build chef-universal-mingw32.gemspec
 cd ${TOP_DIR}/chef/chef-bin
 gem build chef-bin.gemspec
 cd ${TOP_DIR}/chef/chef-config
 gem build chef-config.gemspec
 cd $TOP_DIR/chef
 package_cloud_push chef-[0-9]*.gem
+package_cloud_push chef-universal-mingw32-[0-9]*.gem
 package_cloud_push chef-bin/chef-bin-[0-9]*.gem
 package_cloud_push chef-config/chef-config-[0-9]*.gem
 package_cloud_push chef-utils/chef-utils-[0-9]*.gem
