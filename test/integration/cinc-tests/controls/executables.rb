@@ -65,16 +65,4 @@ control 'cinc-*nix' do
     its('exit_status') { should eq 0 }
     its('stdout') { should match /^Redirecting to cinc-auditor/ }
   end
-
-  describe command 'chef-client --version' do
-    its('exit_status') { should eq 0 }
-    its('stdout') { should match /^Redirecting to cinc-client/ }
-    its('stdout') { should match /^Cinc Client:/ }
-  end
-
-  describe command 'chef-solo --version' do
-    its('exit_status') { should eq 0 }
-    its('stdout') { should match /^Redirecting to cinc-solo/ }
-    its('stdout') { should match /^Cinc Client:/ }
-  end
 end

@@ -544,6 +544,17 @@ test:ubuntu-20.04:aarch64:
   variables:
     PLATFORM_VER: "20.04"
 
+test:sources:
+  extends: .test:ubuntu
+  image: cincproject/omnibus-ubuntu:20.04
+  needs:
+    - package:ubuntu-20.04:x86_64
+  tags:
+    - docker-x86_64
+  variables:
+    PLATFORM_VER: "20.04"
+    SOURCE_TEST: 'true'
+
 test:windows-2012r2:
   extends: .test:windows
   needs:

@@ -2,8 +2,8 @@ title 'Windows Cinc executables'
 
 control 'cinc-windows' do
   impact 1.0
-  title 'Validate executables outputs on linux and mac'
-  desc 'Outputs should not contain trademarks on linux or mac'
+  title 'Validate executables outputs on Windows'
+  desc 'Outputs should not contain trademarks on Windows'
   only_if { os.family == 'windows' }
 
   describe command 'cinc-solo -l info -o ""' do
@@ -30,5 +30,10 @@ control 'cinc-windows' do
 
   describe command 'cinc-auditor.bat detect' do
     its('exit_status') { should eq 0 }
+  end
+
+  describe command 'C:\cinc-project\cinc\bin\inspec version' do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should match /^Redirecting to cinc-auditor/ }
   end
 end
