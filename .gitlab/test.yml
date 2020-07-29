@@ -2,7 +2,10 @@
 .test:
   stage: test
   script:
-    - /opt/cinc/bin/cinc-auditor exec test/integration/default_spec.rb
+    - /opt/cinc/bin/cinc-auditor exec test/integration/cinc-tests --no-distinct-exit
+  variables:
+    SOURCE_TEST: true
+
 
 .test:amazonlinux:
   extends: .test
@@ -29,7 +32,7 @@
   extends: .test
   script:
     - sudo scripts/install-cinc-macos.sh
-    - sudo /opt/cinc/bin/cinc-auditor exec test/integration/default_spec.rb
+    - sudo /opt/cinc/bin/cinc-auditor exec test/integration/cinc-tests
     - sudo scripts/uninstall-cinc-macos.sh
 
 .test:opensuse:
