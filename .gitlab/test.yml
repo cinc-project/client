@@ -4,7 +4,7 @@
   script:
     - /opt/cinc/bin/cinc-auditor exec test/integration/cinc-tests --no-distinct-exit
   variables:
-    SOURCE_TEST: 'true'
+    SOURCE_TEST: 'false'
 
 
 .test:amazonlinux:
@@ -55,6 +55,6 @@
     - $ErrorActionPreference = "Stop"
     - $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
     - echo $env:PATH
-    - cinc-auditor.bat exec test\integration\default_spec.rb
+    - cinc-auditor.bat exec test\integration\cinc-tests
   after_script:
     - ./scripts/uninstall-cinc.ps1
