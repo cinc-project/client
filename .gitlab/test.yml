@@ -1,7 +1,7 @@
 .test:
   stage: test
   script:
-    - /opt/cinc/bin/cinc-auditor exec test/integration
+    - /opt/cinc/bin/cinc-auditor exec test/integration/default_spec.rb
 
 .test:amazonlinux:
   extends: .test
