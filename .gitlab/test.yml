@@ -32,7 +32,7 @@
   extends: .test
   script:
     - sudo scripts/install-cinc-macos.sh
-    - sudo /opt/cinc/bin/cinc-auditor exec test/integration/cinc-tests
+    - sudo /opt/cinc/bin/cinc-auditor exec test/integration/cinc-tests --no-distinct-exit
     - sudo scripts/uninstall-cinc-macos.sh
 
 .test:opensuse:
