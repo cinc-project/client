@@ -30,13 +30,27 @@ export CI_PROJECT_DIR=${CI_PROJECT_DIR:-${TOP_DIR}}
 set -x
 
 version=$(cat chef/VERSION)
-destdir="${CI_PROJECT_DIR}/data/source/${CHANNEL}/${product}"
+destdir="${CI_PROJECT_DIR}/source/${CHANNEL:-unstable}/${product}"
+chef_full="${product}-full-${version}"
 tarball="${product}-${version}.tar.xz"
+tarball_omnibus="omnibus-software.tar.xz"
+tarball_full="${chef_full}.tar.xz"
 mkdir -p "${destdir}"
 
 cp README.md ${upstream_product}/README.cinc
 cd $upstream_product
-git archive --prefix=${product}-${version}/ HEAD | xz > ${destdir}/$tarball
+git archive --prefix=${product}-${version}/ HEAD | xz > ${destdir}/${tarball}
+cd $TOP_DIR/omnibus-software
+git archive --prefix=omnibus-software/ HEAD | xz > ${destdir}/${tarball_omnibus}
 cd $destdir
+mkdir $chef_full
+cd $chef_full
+tar -Jxf ../${tarball}
+tar -Jxf ../${tarball_omnibus}
+cd $destdir
+tar -Jcf $tarball_full $chef_full
+rm -rf $tarball_omnibus $chef_full
 sha256sum $tarball > $tarball.sha256sum
 sha512sum $tarball > $tarball.sha512sum
+sha256sum $tarball_full > $tarball_full.sha256sum
+sha512sum $tarball_full > $tarball_full.sha512sum

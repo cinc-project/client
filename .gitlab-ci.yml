@@ -53,7 +53,7 @@ package:source:
   artifacts:
     expire_in: 1mo
     paths:
-      - data/*
+      - source/*
 
 package:amazonlinux-2:x86_64:
   extends: .package:amazonlinux
@@ -284,6 +284,18 @@ package:ubuntu-20.04:aarch64:
     OMNIBUS_FIPS_MODE: "false"
 
 # Test stage
+
+test:source:
+  extends: .test
+  image: cincproject/docker-auditor
+  needs:
+    - package:source
+  tags:
+    - docker-x86_64
+  before_script:
+    - apk add bash
+  script:
+    - cinc-auditor exec test/integration/source_spec.rb
 
 test:amazonlinux-2:x86_64:
   extends: .test:amazonlinux
@@ -550,7 +562,9 @@ deploy:
     - package:windows-2012r2
   script:
     - ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)"
+    - ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/source/${CHANNEL}/cinc/"
     - rsync -avH --delete data/ cinc@${DOWNLOADS_HOST}:/data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)/
+    - rsync -avH --delete source/ cinc@${DOWNLOADS_HOST}:/data/incoming/source/${CHANNEL}/cinc/
     - ssh cinc@${DOWNLOADS_HOST} "chmod 755 /data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)/"
 
 # Publish stage
@@ -567,8 +581,9 @@ publish:
   tags:
     - downloads
   script:
-    - sudo mkdir -p /data/mirror/files/${CHANNEL}/cinc
+    - sudo mkdir -p /data/mirror/{files,source}/${CHANNEL}/cinc
     - sudo /usr/bin/rsync -avH /data/incoming/files/${CHANNEL}/cinc/ /data/mirror/files/${CHANNEL}/cinc/
+    - sudo /usr/bin/rsync -avH /data/incoming/source/${CHANNEL}/cinc/ /data/mirror/source/${CHANNEL}/cinc/
     - sudo -E -u cinc /usr/local/bin/update-cinc-api
     - ssh -q cinc@${MIRROR_HOST} "~/sync-from-master"
 
