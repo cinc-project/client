@@ -28,7 +28,7 @@
   extends: .test
   script:
     - sudo scripts/install-cinc-macos.sh
-    - sudo /opt/cinc/bin/cinc-auditor exec test/integration
+    - sudo /opt/cinc/bin/cinc-auditor exec test/integration/default_spec.rb
     - sudo scripts/uninstall-cinc-macos.sh
 
 .test:opensuse:
@@ -51,6 +51,6 @@
     - $ErrorActionPreference = "Stop"
     - $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
     - echo $env:PATH
-    - cinc-auditor.bat exec test\integration
+    - cinc-auditor.bat exec test\integration\default_spec.rb
   after_script:
     - ./scripts/uninstall-cinc.ps1
