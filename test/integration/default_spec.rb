@@ -70,7 +70,7 @@ else
 
   describe command '/opt/cinc/embedded/bin/cinc-zero --version' do
     its('exit_status') { should eq 0 }
-  end
+  end unless ENV['HAB_TEST']
 
   describe command '/opt/cinc/bin/cinc-auditor version' do
     its('exit_status') { should eq 0 }

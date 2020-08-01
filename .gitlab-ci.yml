@@ -40,6 +40,10 @@ patch:
       - inspec/
       - omnibus-software/
 
+.bio_setup:
+  before_script:
+    - scripts/install-biome.sh
+
 # Package stage
 
 package:source:
@@ -53,7 +57,24 @@ package:source:
   artifacts:
     expire_in: 1mo
     paths:
-      - source/*
+      - data/*
+
+package:bio:linux:
+  stage: package
+  extends:
+    - .bio_setup
+  tags:
+    - docker-x86_64
+  needs:
+    - patch
+  script:
+    - bio pkg build ./chef
+  variables:
+    HAB_ORIGIN: cinc
+    HAB_NONINTERACTIVE: "true"
+  artifacts:
+    paths:
+      - results/*.hart
 
 package:amazonlinux-2:x86_64:
   extends: .package:amazonlinux
@@ -285,17 +306,26 @@ package:ubuntu-20.04:aarch64:
 
 # Test stage
 
-test:source:
-  extends: .test
-  image: cincproject/docker-auditor
-  needs:
-    - package:source
+test:bio:linux:
+  stage: test
+  extends:
+    - .bio_setup
   tags:
     - docker-x86_64
-  before_script:
-    - apk add bash
+  needs:
+    - package:bio:linux
   script:
-    - cinc-auditor exec test/integration/source_spec.rb
+    - bio install results/*.hart --binlink
+    - export CINC_PATH=$(bio pkg path cinc/cinc-infra-client)
+    - export GEM_PATH=${CINC_PATH}/vendor:$GEM_PATH
+    - ln -s $CINC_PATH /opt/cinc
+    - mkdir /opt/cinc/embedded
+    - ln -s /opt/cinc/bin /opt/cinc/embedded/bin
+    - ln -s $(bio pkg path core/ruby27)/bin/ruby /opt/cinc/embedded/bin/ruby
+    - cinc-auditor exec test/integration/default_spec.rb
+  variables:
+    APPBUNDLER_ALLOW_RVM: "true"
+    HAB_TEST: "true"
 
 test:amazonlinux-2:x86_64:
   extends: .test:amazonlinux
@@ -567,6 +597,22 @@ deploy:
     - rsync -avH --delete source/ cinc@${DOWNLOADS_HOST}:/data/incoming/source/${CHANNEL}/cinc/
     - ssh cinc@${DOWNLOADS_HOST} "chmod 755 /data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)/"
 
+deploy:bio:linux:
+  stage: deploy
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: manual
+    - when: never
+  extends:
+    - .bio_setup
+  tags:
+    - docker-x86_64
+  needs:
+    - package:bio:linux
+    - test:bio:linux
+  script:
+    - bio pkg upload results/*.hart
+
 # Publish stage
 
 publish:
@@ -624,6 +670,22 @@ publish-docker:
     - bash docker.sh
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
+
+publish:bio:linux:
+  needs:
+    - package:bio:linux
+    - deploy:bio:linux
+  extends:
+    - .bio_setup
+  stage: publish
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never
+  script:
+    - bio pkg install core/jq-static -b
+    - export PKG=$(bio pkg info results/*.hart -j | jq '[.origin,.name,.version,.release] | join("/")')
+    - bio pkg promote $PKG $CHANNEL
 
 .cleanup:
   stage: cleanup
