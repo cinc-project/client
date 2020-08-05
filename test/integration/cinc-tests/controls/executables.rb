@@ -2,7 +2,7 @@ title 'Cinc executables'
 
 control 'Common tests for all platforms' do
   impact 1.0
-  title 'Validate basic functionnality on all platforms'
+  title 'Validate basic functionality on all platforms'
   desc 'Common test to all platforms'
 
   describe command 'cinc-client --version' do
