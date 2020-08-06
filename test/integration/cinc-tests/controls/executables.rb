@@ -15,13 +15,21 @@ control 'Common tests for all platforms' do
     its('stdout') { should match /^Cinc Client:/ }
   end
 
-  describe command 'cinc-auditor version' do
+  describe command 'cinc-apply --version' do
     its('exit_status') { should eq 0 }
   end
 
-  describe command 'cinc-auditor detect' do
+  describe command 'cinc-shell --version' do
     its('exit_status') { should eq 0 }
-  end  
+  end
+
+  describe command 'knife --version' do
+    its('exit_status') { should eq 0 }
+  end
+
+  describe command 'ohai --version' do
+    its('exit_status') { should eq 0 }
+  end
 end
 
 control 'cinc-*nix' do
@@ -54,6 +62,14 @@ control 'cinc-*nix' do
   describe command '/opt/cinc/embedded/bin/cinc-zero --version' do
     its('exit_status') { should eq 0 }
   end unless ENV['HAB_TEST']
+
+  describe command '/opt/cinc/bin/cinc-auditor version' do
+    its('exit_status') { should eq 0 }
+  end
+
+  describe command '/opt/cinc/bin/cinc-auditor detect' do
+    its('exit_status') { should eq 0 }
+  end  
 
   describe command '/opt/cinc/bin/inspec version' do
     its('exit_status') { should eq 0 }
