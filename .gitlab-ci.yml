@@ -549,6 +549,7 @@ test:sources:
   image: cincproject/omnibus-ubuntu:20.04
   needs:
     - package:ubuntu-20.04:x86_64
+    - package:source
   tags:
     - docker-x86_64
   variables:
