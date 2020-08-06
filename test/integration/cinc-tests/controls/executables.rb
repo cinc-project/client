@@ -15,17 +15,13 @@ control 'Common tests for all platforms' do
     its('stdout') { should match /^Cinc Client:/ }
   end
 
-  describe command 'chef-client --version' do
+  describe command 'cinc-auditor version' do
     its('exit_status') { should eq 0 }
-    its('stdout') { should match /^Redirecting to cinc-client/ }
-    its('stdout') { should match /^Cinc Client:/ }
   end
 
-  describe command 'chef-solo --version' do
+  describe command 'cinc-auditor detect' do
     its('exit_status') { should eq 0 }
-    its('stdout') { should match /^Redirecting to cinc-solo/ }
-    its('stdout') { should match /^Cinc Client:/ }
-  end
+  end  
 end
 
 control 'cinc-*nix' do
@@ -33,6 +29,12 @@ control 'cinc-*nix' do
   title 'Validate executables outputs on linux and mac'
   desc 'Outputs should not contain trademarks on linux or mac'
   only_if { os.family != 'windows' }
+
+  describe command 'chef-client --version' do
+    its('exit_status') { should eq 0 }
+    its('stdout') { should match /^Redirecting to cinc-client/ }
+    its('stdout') { should match /^Cinc Client:/ }
+  end
 
   describe command 'chef-solo -l info -o ""' do
     its('exit_status') { should eq 0 }
@@ -52,14 +54,6 @@ control 'cinc-*nix' do
   describe command '/opt/cinc/embedded/bin/cinc-zero --version' do
     its('exit_status') { should eq 0 }
   end unless ENV['HAB_TEST']
-
-  describe command '/opt/cinc/bin/cinc-auditor version' do
-    its('exit_status') { should eq 0 }
-  end
-
-  describe command '/opt/cinc/bin/cinc-auditor detect' do
-    its('exit_status') { should eq 0 }
-  end
 
   describe command '/opt/cinc/bin/inspec version' do
     its('exit_status') { should eq 0 }
