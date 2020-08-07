@@ -6,7 +6,7 @@ control 'cinc-windows' do
   desc 'Outputs should not contain trademarks on Windows'
   only_if { os.family == 'windows' }
 
-  describe command 'cinc-solo -l info -o ""' do
+  describe command %q(cinc-solo -l info -o '""') do
     its('exit_status') { should eq 0 }
     its('stdout') { should match /Cinc Zero/ }
     its('stdout') { should match /Cinc Client/ }
