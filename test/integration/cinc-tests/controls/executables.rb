@@ -69,7 +69,7 @@ control 'cinc-*nix' do
 
   describe command '/opt/cinc/bin/cinc-auditor detect' do
     its('exit_status') { should eq 0 }
-  end  
+  end
 
   describe command '/opt/cinc/bin/inspec version' do
     its('exit_status') { should eq 0 }
