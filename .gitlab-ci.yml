@@ -57,7 +57,7 @@ package:source:
   artifacts:
     expire_in: 1mo
     paths:
-      - data/*
+      - source/*
 
 package:bio:linux:
   stage: package
@@ -305,6 +305,14 @@ package:ubuntu-20.04:aarch64:
     OMNIBUS_FIPS_MODE: "false"
 
 # Test stage
+test:source:
+  extends: .test
+  image: cincproject/docker-auditor
+  needs:
+    - package:source
+  before_script:
+    - apk add bash
+    - cinc-auditor exec test/integration/source_spec.rb
 
 test:bio:linux:
   stage: test
