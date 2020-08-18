@@ -687,6 +687,8 @@ publish:bio:linux:
   extends:
     - .bio_setup
   stage: publish
+  tags:
+    - docker-x86_64
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
       when: on_success
