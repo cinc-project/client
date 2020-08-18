@@ -310,9 +310,10 @@ test:source:
   image: cincproject/docker-auditor
   needs:
     - package:source
+  script:
+    - cinc-auditor exec test/integration/source_spec.rb
   before_script:
     - apk add bash
-    - cinc-auditor exec test/integration/source_spec.rb
 
 test:bio:linux:
   stage: test
