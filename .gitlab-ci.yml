@@ -1,12 +1,13 @@
+---
 image: cincproject/omnibus-debian
 
 stages:
- - patch
- - package
- - test
- - cleanup
- - deploy
- - publish
+  - patch
+  - package
+  - test
+  - cleanup
+  - deploy
+  - publish
 
 variables:
   ORIGIN: https://github.com/chef/chef.git
@@ -612,7 +613,7 @@ publish-gems:
 publish-docker:
   image: docker:latest
   services:
-  - docker:dind
+    - docker:dind
   stage: publish
   # Only run if this is triggered from the web
   rules:
