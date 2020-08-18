@@ -30,7 +30,7 @@ export CI_PROJECT_DIR=${CI_PROJECT_DIR:-${TOP_DIR}}
 set -x
 
 version=$(cat chef/VERSION)
-destdir="${CI_PROJECT_DIR}/source/${CHANNEL:-unstable}/${product}"
+destdir="${CI_PROJECT_DIR}/source/"
 chef_full="${product}-full-${version}"
 tarball="${product}-${version}.tar.xz"
 tarball_omnibus="omnibus-software.tar.xz"
