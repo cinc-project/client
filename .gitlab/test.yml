@@ -2,7 +2,7 @@
 .test:
   stage: test
   script:
-    - /opt/cinc/bin/cinc-auditor exec test/integration/cinc-tests --no-distinct-exit --reporter cli junit:junit.xml 
+    - /opt/cinc/bin/cinc-auditor exec test/integration/cinc-tests --no-distinct-exit --reporter cli junit:junit.xml
   artifacts:
     reports:
       junit: junit.xml
@@ -58,7 +58,7 @@
     - $ErrorActionPreference = "Stop"
     - $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
     - echo $env:PATH
-    - cinc-auditor.bat exec test\integration\cinc-tests --no-distinct-exit --reporter cli junit:junit.xml 
+    - cinc-auditor.bat exec test\integration\cinc-tests --no-distinct-exit --reporter cli junit:junit.xml
   artifacts:
     reports:
       junit: junit.xml
