@@ -285,27 +285,6 @@ package:ubuntu-20.04:aarch64:
     OMNIBUS_FIPS_MODE: "false"
 
 # Test stage
-test:source:
-  extends: .test
-  image: cincproject/docker-auditor
-  needs:
-    - package:source
-  before_script:
-    - apk add bash
-    - cinc-auditor exec test/integration/source_spec.rb
-
-test:source:
-  extends: .test
-  image: cincproject/docker-auditor
-  needs:
-    - package:source
-  tags:
-    - docker-x86_64
-  before_script:
-    - apk add bash
-  script:
-    - cinc-auditor exec test/integration/source_spec.rb
-
 test:amazonlinux-2:x86_64:
   extends: .test:amazonlinux
   image: cincproject/omnibus-amazonlinux:2
@@ -522,7 +501,7 @@ test:sources:
   tags:
     - docker-x86_64
   script:
-    - cinc-auditor exec test/integration/cinc-sources --no-distinct-exit --reporter cli junit:junit.xml 
+    - cinc-auditor exec test/integration/cinc-sources --no-distinct-exit --reporter cli junit:junit.xml
   artifacts:
     reports:
       junit: junit.xml
