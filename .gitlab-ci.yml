@@ -331,7 +331,10 @@ test:bio:linux:
     - mkdir /opt/cinc/embedded
     - ln -s /opt/cinc/bin /opt/cinc/embedded/bin
     - ln -s $(bio pkg path core/ruby27)/bin/ruby /opt/cinc/embedded/bin/ruby
-    - cinc-auditor exec test/integration/cinc-tests --no-distinct-exit
+    - cinc-auditor exec test/integration/cinc-tests --no-distinct-exit --reporter cli junit:junit.xml 
+  artifacts:
+    reports:
+      junit: junit.xml
   variables:
     APPBUNDLER_ALLOW_RVM: "true"
     HAB_TEST: "true"
@@ -546,15 +549,16 @@ test:ubuntu-20.04:aarch64:
 
 test:sources:
   extends: .test:ubuntu
-  image: cincproject/omnibus-ubuntu:20.04
+  image: cincproject/docker-auditor
   needs:
-    - package:ubuntu-20.04:x86_64
     - package:source
   tags:
     - docker-x86_64
-  variables:
-    PLATFORM_VER: "20.04"
-    SOURCE_TEST: 'true'
+  script:
+    - cinc-auditor exec test/integration/cinc-sources --no-distinct-exit --reporter cli junit:junit.xml 
+  artifacts:
+    reports:
+      junit: junit.xml
 
 test:windows-2012r2:
   extends: .test:windows

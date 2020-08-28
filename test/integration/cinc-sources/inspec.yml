@@ -1,0 +1,10 @@
+name: cinc-sources
+title: Cinc sourecs validation
+maintainer: Cinc maintainers
+copyright: Cinc Maintainerss
+copyright_email: maintainersàcinc.sh
+license: Apache-2.0
+summary: Validate source files tarballs are matching their checksums
+version: 0.1.0
+supports:
+  platform: os

@@ -2,10 +2,10 @@
 .test:
   stage: test
   script:
-    - /opt/cinc/bin/cinc-auditor exec test/integration/cinc-tests --no-distinct-exit
-  variables:
-    SOURCE_TEST: 'false'
-
+    - /opt/cinc/bin/cinc-auditor exec test/integration/cinc-tests --no-distinct-exit --reporter cli junit:junit.xml 
+  artifacts:
+    reports:
+      junit: junit.xml
 
 .test:amazonlinux:
   extends: .test
@@ -32,8 +32,11 @@
   extends: .test
   script:
     - sudo scripts/install-cinc-macos.sh
-    - sudo /opt/cinc/bin/cinc-auditor exec test/integration/cinc-tests --no-distinct-exit
+    - sudo /opt/cinc/bin/cinc-auditor exec test/integration/cinc-tests --no-distinct-exit --reporter cli junit:junit.xml
     - sudo scripts/uninstall-cinc-macos.sh
+  artifacts:
+    reports:
+      junit: junit.xml
 
 .test:opensuse:
   extends: .test
@@ -55,6 +58,9 @@
     - $ErrorActionPreference = "Stop"
     - $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
     - echo $env:PATH
-    - cinc-auditor.bat exec test\integration\cinc-tests --no-distinct-exit
+    - cinc-auditor.bat exec test\integration\cinc-tests --no-distinct-exit --reporter cli junit:junit.xml 
+  artifacts:
+    reports:
+      junit: junit.xml
   after_script:
     - ./scripts/uninstall-cinc.ps1
