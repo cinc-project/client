@@ -305,16 +305,6 @@ package:ubuntu-20.04:aarch64:
     OMNIBUS_FIPS_MODE: "false"
 
 # Test stage
-test:source:
-  extends: .test
-  image: cincproject/docker-auditor
-  needs:
-    - package:source
-  script:
-    - cinc-auditor exec test/integration/source_spec.rb
-  before_script:
-    - apk add bash
-
 test:bio:linux:
   stage: test
   extends:
@@ -331,7 +321,7 @@ test:bio:linux:
     - mkdir /opt/cinc/embedded
     - ln -s /opt/cinc/bin /opt/cinc/embedded/bin
     - ln -s $(bio pkg path core/ruby27)/bin/ruby /opt/cinc/embedded/bin/ruby
-    - cinc-auditor exec test/integration/cinc-tests --no-distinct-exit --reporter cli junit:junit.xml 
+    - cinc-auditor exec test/integration/cinc-tests --no-distinct-exit --reporter cli junit:junit.xml
   artifacts:
     reports:
       junit: junit.xml
@@ -555,7 +545,7 @@ test:sources:
   tags:
     - docker-x86_64
   script:
-    - cinc-auditor exec test/integration/cinc-sources --no-distinct-exit --reporter cli junit:junit.xml 
+    - cinc-auditor exec test/integration/cinc-sources --no-distinct-exit --reporter cli junit:junit.xml
   artifacts:
     reports:
       junit: junit.xml
