@@ -545,6 +545,7 @@ test:sources:
   tags:
     - docker-x86_64
   script:
+    - apk add bash outils-sha256
     - cinc-auditor exec test/integration/cinc-sources --no-distinct-exit --reporter cli junit:junit.xml
   artifacts:
     reports:
