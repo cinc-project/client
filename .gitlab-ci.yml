@@ -539,6 +539,7 @@ test:ubuntu-20.04:aarch64:
 
 test:sources:
   image: cincproject/docker-auditor
+  stage: test
   needs:
     - package:source
   tags:
