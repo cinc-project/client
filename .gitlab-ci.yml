@@ -538,7 +538,6 @@ test:ubuntu-20.04:aarch64:
     PLATFORM_VER: "20.04"
 
 test:sources:
-  extends: .test:ubuntu
   image: cincproject/docker-auditor
   needs:
     - package:source
