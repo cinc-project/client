@@ -1,0 +1,10 @@
+name: cinc-tests
+title: Cinc trademark validation
+maintainer: Cinc maintainers
+copyright: Cinc Maintainerss
+copyright_email: maintainersàcinc.sh
+license: Apache-2.0
+summary: Validate cinc binaries outputs and others executable
+version: 0.1.0
+supports:
+  platform: os
