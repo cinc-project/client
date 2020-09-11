@@ -15,6 +15,7 @@ variables:
   CHANNEL: unstable
   CINC_PRODUCT: cinc
   OMNIBUS_FIPS_MODE: "true"
+  GIT_CACHE: "true"
 
 workflow:
   rules:
