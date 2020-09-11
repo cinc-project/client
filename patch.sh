@@ -48,6 +48,16 @@ cd $TOP_DIR
 echo "Copying Cinc resources..."
 cp -rp cinc/* chef/
 
+echo "cache_dir '${TOP_DIR}/cache'" >> chef/omnibus/omnibus.rb
+mkdir -p ${TOP_DIR}/cache
+if [ "${GIT_CACHE}" == "true" ] ; then
+  mkdir -p ${TOP_DIR}/cache/git_cache
+  echo "git_cache_dir '${TOP_DIR}/cache/git_cache'" >> chef/omnibus/omnibus.rb
+  echo "use_git_caching true" >> chef/omnibus/omnibus.rb
+else
+  echo "git cache has been disabled"
+fi
+
 echo "Updating Gemfile.lock"
 cd chef
 bundle lock
