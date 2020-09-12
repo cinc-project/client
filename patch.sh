@@ -26,7 +26,7 @@ git_patch() {
     CINC_BRANCH="stable/cinc-${REF}"
   fi
   echo "Patching ${1} from ${CINC_BRANCH}..."
-  git remote add -f --no-tags -t ${CINC_BRANCH} cinc https://gitlab.com/cinc-project/${1}.git
+  git remote add -f --no-tags -t ${CINC_BRANCH} cinc https://gitlab.com/cinc-project/upstream/${1}.git
   git merge --no-edit cinc/${CINC_BRANCH}
 }
 
@@ -39,7 +39,7 @@ git config --global user.email || git config --global user.email "maintainers@ci
 echo "Cloning ${REF:-chef-15} branch from ${ORIGIN:-https://github.com/chef/chef.git}"
 git clone -q -b ${REF:-chef-15} ${ORIGIN:-https://github.com/chef/chef.git}
 cd chef
-git_patch chef
+git_patch chef ${CINC_REF}
 cd omnibus
 ruby ${TOP_DIR}/scripts/checkout.rb -n omnibus-software -p $TOP_DIR
 cd $TOP_DIR/omnibus-software
@@ -47,3 +47,13 @@ git_patch omnibus-software stable/cinc
 cd $TOP_DIR
 echo "Copying Cinc resources..."
 cp -rp cinc/* chef/
+
+echo "cache_dir '${TOP_DIR}/cache'" >> chef/omnibus/omnibus.rb
+mkdir -p ${TOP_DIR}/cache
+if [ "${GIT_CACHE}" == "true" ] ; then
+  mkdir -p ${TOP_DIR}/cache/git_cache
+  echo "git_cache_dir '${TOP_DIR}/cache/git_cache'" >> chef/omnibus/omnibus.rb
+  echo "use_git_caching true" >> chef/omnibus/omnibus.rb
+else
+  echo "git cache has been disabled"
+fi
