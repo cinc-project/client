@@ -23,6 +23,8 @@ workflow:
   rules:
     # Run if we trigger a pipeline from the web
     - if: $CI_PIPELINE_SOURCE == "web"
+    # Run if we trigger a pipeline from another project (i.e. upstream/chef)
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
     # Run if this is a merge request
     - if: $CI_MERGE_REQUEST_ID
 
