@@ -638,6 +638,7 @@ publish-docker:
   when: always
   script:
     - sudo rm -rf chef/
+    - sudo rm -rf /builds/cinc-project/distribution/client/
 
 cleanup:macos-10.14:
   extends: .cleanup
@@ -648,3 +649,10 @@ cleanup:macos-10.15:
   extends: .cleanup
   tags:
     - macos-10.15
+
+cleanup:windows-2012r2:
+  extends: .cleanup
+  tags:
+    - windows-x64
+  script:
+    - Remove-Item -Recurse -Force C:\builds\cinc-project\distribution\client
