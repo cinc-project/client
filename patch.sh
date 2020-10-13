@@ -45,8 +45,6 @@ ruby ${TOP_DIR}/scripts/checkout.rb -n omnibus-software -p $TOP_DIR
 cd $TOP_DIR/omnibus-software
 git_patch omnibus-software stable/cinc
 cd $TOP_DIR
-echo "Copying Cinc resources..."
-cp -rp cinc/* chef/
 
 echo "cache_dir '${TOP_DIR}/cache'" >> chef/omnibus/omnibus.rb
 mkdir -p ${TOP_DIR}/cache

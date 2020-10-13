@@ -40,13 +40,13 @@ control 'cinc-*nix' do
 
   describe command 'chef-client --version' do
     its('exit_status') { should eq 0 }
-    its('stdout') { should match /^Redirecting to cinc-client/ }
+    its('stderr') { should match /^Redirecting to cinc-client/ }
     its('stdout') { should match /^Cinc Client:/ }
   end
 
   describe command 'chef-solo -l info -o ""' do
     its('exit_status') { should eq 0 }
-    its('stdout') { should match /^Redirecting to cinc-solo/ }
+    its('stderr') { should match /^Redirecting to cinc-solo/ }
     its('stdout') { should match /Cinc Zero/ }
     its('stdout') { should match /Cinc Client/ }
     its('stdout') { should match /Cinc-client/ }
@@ -73,6 +73,6 @@ control 'cinc-*nix' do
 
   describe command '/opt/cinc/bin/inspec version' do
     its('exit_status') { should eq 0 }
-    its('stdout') { should match /^Redirecting to cinc-auditor/ }
+    its('stderr') { should match /^Redirecting to cinc-auditor/ }
   end
 end
