@@ -62,3 +62,4 @@ bundle lock
 echo "Commit the new Gemfile.lock"
 git add Gemfile.lock
 git commit -m 'Update Gemfile.lock to handle cinc-auditor'
+rm results/*.hart || true # Cleanup previous builds hart packages and ignore no files error
