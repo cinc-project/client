@@ -705,7 +705,7 @@ publish:bio:linux:
     - when: never
   script:
     - bio pkg install core/jq-static -b
-    - export PKG=$(bio pkg info results/*.hart -j | jq '[.origin,.name,.version,.release] | join("/")')
+    - export PKG=$(bio pkg info results/*.hart -j | jq -r '[.origin,.name,.version,.release] | join("/")')
     - bio pkg promote $PKG $CHANNEL
 
 .cleanup:
