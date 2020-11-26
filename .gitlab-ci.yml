@@ -80,16 +80,6 @@ package:amazonlinux-2:aarch64:
     PLATFORM_VER: "2"
     OMNIBUS_FIPS_MODE: "false"
 
-package:centos-6:x86_64:
-  extends: .package:centos
-  image: cincproject/omnibus-centos:6
-  cache:
-    key: centos:6:x86_64:cinc-15
-  tags:
-    - docker-x86_64
-  variables:
-    PLATFORM_VER: "6"
-
 package:centos-7:x86_64:
   extends: .package:centos
   image: cincproject/omnibus-centos:7
@@ -307,16 +297,6 @@ test:amazonlinux-2:aarch64:
     - docker-aarch64
   variables:
     PLATFORM_VER: "2"
-
-test:centos-6:x86_64:
-  extends: .test:centos
-  image: cincproject/omnibus-centos:6
-  needs:
-    - package:centos-6:x86_64
-  tags:
-    - docker-x86_64
-  variables:
-    PLATFORM_VER: "6"
 
 test:centos-7:x86_64:
   extends: .test:centos
@@ -545,7 +525,6 @@ deploy:
     - package:source
     - package:amazonlinux-2:aarch64
     - package:amazonlinux-2:x86_64
-    - package:centos-6:x86_64
     - package:centos-7:aarch64
     - package:centos-7:ppc64le
     - package:centos-7:x86_64
