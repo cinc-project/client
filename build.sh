@@ -21,5 +21,6 @@ export CI_PROJECT_DIR=${CI_PROJECT_DIR:-${TOP_DIR}}
 source /home/omnibus/load-omnibus-toolchain.sh
 set -ex
 cd chef/omnibus
+bundle lock --update=chef
 bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
 bundle exec omnibus build cinc --override append_timestamp:false
