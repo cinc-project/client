@@ -20,8 +20,8 @@
 git_patch() {
   if [ -n "${2}" ] ; then
     CINC_BRANCH="${2}"
-  elif [ "${REF}" == "master" -o -z "${REF}" ] ; then
-    CINC_BRANCH="stable/cinc"
+  elif [ "${REF}" == "master" -o -o "${REF}" == "chef-16" -z "${REF}" ] ; then
+    CINC_BRANCH="stable/cinc-16"
   else
     CINC_BRANCH="stable/cinc-${REF}"
   fi
@@ -36,8 +36,8 @@ set -ex
 # remove any previous builds
 rm -rf chef omnibus-software
 git config --global user.email || git config --global user.email "maintainers@cinc.sh"
-echo "Cloning ${REF:-master} branch from ${ORIGIN:-https://github.com/chef/chef.git}"
-git clone -q -b ${REF:-master} ${ORIGIN:-https://github.com/chef/chef.git}
+echo "Cloning ${REF:-chef-16} branch from ${ORIGIN:-https://github.com/chef/chef.git}"
+git clone -q -b ${REF:-chef-16} ${ORIGIN:-https://github.com/chef/chef.git}
 cd chef
 git_patch chef ${CINC_REF}
 cd omnibus

@@ -83,7 +83,7 @@ package:amazonlinux-2:x86_64:
   extends: .package:amazonlinux
   image: cincproject/omnibus-amazonlinux:2
   cache:
-    key: amazonlinux:2:x86_64
+    key: amazonlinux:2:x86_64:cinc-16
   tags:
     - docker-x86_64
   variables:
@@ -93,7 +93,7 @@ package:amazonlinux-2:aarch64:
   extends: .package:amazonlinux
   image: cincproject/omnibus-amazonlinux:2
   cache:
-    key: amazonlinux:2:aarch64
+    key: amazonlinux:2:aarch64:cinc-16
   tags:
     - docker-aarch64
   variables:
@@ -104,7 +104,7 @@ package:centos-7:x86_64:
   extends: .package:centos
   image: cincproject/omnibus-centos:7
   cache:
-    key: centos:7:x86_64
+    key: centos:7:x86_64:cinc-16
   tags:
     - docker-x86_64
   variables:
@@ -114,7 +114,7 @@ package:centos-7:aarch64:
   extends: .package:centos
   image: cincproject/omnibus-centos:7
   cache:
-    key: centos:7:aarch64
+    key: centos:7:aarch64:cinc-16
   tags:
     - docker-aarch64
   variables:
@@ -125,7 +125,7 @@ package:centos-7:ppc64le:
   extends: .package:centos
   image: cincproject/omnibus-centos:7
   cache:
-    key: centos:7:ppc64le
+    key: centos:7:ppc64le:cinc-16
   tags:
     - docker-ppc64le
   variables:
@@ -136,7 +136,7 @@ package:centos-8:x86_64:
   extends: .package:centos
   image: cincproject/omnibus-centos:8
   cache:
-    key: centos:8:x86_64
+    key: centos:8:x86_64:cinc-16
   tags:
     - docker-x86_64
   variables:
@@ -146,7 +146,7 @@ package:centos-8:aarch64:
   extends: .package:centos
   image: cincproject/omnibus-centos:8
   cache:
-    key: centos:8:aarch64
+    key: centos:8:aarch64:cinc-16
   tags:
     - docker-aarch64
   variables:
@@ -157,7 +157,7 @@ package:centos-8:ppc64le:
   extends: .package:centos
   image: cincproject/omnibus-centos:8
   cache:
-    key: centos:8:ppc64le
+    key: centos:8:ppc64le:cinc-16
   tags:
     - docker-ppc64le
   variables:
@@ -168,7 +168,7 @@ package:debian-9:x86_64:
   extends: .package:debian
   image: cincproject/omnibus-debian:9
   cache:
-    key: debian:9:x86_64
+    key: debian:9:x86_64:cinc-16
   tags:
     - docker-x86_64
   variables:
@@ -178,7 +178,7 @@ package:debian-10:x86_64:
   extends: .package:debian
   image: cincproject/omnibus-debian:10
   cache:
-    key: debian:10:x86_64
+    key: debian:10:x86_64:cinc-16
   tags:
     - docker-x86_64
   variables:
@@ -188,7 +188,7 @@ package:debian-10:aarch64:
   extends: .package:debian
   image: cincproject/omnibus-debian:10
   cache:
-    key: debian:10:aarch64
+    key: debian:10:aarch64:cinc-16
   tags:
     - docker-aarch64
   variables:
@@ -219,7 +219,7 @@ package:opensuse-15:x86_64:
   extends: .package:opensuse
   image: cincproject/omnibus-opensuse:15
   cache:
-    key: opensuse:15:x86_64
+    key: opensuse:15:x86_64:cinc-16
   tags:
     - docker-x86_64
   variables:
@@ -229,7 +229,7 @@ package:opensuse-15:aarch64:
   extends: .package:opensuse
   image: cincproject/omnibus-opensuse:15
   cache:
-    key: opensuse:15:aarch64
+    key: opensuse:15:aarch64:cinc-16
   tags:
     - docker-aarch64
   variables:
@@ -249,7 +249,7 @@ package:ubuntu-16.04:x86_64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:16.04
   cache:
-    key: ubuntu:16.04:x86_64
+    key: ubuntu:16.04:x86_64:cinc-16
   tags:
     - docker-x86_64
   variables:
@@ -259,7 +259,7 @@ package:ubuntu-18.04:x86_64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:18.04
   cache:
-    key: ubuntu:18.04:x86_64
+    key: ubuntu:18.04:x86_64:cinc-16
   tags:
     - docker-x86_64
   variables:
@@ -269,7 +269,7 @@ package:ubuntu-18.04:aarch64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:18.04
   cache:
-    key: ubuntu:18.04:aarch64
+    key: ubuntu:18.04:aarch64:cinc-16
   tags:
     - docker-aarch64
   variables:
@@ -280,7 +280,7 @@ package:ubuntu-20.04:x86_64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:20.04
   cache:
-    key: ubuntu:20.04:x86_64
+    key: ubuntu:20.04:x86_64:cinc-16
   tags:
     - docker-x86_64
   variables:
@@ -290,7 +290,7 @@ package:ubuntu-20.04:aarch64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:20.04
   cache:
-    key: ubuntu:20.04:aarch64
+    key: ubuntu:20.04:aarch64:cinc-16
   tags:
     - docker-aarch64
   variables:
