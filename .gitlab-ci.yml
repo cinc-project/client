@@ -42,8 +42,6 @@ patch:
     expire_in: 1mo
     paths:
       - chef/
-      - chef-zero/
-      - inspec/
       - omnibus-software/
 
 .bio_setup:
