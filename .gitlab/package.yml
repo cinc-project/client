@@ -43,7 +43,9 @@
     - source /Users/omnibus/load-omnibus-toolchain.sh
     - bash caching.sh
     - cd chef/omnibus
-    - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
+    - bundle config set --local path ${CI_PROJECT_DIR}/bundle/vendor
+    - bundle config set --local without 'development'
+    - bundle install
     - sudo rm -rf /var/cache/omnibus/pkg/*
     - sudo -E bundle exec omnibus build cinc --override append_timestamp:false
     - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}
@@ -68,7 +70,9 @@
     - C:\omnibus\load-omnibus-toolchain.ps1
     - bash caching.sh
     - cd chef\omnibus
-    - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
+    - bundle config set --local path ${CI_PROJECT_DIR}/bundle/vendor
+    - bundle config set --local without 'development'
+    - bundle install
     - bundle exec omnibus build cinc --override append_timestamp:false
     - mkdir.exe -p ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
     - mv.exe -v pkg/cinc* ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
