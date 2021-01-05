@@ -11,7 +11,7 @@ stages:
 
 variables:
   ORIGIN: https://github.com/chef/chef.git
-  REF: master
+  REF: chef-16
   CHANNEL: unstable
   CINC_PRODUCT: cinc
   OMNIBUS_FIPS_MODE: "true"
