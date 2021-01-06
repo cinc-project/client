@@ -20,6 +20,7 @@ TOP_DIR="$(pwd)"
 export CI_PROJECT_DIR=${CI_PROJECT_DIR:-${TOP_DIR}}
 source /home/omnibus/load-omnibus-toolchain.sh
 set -ex
+bash caching.sh
 cd chef/omnibus
 bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
 bundle exec omnibus build cinc --override append_timestamp:false

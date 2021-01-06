@@ -41,6 +41,7 @@
   extends: .package
   script:
     - source /Users/omnibus/load-omnibus-toolchain.sh
+    - bash caching.sh
     - cd chef/omnibus
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
     - sudo rm -rf /var/cache/omnibus/pkg/*
@@ -49,8 +50,8 @@
     - sudo chown -R omnibus:omnibus pkg
     - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}/
   after_script:
-    - sudo bundle exec omnibus clean cinc
-    - sudo rm -rf /opt/cinc/*
+    - sudo chown -R omnibus cache/ bundle/
+    - sudo rm -rf /opt/cinc/
   variables:
     OMNIBUS_FIPS_MODE: "false"
 
@@ -65,6 +66,7 @@
   script:
     - $ErrorActionPreference = "Stop"
     - C:\omnibus\load-omnibus-toolchain.ps1
+    - bash caching.sh
     - cd chef\omnibus
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
     - bundle exec omnibus build cinc --override append_timestamp:false
@@ -72,9 +74,6 @@
     - mv.exe -v pkg/cinc* ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
   after_script:
     - $ErrorActionPreference = "Stop"
-    - C:\omnibus\load-omnibus-toolchain.ps1
-    - cd chef\omnibus
-    - bundle exec omnibus clean cinc
     - Remove-Item -Recurse -Force C:\cinc-project
 
 .package:ubuntu:
