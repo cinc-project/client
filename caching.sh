@@ -1,7 +1,5 @@
-#!/bin/bash -e
-#
 # Author:: Lance Albertson <lance@osuosl.org>
-# Copyright:: Copyright 2020, Cinc Project
+# Copyright:: Copyright 2021, Cinc Project
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,11 +16,12 @@
 
 TOP_DIR="$(pwd)"
 export CI_PROJECT_DIR=${CI_PROJECT_DIR:-${TOP_DIR}}
-source /home/omnibus/load-omnibus-toolchain.sh
-set -ex
-bash caching.sh
-cd chef/omnibus
-bundle config set --local path ${CI_PROJECT_DIR}/bundle/vendor
-bundle config set --local without 'development'
-bundle install
-bundle exec omnibus build cinc --override append_timestamp:false
+echo "cache_dir '${CI_PROJECT_DIR}/cache'" >> chef/omnibus/omnibus.rb
+mkdir -p ${CI_PROJECT_DIR}/cache
+if [ "${GIT_CACHE}" == "true" ] ; then
+  mkdir -p ${CI_PROJECT_DIR}/cache/git_cache
+  echo "git_cache_dir '${CI_PROJECT_DIR}/cache/git_cache'" >> chef/omnibus/omnibus.rb
+  echo "use_git_caching true" >> chef/omnibus/omnibus.rb
+else
+  echo "git cache has been disabled"
+fi
