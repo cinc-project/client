@@ -196,7 +196,7 @@ package:debian-10:aarch64:
 package:macos-10.14:
   extends: .package:macos
   cache:
-    key: macos:10.14
+    key: macos:10.14:cinc-16
   tags:
     - macos-10.14
   variables:
@@ -206,7 +206,7 @@ package:macos-10.14:
 package:macos-10.15:
   extends: .package:macos
   cache:
-    key: macos:10.15
+    key: macos:10.15:cinc-16
   tags:
     - macos-10.15
   variables:
@@ -216,7 +216,7 @@ package:macos-10.15:
 package:macos-11.0:
   extends: .package:macos
   cache:
-    key: macos:11.0
+    key: macos:11.0:cinc-16
   tags:
     - macos-11.0
   variables:
@@ -247,7 +247,7 @@ package:opensuse-15:aarch64:
 package:windows-2012r2:
   extends: .package:windows
   cache:
-    key: windows-2012r2
+    key: windows-2012r2-cinc-16
   tags:
     - windows-x64
   variables:
