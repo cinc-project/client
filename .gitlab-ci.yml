@@ -213,24 +213,24 @@ package:macos-10.15:
     PLATFORM_VER: "10.15"
     OMNIBUS_FIPS_MODE: "false"
 
-package:macos-11.0:
+package:macos-11:
   extends: .package:macos
   cache:
-    key: macos:11.0
+    key: macos:11
   tags:
-    - macos-11.0
+    - macos-11
   variables:
-    PLATFORM_VER: "11.0"
+    PLATFORM_VER: "11"
     OMNIBUS_FIPS_MODE: "false"
 
-package:macos-11.0:aarch64:
+package:macos-11:aarch64:
   extends: .package:macos
   cache:
-    key: macos:11.0:aarch64
+    key: macos:11:aarch64
   tags:
     - macos-11-aarch64
   variables:
-    PLATFORM_VER: "11.0"
+    PLATFORM_VER: "11"
     OMNIBUS_FIPS_MODE: "false"
 
 package:opensuse-15:x86_64:
@@ -468,23 +468,23 @@ test:macos-10.15:
   variables:
     PLATFORM_VER: "10.15"
 
-test:macos-11.0:
+test:macos-11:
   extends: .test:macos
   needs:
-    - package:macos-11.0
+    - package:macos-11
   tags:
-    - macos-11.0
+    - macos-11
   variables:
-    PLATFORM_VER: "11.0"
+    PLATFORM_VER: "11"
 
-test:macos-11.0:aarch64:
+test:macos-11:aarch64:
   extends: .test:macos
   needs:
-    - package:macos-11.0:aarch64
+    - package:macos-11:aarch64
   tags:
     - macos-11-aarch64
   variables:
-    PLATFORM_VER: "11.0"
+    PLATFORM_VER: "11"
 
 test:opensuse-15:x86_64:
   extends: .test:opensuse
@@ -616,8 +616,8 @@ deploy:
     - package:debian-10:x86_64
     - package:macos-10.14
     - package:macos-10.15
-    - package:macos-11.0
-    - package:macos-11.0:aarch64
+    - package:macos-11
+    - package:macos-11:aarch64
     - package:opensuse-15:aarch64
     - package:opensuse-15:x86_64
     - package:ubuntu-16.04:x86_64
@@ -745,7 +745,12 @@ cleanup:macos-10.15:
   tags:
     - macos-10.15
 
-cleanup:macos-11.0:
+cleanup:macos-11:
   extends: .cleanup
   tags:
-    - macos-11.0
+    - macos-11
+
+cleanup:macos-11-aarch64:
+  extends: .cleanup
+  tags:
+    - macos-11-aarch64
