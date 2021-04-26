@@ -23,10 +23,6 @@ control 'Common tests for all platforms' do
     its('exit_status') { should eq 0 }
   end
 
-  describe command 'knife --version' do
-    its('exit_status') { should eq 0 }
-  end
-
   describe command 'ohai --version' do
     its('exit_status') { should eq 0 }
   end
@@ -50,7 +46,6 @@ control 'cinc-*nix' do
     its('stdout') { should match /Cinc Zero/ }
     its('stdout') { should match /Cinc Client/ }
     its('stdout') { should match /Cinc-client/ }
-    its('stdout') { should match %r{/etc/cinc/client.rb} }
     its('stdout') { should match %r{/var/cinc} }
     its('stdout') { should_not match /Chef Infra Zero/ }
     its('stdout') { should_not match /Chef Infra Client/ }
