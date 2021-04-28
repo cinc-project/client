@@ -4,7 +4,7 @@ control 'Validate fips mode' do
   impact 1.0
   title 'Test calling OpenSSL.fips_mode'
   desc 'Test that fips modes is enabled on supported os and architectures'
-  only_if { os.family != 'darwin' && os.arch != 'aarch64' && os.arch != 'ppc64le' }
+  only_if { os.family != 'darwin' && os.arch != 'aarch64' }
 
   ruby_path = '/opt/cinc/embedded/bin/ruby'
   # Overwrite the ruby_path if we're under windows
