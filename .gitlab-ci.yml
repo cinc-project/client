@@ -128,7 +128,6 @@ package:centos-7:ppc64le:
     - docker-ppc64le
   variables:
     PLATFORM_VER: "7"
-    OMNIBUS_FIPS_MODE: "false"
 
 package:centos-8:x86_64:
   extends: .package:centos
@@ -160,7 +159,6 @@ package:centos-8:ppc64le:
     - docker-ppc64le
   variables:
     PLATFORM_VER: "8"
-    OMNIBUS_FIPS_MODE: "false"
 
 package:debian-9:x86_64:
   extends: .package:debian
