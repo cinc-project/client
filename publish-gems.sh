@@ -37,7 +37,7 @@ cd ${TOP_DIR}/chef/chef-bin
 gem build chef-bin.gemspec
 cd ${TOP_DIR}/chef/chef-config
 gem build chef-config.gemspec
-cd ${TOP_DIR}/knife
+cd ${TOP_DIR}/chef/knife
 gem build knife.gemspec
 cd $TOP_DIR/chef
 package_cloud_push chef-[0-9]*.gem
