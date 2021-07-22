@@ -25,4 +25,4 @@ cd chef/omnibus
 bundle config set --local path ${CI_PROJECT_DIR}/bundle/vendor
 bundle config set --local without 'development'
 bundle install
-bundle exec omnibus build cinc --override append_timestamp:false
+bundle exec omnibus build cinc -l ${OMNIBUS_LOG_LEVEL:-info} --override append_timestamp:false

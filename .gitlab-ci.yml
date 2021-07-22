@@ -18,6 +18,7 @@ variables:
   GIT_CACHE: "true"
   HAB_ORIGIN: cinc
   HAB_NONINTERACTIVE: "true"
+  OMNIBUS_LOG_LEVEL: "info"
 
 workflow:
   rules:
