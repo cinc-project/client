@@ -48,6 +48,7 @@ cd $TOP_DIR
 
 echo "Updating Gemfile.lock"
 cd chef
+gem install -N bundler:2.2.22
 bundle lock
 echo "Commit the new Gemfile.lock"
 git add Gemfile.lock
