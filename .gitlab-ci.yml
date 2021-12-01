@@ -243,6 +243,16 @@ package:macos-11:aarch64:
     PLATFORM_VER: "11"
     OMNIBUS_FIPS_MODE: "false"
 
+package:macos-12:
+  extends: .package:macos
+  cache:
+    key: macos:12
+  tags:
+    - macos-12
+  variables:
+    PLATFORM_VER: "12"
+    OMNIBUS_FIPS_MODE: "false"
+
 package:opensuse-15:x86_64:
   extends: .package:opensuse
   image: cincproject/omnibus-opensuse:15
@@ -542,6 +552,15 @@ test:macos-11:aarch64:
   variables:
     PLATFORM_VER: "11"
 
+test:macos-12:
+  extends: .test:macos
+  needs:
+    - package:macos-12
+  tags:
+    - macos-12
+  variables:
+    PLATFORM_VER: "12"
+
 test:opensuse-15:x86_64:
   extends: .test:opensuse
   image: cincproject/omnibus-opensuse:15
@@ -705,6 +724,7 @@ deploy:
     - package:macos-10.15
     - package:macos-11
     - package:macos-11:aarch64
+    - package:macos-12
     - package:opensuse-15:aarch64
     - package:opensuse-15:x86_64
     - package:rhel-7:s390x
@@ -839,3 +859,8 @@ cleanup:macos-11-aarch64:
   extends: .cleanup
   tags:
     - macos-11-aarch64
+
+cleanup:macos-12:
+  extends: .cleanup
+  tags:
+    - macos-12
