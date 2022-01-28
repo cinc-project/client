@@ -15,7 +15,7 @@ variables:
   CHANNEL: unstable
   CINC_PRODUCT: cinc
   OMNIBUS_FIPS_MODE: "true"
-  GIT_CACHE: "true"
+  GIT_CACHE: "false"
   HAB_ORIGIN: cinc
   HAB_NONINTERACTIVE: "true"
   OMNIBUS_LOG_LEVEL: "info"
