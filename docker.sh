@@ -60,10 +60,8 @@ if [ "${CHANNEL}" == "current" ] ; then
   docker tag cincproject/cinc:${VERSION} cincproject/cinc:current
   docker push cincproject/cinc:current
 else
-  docker tag cincproject/cinc:${VERSION} cincproject/cinc:latest
   docker tag cincproject/cinc:${VERSION} cincproject/cinc:${MAJ}.${MIN}
   docker tag cincproject/cinc:${VERSION} cincproject/cinc:${MAJ}
-  docker push cincproject/cinc:latest
   docker push cincproject/cinc:${MAJ}.${MIN}
   docker push cincproject/cinc:${MAJ}
 fi
