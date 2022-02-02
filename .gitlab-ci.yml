@@ -132,9 +132,9 @@ package:centos-7:ppc64le:
 
 package:centos-8:x86_64:
   extends: .package:centos
-  image: cincproject/omnibus-centos:8
+  image: cincproject/omnibus-centos-stream:8
   cache:
-    key: centos:8:x86_64:cinc-17
+    key: centos-stream:8:x86_64:cinc-17
   tags:
     - docker-x86_64
   variables:
@@ -142,9 +142,9 @@ package:centos-8:x86_64:
 
 package:centos-8:aarch64:
   extends: .package:centos
-  image: cincproject/omnibus-centos:8
+  image: cincproject/omnibus-centos-stream:8
   cache:
-    key: centos:8:aarch64:cinc-17
+    key: centos-stream:8:aarch64:cinc-17
   tags:
     - docker-aarch64
   variables:
@@ -153,9 +153,9 @@ package:centos-8:aarch64:
 
 package:centos-8:ppc64le:
   extends: .package:centos
-  image: cincproject/omnibus-centos:8
+  image: cincproject/omnibus-centos-stream:8
   cache:
-    key: centos:8:ppc64le:cinc-17
+    key: centos-stream:8:ppc64le:cinc-17
   tags:
     - docker-ppc64le
   variables:
@@ -392,7 +392,7 @@ test:centos-7:ppc64le:
 
 test:centos-8:x86_64:
   extends: .test:centos
-  image: cincproject/omnibus-centos:8
+  image: cincproject/omnibus-centos-stream:8
   needs:
     - package:centos-8:x86_64
   tags:
@@ -402,7 +402,7 @@ test:centos-8:x86_64:
 
 test:centos-8:aarch64:
   extends: .test:centos
-  image: cincproject/omnibus-centos:8
+  image: cincproject/omnibus-centos-stream:8
   needs:
     - package:centos-8:aarch64
   tags:
@@ -412,7 +412,7 @@ test:centos-8:aarch64:
 
 test:centos-8:ppc64le:
   extends: .test:centos
-  image: cincproject/omnibus-centos:8
+  image: cincproject/omnibus-centos-stream:8
   needs:
     - package:centos-8:ppc64le
   tags:
