@@ -293,6 +293,30 @@ package:ubuntu-18.04:aarch64:
     PLATFORM_VER: "18.04"
     OMNIBUS_FIPS_MODE: "false"
 
+package:rhel-7:s390x:
+  extends: .package:centos
+  image: cincproject/omnibus-rhel:7
+  cache:
+    key: rhel:7:s390x:cinc-16
+  tags:
+    - docker-s390x
+  needs:
+    - patch
+  variables:
+    PLATFORM_VER: "7"
+
+package:rhel-8:s390x:
+  extends: .package:centos
+  image: cincproject/omnibus-rhel:8
+  cache:
+    key: rhel:8:s390x:cinc-16
+  tags:
+    - docker-s390x
+  needs:
+    - patch
+  variables:
+    PLATFORM_VER: "8"
+
 package:ubuntu-20.04:x86_64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:20.04
@@ -516,6 +540,26 @@ test:opensuse-15:aarch64:
   variables:
     PLATFORM_VER: "15"
 
+test:rhel-7:s390x:
+  extends: .test:centos
+  image: cincproject/omnibus-rhel:7
+  needs:
+    - package:rhel-7:s390x
+  tags:
+    - docker-s390x
+  variables:
+    PLATFORM_VER: "7"
+
+test:rhel-8:s390x:
+  extends: .test:centos
+  image: cincproject/omnibus-rhel:8
+  needs:
+    - package:rhel-8:s390x
+  tags:
+    - docker-s390x
+  variables:
+    PLATFORM_VER: "8"
+
 test:ubuntu-18.04:x86_64:
   extends: .test:ubuntu
   image: cincproject/omnibus-ubuntu:18.04
@@ -621,6 +665,8 @@ deploy:
     - package:macos-11:aarch64
     - package:opensuse-15:aarch64
     - package:opensuse-15:x86_64
+    - package:rhel-7:s390x
+    - package:rhel-8:s390x
     - package:ubuntu-18.04:aarch64
     - package:ubuntu-18.04:x86_64
     - package:ubuntu-20.04:aarch64
