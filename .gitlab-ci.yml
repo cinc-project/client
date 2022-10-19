@@ -255,7 +255,7 @@ package:macos-12:
 
 package:opensuse-15:x86_64:
   extends: .package:opensuse
-  image: cincproject/omnibus-opensuse:15
+  image: cincproject/omnibus-opensuse:15.2
   cache:
     key: opensuse:15:x86_64:cinc-17
   tags:
@@ -265,7 +265,7 @@ package:opensuse-15:x86_64:
 
 package:opensuse-15:aarch64:
   extends: .package:opensuse
-  image: cincproject/omnibus-opensuse:15
+  image: cincproject/omnibus-opensuse:15.2
   cache:
     key: opensuse:15:aarch64:cinc-17
   tags:
