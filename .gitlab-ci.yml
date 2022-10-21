@@ -386,7 +386,7 @@ test:bio:linux:
     - ln -s $CINC_PATH /opt/cinc
     - mkdir /opt/cinc/embedded
     - ln -s /opt/cinc/bin /opt/cinc/embedded/bin
-    - ln -s $(bio pkg path core/ruby30)/bin/ruby /opt/cinc/embedded/bin/ruby
+    - ln -s $(bio pkg path core/ruby31)/bin/ruby /opt/cinc/embedded/bin/ruby
     - cinc-auditor exec test/integration/cinc-tests --no-distinct-exit --reporter cli junit:junit.xml
   artifacts:
     reports:
