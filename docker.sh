@@ -26,7 +26,7 @@ VERSION="$(cat VERSION)"
 MAJ="$(cat VERSION | cut -d '.' -f 1)"
 MIN="$(cat VERSION | cut -d '.' -f 2)"
 # Point directly to OSUOSL master mirror
-URL="http://ftp-osl.osuosl.org/pub/cinc/files/${CHANNEL}/cinc/${VERSION}/el/7/cinc-${VERSION}-1.el7.x86_64.rpm"
+URL="https://ftp-osl.osuosl.org/pub/cinc/files/${CHANNEL}/cinc/${VERSION}/el/7/cinc-${VERSION}-1.el7.x86_64.rpm"
 COUNT=0
 SLEEP=10
 MAX_COUNT=300
