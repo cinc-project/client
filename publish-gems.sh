@@ -32,7 +32,7 @@ gem build chef-utils.gemspec
 gem install -N chef-utils-[0-9]*.gem
 cd ${TOP_DIR}/chef
 gem build chef.gemspec
-gem build chef-universal-mingw32.gemspec
+gem build chef-universal-mingw-ucrt.gemspec
 cd ${TOP_DIR}/chef/chef-bin
 gem build chef-bin.gemspec
 cd ${TOP_DIR}/chef/chef-config
