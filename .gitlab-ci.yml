@@ -14,6 +14,7 @@ variables:
   REF: main
   CHANNEL: unstable
   CINC_PRODUCT: cinc
+  CINC_FOUNDATION_VERSION: "3.0.6"
   OMNIBUS_FIPS_MODE: "true"
   GIT_CACHE: "false"
   HAB_ORIGIN: cinc
@@ -43,7 +44,6 @@ patch:
     expire_in: 1mo
     paths:
       - chef/
-      - omnibus-software/
 
 .bio_setup:
   before_script:

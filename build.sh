@@ -21,6 +21,8 @@ export CI_PROJECT_DIR=${CI_PROJECT_DIR:-${TOP_DIR}}
 source /home/omnibus/load-omnibus-toolchain.sh
 set -ex
 bash caching.sh
+curl -fsSL https://omnitruck.cinc.sh/chef/install.sh | \
+  bash -s -- -c "stable" -P "cinc-foundation" -v "${CINC_FOUNDATION_VERSION:-3}"
 cd chef/omnibus
 bundle config set --local path ${CI_PROJECT_DIR}/bundle/vendor
 bundle config set --local without 'development'
