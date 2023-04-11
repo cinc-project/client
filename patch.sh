@@ -40,15 +40,11 @@ echo "Cloning ${REF:-main} branch from ${ORIGIN:-https://github.com/chef/chef.gi
 git clone -q -b ${REF:-main} ${ORIGIN:-https://github.com/chef/chef.git}
 cd chef
 git_patch chef ${CINC_REF}
-cd omnibus
-ruby ${TOP_DIR}/scripts/checkout.rb -n omnibus-software -p $TOP_DIR
-cd $TOP_DIR/omnibus-software
-git_patch omnibus-software stable/cinc
 cd $TOP_DIR
 
 echo "Updating Gemfile.lock"
 cd chef
-gem install -N bundler:2.2.22
+gem install -N bundler:2.3.7
 bundle lock
 echo "Commit the new Gemfile.lock"
 git add Gemfile.lock
