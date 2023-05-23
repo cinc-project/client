@@ -4,7 +4,9 @@ control 'Validate fips mode' do
   impact 1.0
   title 'Test calling OpenSSL.fips_mode'
   desc 'Test that fips modes is enabled on supported os and architectures'
-  only_if { os.family != 'darwin' && os.arch != 'aarch64' }
+  # Windows currently disabled due to:
+  # https://discourse.chef.io/t/chef-infra-client-18-0-169-released/21570#known-issues-5
+  only_if { os.family != 'darwin' && os.arch != 'aarch64' && os.family != 'windows'}
 
   ruby_path = '/opt/cinc/embedded/bin/ruby'
   # Overwrite the ruby_path if we're under windows
