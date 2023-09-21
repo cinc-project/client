@@ -4,5 +4,6 @@ tar -C /usr/bin -xvf /tmp/bio.tar.gz
 rm -f /tmp/bio.tar.gz
 chmod +x /usr/bin/bio
 bio --version
-bio origin key download --secret cincproject
+mkdir -p ~/.hab/cache/keys/
+echo ${HAB_PRIVATE_KEY} > ~/.hab/cache/keys/cincproject.sig.key
 bio origin key download cincproject
