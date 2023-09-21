@@ -425,7 +425,7 @@ test:bio:linux:
     - package:bio:linux
   script:
     - bio install results/*.hart --binlink
-    - export CINC_PATH=$(bio pkg path cinc/cinc-infra-client)
+    - export CINC_PATH=$(bio pkg path cincproject/cinc-client)
     - export GEM_PATH=${CINC_PATH}/vendor:$GEM_PATH
     - ln -s $CINC_PATH /opt/cinc
     - mkdir /opt/cinc/embedded
