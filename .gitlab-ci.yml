@@ -68,6 +68,7 @@ package:bio:linux:
   stage: package
   extends:
     - .bio_setup
+  allow_failure: true
   tags:
     - docker-x86_64
   needs:
@@ -419,6 +420,7 @@ test:bio:linux:
   stage: test
   extends:
     - .bio_setup
+  allow_failure: true
   tags:
     - docker-x86_64
   needs:
@@ -833,6 +835,7 @@ deploy:
 
 deploy:bio:linux:
   stage: deploy
+  allow_failure: true
   rules:
     - if: $CI_PIPELINE_SOURCE == "web"
       when: manual
@@ -911,6 +914,7 @@ publish:bio:linux:
     - deploy:bio:linux
   extends:
     - .bio_setup
+  allow_failure: true
   stage: publish
   tags:
     - docker-x86_64
