@@ -14,7 +14,7 @@ variables:
   REF: main
   CHANNEL: unstable
   CINC_PRODUCT: cinc
-  CINC_FOUNDATION_VERSION: "3.0.6"
+  CINC_FOUNDATION_VERSION: "3.1.7"
   OMNIBUS_FIPS_MODE: "true"
   GIT_CACHE: "false"
   HAB_ORIGIN: cinc
@@ -189,16 +189,6 @@ package:centos-9:ppc64le:
     key: centos-stream:9:ppc64le
   tags:
     - docker-ppc64le-p9
-  variables:
-    PLATFORM_VER: "9"
-
-package:debian-9:x86_64:
-  extends: .package:debian
-  image: cincproject/omnibus-debian:9
-  cache:
-    key: debian:9:x86_64
-  tags:
-    - docker-x86_64
   variables:
     PLATFORM_VER: "9"
 
@@ -559,16 +549,6 @@ test:centos-9:ppc64le:
   variables:
     PLATFORM_VER: "9"
 
-test:debian-9:x86_64:
-  extends: .test:debian
-  image: cincproject/omnibus-debian:9
-  needs:
-    - package:debian-9:x86_64
-  tags:
-    - docker-x86_64
-  variables:
-    PLATFORM_VER: "9"
-
 test:debian-10:x86_64:
   extends: .test:debian
   image: cincproject/omnibus-debian:10
@@ -823,7 +803,6 @@ deploy:
     - package:centos-9:aarch64
     - package:centos-9:ppc64le
     - package:centos-9:x86_64
-    - package:debian-9:x86_64
     - package:debian-10:aarch64
     - package:debian-10:x86_64
     - package:debian-11:aarch64
