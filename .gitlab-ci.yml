@@ -192,16 +192,6 @@ package:centos-9:ppc64le:
   variables:
     PLATFORM_VER: "9"
 
-package:debian-9:x86_64:
-  extends: .package:debian
-  image: cincproject/omnibus-debian:9
-  cache:
-    key: debian:9:x86_64:cinc-17
-  tags:
-    - docker-x86_64
-  variables:
-    PLATFORM_VER: "9"
-
 package:debian-10:x86_64:
   extends: .package:debian
   image: cincproject/omnibus-debian:10
@@ -549,16 +539,6 @@ test:centos-9:ppc64le:
   variables:
     PLATFORM_VER: "9"
 
-test:debian-9:x86_64:
-  extends: .test:debian
-  image: cincproject/omnibus-debian:9
-  needs:
-    - package:debian-9:x86_64
-  tags:
-    - docker-x86_64
-  variables:
-    PLATFORM_VER: "9"
-
 test:debian-10:x86_64:
   extends: .test:debian
   image: cincproject/omnibus-debian:10
@@ -804,7 +784,6 @@ deploy:
     - package:centos-9:aarch64
     - package:centos-9:ppc64le
     - package:centos-9:x86_64
-    - package:debian-9:x86_64
     - package:debian-10:aarch64
     - package:debian-10:x86_64
     - package:debian-11:aarch64
