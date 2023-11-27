@@ -43,6 +43,13 @@
   before_script:
     - rpm -iU data/sles/${PLATFORM_VER}/cinc*.rpm
 
+.test:rockylinux:
+  extends: .test
+  before_script:
+    - yum -y install data/rocky/${PLATFORM_VER}/cinc*.rpm
+  after_script:
+    - yum -y remove cinc
+
 .test:ubuntu:
   extends: .test
   before_script:
