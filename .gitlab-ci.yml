@@ -363,6 +363,48 @@ package:rhel-8:s390x:
   variables:
     PLATFORM_VER: "8"
 
+package:rockylinux-8:x86_64:
+  extends: .package:rockylinux
+  image: cincproject/omnibus-rockylinux:8
+  cache:
+    key: rockylinux:8:x86_64:cinc-17
+  tags:
+    - docker-x86_64
+  variables:
+    PLATFORM_VER: "8"
+
+package:rockylinux-8:aarch64:
+  extends: .package:rockylinux
+  image: cincproject/omnibus-rockylinux:8
+  cache:
+    key: rockylinux:8:aarch64:cinc-17
+  tags:
+    - docker-aarch64
+  variables:
+    PLATFORM_VER: "8"
+    OMNIBUS_FIPS_MODE: "false"
+
+package:rockylinux-9:x86_64:
+  extends: .package:rockylinux
+  image: cincproject/omnibus-rockylinux:9
+  cache:
+    key: rockylinux:9:x86_64:cinc-17
+  tags:
+    - docker-x86_64
+  variables:
+    PLATFORM_VER: "9"
+
+package:rockylinux-9:aarch64:
+  extends: .package:rockylinux
+  image: cincproject/omnibus-rockylinux:9
+  cache:
+    key: rockylinux:9:aarch64:cinc-17
+  tags:
+    - docker-aarch64
+  variables:
+    PLATFORM_VER: "9"
+    OMNIBUS_FIPS_MODE: "false"
+
 package:ubuntu-20.04:x86_64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:20.04
@@ -668,6 +710,46 @@ test:rhel-8:s390x:
   variables:
     PLATFORM_VER: "8"
 
+test:rockylinux-8:x86_64:
+  extends: .test:rockylinux
+  image: cincproject/omnibus-rockylinux:8
+  needs:
+    - package:rockylinux-8:x86_64
+  tags:
+    - docker-x86_64
+  variables:
+    PLATFORM_VER: "8"
+
+test:rockylinux-8:aarch64:
+  extends: .test:rockylinux
+  image: cincproject/omnibus-rockylinux:8
+  needs:
+    - package:rockylinux-8:aarch64
+  tags:
+    - docker-aarch64
+  variables:
+    PLATFORM_VER: "8"
+
+test:rockylinux-9:x86_64:
+  extends: .test:rockylinux
+  image: cincproject/omnibus-rockylinux:9
+  needs:
+    - package:rockylinux-9:x86_64
+  tags:
+    - docker-x86_64
+  variables:
+    PLATFORM_VER: "9"
+
+test:rockylinux-9:aarch64:
+  extends: .test:rockylinux
+  image: cincproject/omnibus-rockylinux:9
+  needs:
+    - package:rockylinux-9:aarch64
+  tags:
+    - docker-aarch64
+  variables:
+    PLATFORM_VER: "9"
+
 test:ubuntu-18.04:x86_64:
   extends: .test:ubuntu
   image: cincproject/omnibus-ubuntu:18.04
@@ -799,6 +881,10 @@ deploy:
     - package:opensuse-15:x86_64
     - package:rhel-7:s390x
     - package:rhel-8:s390x
+    - package:rockylinux-8:aarch64
+    - package:rockylinux-8:x86_64
+    - package:rockylinux-9:aarch64
+    - package:rockylinux-9:x86_64
     - package:ubuntu-18.04:aarch64
     - package:ubuntu-18.04:x86_64
     - package:ubuntu-20.04:aarch64
