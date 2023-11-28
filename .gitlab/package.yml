@@ -63,6 +63,12 @@
     - mkdir -p ${CI_PROJECT_DIR}/data/sles/${PLATFORM_VER}
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,json} ${CI_PROJECT_DIR}/data/sles/${PLATFORM_VER}/
 
+.package:rockylinux:
+  extends: .package
+  after_script:
+    - mkdir -p ${CI_PROJECT_DIR}/data/rocky/${PLATFORM_VER}
+    - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,json} ${CI_PROJECT_DIR}/data/rocky/${PLATFORM_VER}/
+
 .package:windows:
   extends: .package
   script:

@@ -43,6 +43,13 @@
   before_script:
     - rpm -iU data/sles/${PLATFORM_VER}/cinc*.rpm
 
+.test:rockylinux:
+  extends: .test
+  before_script:
+    - yum -y install data/rocky/${PLATFORM_VER}/cinc*.rpm
+  after_script:
+    - yum -y remove cinc
+
 .test:ubuntu:
   extends: .test
   before_script:
@@ -54,6 +61,8 @@
   stage: test
   before_script:
     - ./scripts/install-cinc.ps1
+  tags:
+    - windows-x64-package-testing
   script:
     - $ErrorActionPreference = "Stop"
     - $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
