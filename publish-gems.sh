@@ -19,13 +19,8 @@
 TOP_DIR="$(pwd)"
 export PATH="/opt/omnibus-toolchain/embedded/bin/:${PATH}"
 
-package_cloud_push () {
-  package_cloud push --yes cinc-project/${CHANNEL:-unstable} $@
-}
-
 source /home/omnibus/load-omnibus-toolchain.sh
 set -x
-gem install -N package_cloud
 cd ${TOP_DIR}/chef/chef-utils
 gem build chef-utils.gemspec
 # chef gem requires chef-utils to build the gems
@@ -38,7 +33,7 @@ gem build chef-bin.gemspec
 cd ${TOP_DIR}/chef/chef-config
 gem build chef-config.gemspec
 cd $TOP_DIR/chef
-package_cloud_push chef-[0-9]*.gem
-package_cloud_push chef-bin/chef-bin-[0-9]*.gem
-package_cloud_push chef-config/chef-config-[0-9]*.gem
-package_cloud_push chef-utils/chef-utils-[0-9]*.gem
+gem push chef-[0-9]*.gem --host https://rubygems.cinc.sh
+gem push chef-bin/chef-bin-[0-9]*.gem --host https://rubygems.cinc.sh
+gem push chef-config/chef-config-[0-9]*.gem --host https://rubygems.cinc.sh
+gem push chef-utils/chef-utils-[0-9]*.gem --host https://rubygems.cinc.sh
