@@ -33,7 +33,9 @@ gem build chef-bin.gemspec
 cd ${TOP_DIR}/chef/chef-config
 gem build chef-config.gemspec
 cd $TOP_DIR/chef
-gem push chef-[0-9]*.gem --host https://rubygems.cinc.sh
-gem push chef-bin/chef-bin-[0-9]*.gem --host https://rubygems.cinc.sh
-gem push chef-config/chef-config-[0-9]*.gem --host https://rubygems.cinc.sh
-gem push chef-utils/chef-utils-[0-9]*.gem --host https://rubygems.cinc.sh
+VERSION="$(cat VERSION)"
+gem push chef-${VERSION}.gem --host https://rubygems.cinc.sh
+gem push chef-${VERSION}-x64-mingw-ucrt.gem --host https://rubygems.cinc.sh
+gem push chef-bin/chef-bin-${VERSION}.gem --host https://rubygems.cinc.sh
+gem push chef-config/chef-config-${VERSION}.gem --host https://rubygems.cinc.sh
+gem push chef-utils/chef-utils-${VERSION}.gem --host https://rubygems.cinc.sh
