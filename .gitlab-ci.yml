@@ -110,6 +110,17 @@ package:amazonlinux-2023:x86_64:
   variables:
     PLATFORM_VER: "2023"
 
+package:amazonlinux-2023:aarch64:
+  extends: .package:amazonlinux
+  image: cincproject/omnibus-amazonlinux:2023
+  cache:
+    key: amazonlinux:2023:aarch64
+  tags:
+    - docker-aarch64-v8.2-a
+  variables:
+    PLATFORM_VER: "2023"
+    OMNIBUS_FIPS_MODE: "false"
+
 package:centos-7:x86_64:
   extends: .package:centos
   image: cincproject/omnibus-centos:7
@@ -523,6 +534,16 @@ test:amazonlinux-2023:x86_64:
   variables:
     PLATFORM_VER: "2023"
 
+test:amazonlinux-2023:aarch64:
+  extends: .test:amazonlinux
+  image: cincproject/omnibus-amazonlinux:2023
+  needs:
+    - package:amazonlinux-2023:aarch64
+  tags:
+    - docker-aarch64-v8.2-a
+  variables:
+    PLATFORM_VER: "2023"
+
 test:centos-7:x86_64:
   extends: .test:centos
   image: cincproject/omnibus-centos:7
@@ -899,6 +920,7 @@ deploy:
     - package:amazonlinux-2:aarch64
     - package:amazonlinux-2:x86_64
     - package:amazonlinux-2023:x86_64
+    - package:amazonlinux-2023:aarch64
     - package:centos-7:aarch64
     - package:centos-7:ppc64le
     - package:centos-7:x86_64
