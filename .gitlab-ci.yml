@@ -539,7 +539,7 @@ test:centos-9:s390x:
   tags:
     - docker-s390x
   variables:
-    PLATFORM_VER: "8"
+    PLATFORM_VER: "9"
 
 test:debian-11:x86_64:
   extends: .test:debian
