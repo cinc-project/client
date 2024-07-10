@@ -79,27 +79,6 @@ package:bio:linux:
     paths:
       - results/*.hart
 
-package:amazonlinux-2:x86_64:
-  extends: .package:amazonlinux
-  image: cincproject/omnibus-amazonlinux:2
-  cache:
-    key: amazonlinux:2:x86_64:cinc-17
-  tags:
-    - docker-x86_64
-  variables:
-    PLATFORM_VER: "2"
-
-package:amazonlinux-2:aarch64:
-  extends: .package:amazonlinux
-  image: cincproject/omnibus-amazonlinux:2
-  cache:
-    key: amazonlinux:2:aarch64:cinc-17
-  tags:
-    - docker-aarch64
-  variables:
-    PLATFORM_VER: "2"
-    OMNIBUS_FIPS_MODE: "false"
-
 package:amazonlinux-2023:x86_64:
   extends: .package:amazonlinux
   image: cincproject/omnibus-amazonlinux:2023
@@ -152,6 +131,18 @@ package:centos-8:ppc64le:
   variables:
     PLATFORM_VER: "8"
 
+package:centos-8:s390x:
+  extends: .package:centos
+  image: cincproject/omnibus-almalinux:8
+  cache:
+    key: centos:8:s390x:cinc-17
+  tags:
+    - docker-s390x
+  needs:
+    - patch
+  variables:
+    PLATFORM_VER: "8"
+
 package:centos-9:x86_64:
   extends: .package:centos
   image: cincproject/omnibus-almalinux:9
@@ -180,6 +171,18 @@ package:centos-9:ppc64le:
     key: centos-stream:9:ppc64le:cinc-17
   tags:
     - docker-ppc64le-p9
+  variables:
+    PLATFORM_VER: "9"
+
+package:centos-9:s390x:
+  extends: .package:centos
+  image: cincproject/omnibus-almalinux:9
+  cache:
+    key: centos:9:s390x:cinc-17
+  tags:
+    - docker-s390x
+  needs:
+    - patch
   variables:
     PLATFORM_VER: "9"
 
@@ -223,16 +226,6 @@ package:debian-12:aarch64:
     - docker-aarch64
   variables:
     PLATFORM_VER: "12"
-    OMNIBUS_FIPS_MODE: "false"
-
-package:macos-10.15:
-  extends: .package:macos
-  cache:
-    key: macos:10.15:cinc-17
-  tags:
-    - macos-10.15
-  variables:
-    PLATFORM_VER: "10.15"
     OMNIBUS_FIPS_MODE: "false"
 
 package:macos-11:
@@ -337,30 +330,6 @@ package:ubuntu-18.04:aarch64:
   variables:
     PLATFORM_VER: "18.04"
     OMNIBUS_FIPS_MODE: "false"
-
-package:rhel-7:s390x:
-  extends: .package:centos
-  image: cincproject/omnibus-rhel:7
-  cache:
-    key: rhel:7:s390x:cinc-17
-  tags:
-    - docker-s390x
-  needs:
-    - patch
-  variables:
-    PLATFORM_VER: "7"
-
-package:rhel-8:s390x:
-  extends: .package:centos
-  image: cincproject/omnibus-rhel:8
-  cache:
-    key: rhel:8:s390x:cinc-17
-  tags:
-    - docker-s390x
-  needs:
-    - patch
-  variables:
-    PLATFORM_VER: "8"
 
 package:rockylinux-8:x86_64:
   extends: .package:rockylinux
@@ -472,26 +441,6 @@ test:bio:linux:
     APPBUNDLER_ALLOW_RVM: "true"
     HAB_TEST: "true"
 
-test:amazonlinux-2:x86_64:
-  extends: .test:amazonlinux
-  image: cincproject/omnibus-amazonlinux:2
-  needs:
-    - package:amazonlinux-2:x86_64
-  tags:
-    - docker-x86_64
-  variables:
-    PLATFORM_VER: "2"
-
-test:amazonlinux-2:aarch64:
-  extends: .test:amazonlinux
-  image: cincproject/omnibus-amazonlinux:2
-  needs:
-    - package:amazonlinux-2:aarch64
-  tags:
-    - docker-aarch64
-  variables:
-    PLATFORM_VER: "2"
-
 test:amazonlinux-2023:x86_64:
   extends: .test:amazonlinux
   image: cincproject/omnibus-amazonlinux:2023
@@ -542,6 +491,16 @@ test:centos-8:ppc64le:
   variables:
     PLATFORM_VER: "8"
 
+test:centos-8:s390x:
+  extends: .test:centos
+  image: cincproject/omnibus-almalinux:8
+  needs:
+    - package:centos-8:s390x
+  tags:
+    - docker-s390x
+  variables:
+    PLATFORM_VER: "8"
+
 test:centos-9:x86_64:
   extends: .test:centos
   image: cincproject/omnibus-almalinux:9
@@ -569,6 +528,16 @@ test:centos-9:ppc64le:
     - package:centos-9:ppc64le
   tags:
     - docker-ppc64le-p9
+  variables:
+    PLATFORM_VER: "9"
+
+test:centos-9:s390x:
+  extends: .test:centos
+  image: cincproject/omnibus-almalinux:9
+  needs:
+    - package:centos-9:s390x
+  tags:
+    - docker-s390x
   variables:
     PLATFORM_VER: "9"
 
@@ -611,15 +580,6 @@ test:debian-12:aarch64:
     - docker-aarch64
   variables:
     PLATFORM_VER: "12"
-
-test:macos-10.15:
-  extends: .test:macos
-  needs:
-    - package:macos-10.15
-  tags:
-    - macos-10.15
-  variables:
-    PLATFORM_VER: "10.15"
 
 test:macos-11:
   extends: .test:macos
@@ -685,26 +645,6 @@ test:opensuse-15:aarch64:
     - docker-aarch64
   variables:
     PLATFORM_VER: "15"
-
-test:rhel-7:s390x:
-  extends: .test:centos
-  image: cincproject/omnibus-rhel:7
-  needs:
-    - package:rhel-7:s390x
-  tags:
-    - docker-s390x
-  variables:
-    PLATFORM_VER: "7"
-
-test:rhel-8:s390x:
-  extends: .test:centos
-  image: cincproject/omnibus-rhel:8
-  needs:
-    - package:rhel-8:s390x
-  tags:
-    - docker-s390x
-  variables:
-    PLATFORM_VER: "8"
 
 test:rockylinux-8:x86_64:
   extends: .test:rockylinux
@@ -853,21 +793,20 @@ deploy:
     - docker-x86_64
   dependencies:
     - package:source
-    - package:amazonlinux-2:aarch64
-    - package:amazonlinux-2:x86_64
     - package:amazonlinux-2023:x86_64
     - package:amazonlinux-2023:aarch64
     - package:centos-8:aarch64
     - package:centos-8:ppc64le
     - package:centos-8:x86_64
+    - package:centos-8:s390x
     - package:centos-9:aarch64
     - package:centos-9:ppc64le
     - package:centos-9:x86_64
+    - package:centos-9:s390x
     - package:debian-11:aarch64
     - package:debian-11:x86_64
     - package:debian-12:aarch64
     - package:debian-12:x86_64
-    - package:macos-10.15
     - package:macos-11
     - package:macos-12
     - package:macos-12:aarch64
@@ -875,8 +814,6 @@ deploy:
     - package:macos-13:aarch64
     - package:opensuse-15:aarch64
     - package:opensuse-15:x86_64
-    - package:rhel-7:s390x
-    - package:rhel-8:s390x
     - package:rockylinux-8:aarch64
     - package:rockylinux-8:x86_64
     - package:rockylinux-9:aarch64
@@ -998,11 +935,6 @@ publish:bio:linux:
   script:
     - sudo rm -rf chef/
     - sudo rm -rf ${CI_PROJECT_DIR}/cinc-project/distribution/client/
-
-cleanup:macos-10.15:
-  extends: .cleanup
-  tags:
-    - macos-10.15
 
 cleanup:macos-11:
   extends: .cleanup
