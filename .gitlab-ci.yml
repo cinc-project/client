@@ -309,6 +309,28 @@ package:windows-2012r2:
     PLATFORM_VER: "2012r2"
     # https://discourse.chef.io/t/chef-infra-client-18-0-169-released/21570#known-issues-5
     OMNIBUS_FIPS_MODE: "false"
+    
+package:windows-2016:
+  extends: .package:windows
+  cache:
+    key: windows-2016
+  tags:
+    - windows-x64-ucrt64
+  variables:
+    PLATFORM_VER: "2016"
+    # https://discourse.chef.io/t/chef-infra-client-18-0-169-released/21570#known-issues-5
+    OMNIBUS_FIPS_MODE: "false"
+    
+package:windows-2019:
+  extends: .package:windows
+  cache:
+    key: windows-2019
+  tags:
+    - windows-x64-ucrt64
+  variables:
+    PLATFORM_VER: "2019"
+    # https://discourse.chef.io/t/chef-infra-client-18-0-169-released/21570#known-issues-5
+    OMNIBUS_FIPS_MODE: "false"
 
 package:ubuntu-18.04:x86_64:
   extends: .package:ubuntu
@@ -825,6 +847,8 @@ deploy:
     - package:ubuntu-22.04:aarch64
     - package:ubuntu-22.04:x86_64
     - package:windows-2012r2
+    - package:windows-2016
+    - package:windows-2019
   script:
     - ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)"
     - ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/source/${CHANNEL}/cinc/"
