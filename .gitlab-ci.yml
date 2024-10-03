@@ -425,6 +425,27 @@ package:ubuntu-22.04:aarch64:
     PLATFORM_VER: "22.04"
     OMNIBUS_FIPS_MODE: "false"
 
+package:ubuntu-24.04:x86_64:
+  extends: .package:ubuntu
+  image: cincproject/omnibus-ubuntu:24.04
+  cache:
+    key: ubuntu:24.04:x86_64
+  tags:
+    - docker-x86_64
+  variables:
+    PLATFORM_VER: "24.04"
+
+package:ubuntu-24.04:aarch64:
+  extends: .package:ubuntu
+  image: cincproject/omnibus-ubuntu:24.04
+  cache:
+    key: ubuntu:24.04:aarch64
+  tags:
+    - docker-aarch64
+  variables:
+    PLATFORM_VER: "24.04"
+    OMNIBUS_FIPS_MODE: "false"
+
 # Test stage
 test:bio:linux:
   stage: test
@@ -765,6 +786,26 @@ test:ubuntu-22.04:aarch64:
   variables:
     PLATFORM_VER: "22.04"
 
+test:ubuntu-24.04:x86_64:
+  extends: .test:ubuntu
+  image: cincproject/omnibus-ubuntu:24.04
+  needs:
+    - package:ubuntu-24.04:x86_64
+  tags:
+    - docker-x86_64
+  variables:
+    PLATFORM_VER: "24.04"
+
+test:ubuntu-24.04:aarch64:
+  extends: .test:ubuntu
+  image: cincproject/omnibus-ubuntu:24.04
+  needs:
+    - package:ubuntu-24.04:aarch64
+  tags:
+    - docker-aarch64
+  variables:
+    PLATFORM_VER: "24.04"
+
 test:sources:
   image: cincproject/docker-auditor
   stage: test
@@ -844,6 +885,8 @@ deploy:
     - package:ubuntu-20.04:x86_64
     - package:ubuntu-22.04:aarch64
     - package:ubuntu-22.04:x86_64
+    - package:ubuntu-24.04:aarch64
+    - package:ubuntu-24.04:x86_64
     - package:windows-2012r2
   script:
     - ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)"
