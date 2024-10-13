@@ -11,7 +11,7 @@ stages:
 
 variables:
   ORIGIN: https://github.com/chef/chef.git
-  REF: main
+  REF: chef-18
   CHANNEL: unstable
   CINC_PRODUCT: cinc
   CINC_FOUNDATION_VERSION: "3.2.8"
@@ -83,7 +83,7 @@ package:amazonlinux-2023:x86_64:
   extends: .package:amazonlinux
   image: cincproject/omnibus-amazonlinux:2023
   cache:
-    key: amazonlinux:2023:x86_64
+    key: amazonlinux:2023:x86_64:cinc-18
   tags:
     - docker-x86_64
   variables:
@@ -93,7 +93,7 @@ package:amazonlinux-2023:aarch64:
   extends: .package:amazonlinux
   image: cincproject/omnibus-amazonlinux:2023
   cache:
-    key: amazonlinux:2023:aarch64
+    key: amazonlinux:2023:aarch64:cinc-18
   tags:
     - docker-aarch64-v8.2-a
   variables:
@@ -104,7 +104,7 @@ package:centos-8:x86_64:
   extends: .package:centos
   image: cincproject/omnibus-almalinux:8
   cache:
-    key: centos-stream:8:x86_64
+    key: centos-stream:8:x86_64:cinc-18
   tags:
     - docker-x86_64
   variables:
@@ -114,7 +114,7 @@ package:centos-8:aarch64:
   extends: .package:centos
   image: cincproject/omnibus-almalinux:8
   cache:
-    key: centos-stream:8:aarch64
+    key: centos-stream:8:aarch64:cinc-18
   tags:
     - docker-aarch64
   variables:
@@ -125,7 +125,7 @@ package:centos-8:ppc64le:
   extends: .package:centos
   image: cincproject/omnibus-almalinux:8
   cache:
-    key: centos-stream:8:ppc64le
+    key: centos-stream:8:ppc64le:cinc-18
   tags:
     - docker-ppc64le
   variables:
@@ -135,7 +135,7 @@ package:centos-8:s390x:
   extends: .package:centos
   image: cincproject/omnibus-almalinux:8
   cache:
-    key: centos:8:s390x
+    key: centos:8:s390x:cinc-18
   tags:
     - docker-s390x
   needs:
@@ -147,7 +147,7 @@ package:centos-9:x86_64:
   extends: .package:centos
   image: cincproject/omnibus-almalinux:9
   cache:
-    key: centos-stream:9:x86_64
+    key: centos-stream:9:x86_64:cinc-18
   tags:
     - docker-x86_64
   variables:
@@ -157,7 +157,7 @@ package:centos-9:aarch64:
   extends: .package:centos
   image: cincproject/omnibus-almalinux:9
   cache:
-    key: centos-stream:9:aarch64
+    key: centos-stream:9:aarch64:cinc-18
   tags:
     - docker-aarch64
   variables:
@@ -168,7 +168,7 @@ package:centos-9:ppc64le:
   extends: .package:centos
   image: cincproject/omnibus-almalinux:9
   cache:
-    key: centos-stream:9:ppc64le
+    key: centos-stream:9:ppc64le:cinc-18
   tags:
     - docker-ppc64le-p9
   variables:
@@ -178,7 +178,7 @@ package:centos-9:s390x:
   extends: .package:centos
   image: cincproject/omnibus-almalinux:9
   cache:
-    key: centos:9:s390x
+    key: centos:9:s390x:cinc-18
   tags:
     - docker-s390x
   needs:
@@ -190,7 +190,7 @@ package:debian-11:x86_64:
   extends: .package:debian
   image: cincproject/omnibus-debian:11
   cache:
-    key: debian:11:x86_64
+    key: debian:11:x86_64:cinc-18
   tags:
     - docker-x86_64
   variables:
@@ -200,7 +200,7 @@ package:debian-11:aarch64:
   extends: .package:debian
   image: cincproject/omnibus-debian:11
   cache:
-    key: debian:11:aarch64
+    key: debian:11:aarch64:cinc-18
   tags:
     - docker-aarch64
   variables:
@@ -211,7 +211,7 @@ package:debian-12:x86_64:
   extends: .package:debian
   image: cincproject/omnibus-debian:12
   cache:
-    key: debian:12:x86_64
+    key: debian:12:x86_64:cinc-18
   tags:
     - docker-x86_64
   variables:
@@ -221,7 +221,7 @@ package:debian-12:aarch64:
   extends: .package:debian
   image: cincproject/omnibus-debian:12
   cache:
-    key: debian:12:aarch64
+    key: debian:12:aarch64:cinc-18
   tags:
     - docker-aarch64
   variables:
@@ -231,7 +231,7 @@ package:debian-12:aarch64:
 package:macos-11:
   extends: .package:macos
   cache:
-    key: macos:11
+    key: macos:11:cinc-18
   tags:
     - macos-11
   variables:
@@ -241,7 +241,7 @@ package:macos-11:
 package:macos-12:
   extends: .package:macos
   cache:
-    key: macos:12
+    key: macos:12:cinc-18
   tags:
     - macos-12
   variables:
@@ -251,7 +251,7 @@ package:macos-12:
 package:macos-12:aarch64:
   extends: .package:macos
   cache:
-    key: macos:12:aarch64
+    key: macos:12:aarch64:cinc-18
   tags:
     - macos-12-aarch64
   variables:
@@ -261,7 +261,7 @@ package:macos-12:aarch64:
 package:macos-13:
   extends: .package:macos
   cache:
-    key: macos:13
+    key: macos:13:cinc-18
   tags:
     - macos-13
   variables:
@@ -271,7 +271,7 @@ package:macos-13:
 package:macos-13:aarch64:
   extends: .package:macos
   cache:
-    key: macos:13:aarch64
+    key: macos:13:aarch64:cinc-18
   tags:
     - macos-13-aarch64
   variables:
@@ -282,7 +282,7 @@ package:opensuse-15:x86_64:
   extends: .package:opensuse
   image: cincproject/omnibus-opensuse:15.2
   cache:
-    key: opensuse:15:x86_64
+    key: opensuse:15:x86_64:cinc-18
   tags:
     - docker-x86_64
   variables:
@@ -292,7 +292,7 @@ package:opensuse-15:aarch64:
   extends: .package:opensuse
   image: cincproject/omnibus-opensuse:15.2
   cache:
-    key: opensuse:15:aarch64
+    key: opensuse:15:aarch64:cinc-18
   tags:
     - docker-aarch64
   variables:
@@ -302,7 +302,7 @@ package:opensuse-15:aarch64:
 package:windows-2012r2:
   extends: .package:windows
   cache:
-    key: windows-2012r2
+    key: windows-2012r2:cinc-18
   tags:
     - windows-x64-ucrt64
   variables:
@@ -314,7 +314,7 @@ package:ubuntu-18.04:x86_64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:18.04
   cache:
-    key: ubuntu:18.04:x86_64
+    key: ubuntu:18.04:x86_64:cinc-18
   tags:
     - docker-x86_64
   variables:
@@ -324,7 +324,7 @@ package:ubuntu-18.04:aarch64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:18.04
   cache:
-    key: ubuntu:18.04:aarch64
+    key: ubuntu:18.04:aarch64:cinc-18
   tags:
     - docker-aarch64
   variables:
@@ -335,7 +335,7 @@ package:rockylinux-8:x86_64:
   extends: .package:rockylinux
   image: cincproject/omnibus-rockylinux:8
   cache:
-    key: rockylinux:8:x86_64
+    key: rockylinux:8:x86_64:cinc-18
   tags:
     - docker-x86_64
   variables:
@@ -345,7 +345,7 @@ package:rockylinux-8:aarch64:
   extends: .package:rockylinux
   image: cincproject/omnibus-rockylinux:8
   cache:
-    key: rockylinux:8:aarch64
+    key: rockylinux:8:aarch64:cinc-18
   tags:
     - docker-aarch64
   variables:
@@ -356,7 +356,7 @@ package:rockylinux-9:x86_64:
   extends: .package:rockylinux
   image: cincproject/omnibus-rockylinux:9
   cache:
-    key: rockylinux:9:x86_64
+    key: rockylinux:9:x86_64:cinc-18
   tags:
     - docker-x86_64
   variables:
@@ -366,7 +366,7 @@ package:rockylinux-9:aarch64:
   extends: .package:rockylinux
   image: cincproject/omnibus-rockylinux:9
   cache:
-    key: rockylinux:9:aarch64
+    key: rockylinux:9:aarch64:cinc-18
   tags:
     - docker-aarch64
   variables:
@@ -377,7 +377,7 @@ package:ubuntu-20.04:x86_64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:20.04
   cache:
-    key: ubuntu:20.04:x86_64
+    key: ubuntu:20.04:x86_64:cinc-18
   tags:
     - docker-x86_64
   variables:
@@ -387,7 +387,7 @@ package:ubuntu-20.04:aarch64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:20.04
   cache:
-    key: ubuntu:20.04:aarch64
+    key: ubuntu:20.04:aarch64:cinc-18
   tags:
     - docker-aarch64
   variables:
@@ -398,7 +398,7 @@ package:ubuntu-22.04:x86_64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:22.04
   cache:
-    key: ubuntu:22.04:x86_64
+    key: ubuntu:22.04:x86_64:cinc-18
   tags:
     - docker-x86_64
   variables:
@@ -408,7 +408,7 @@ package:ubuntu-22.04:aarch64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:22.04
   cache:
-    key: ubuntu:22.04:aarch64
+    key: ubuntu:22.04:aarch64:cinc-18
   tags:
     - docker-aarch64
   variables:
