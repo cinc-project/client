@@ -419,7 +419,7 @@ package:ubuntu-24.04:x86_64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:24.04
   cache:
-    key: ubuntu:24.04:x86_64
+    key: ubuntu:24.04:x86_64:cinc-18
   tags:
     - docker-x86_64
   variables:
@@ -429,7 +429,7 @@ package:ubuntu-24.04:aarch64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:24.04
   cache:
-    key: ubuntu:24.04:aarch64
+    key: ubuntu:24.04:aarch64:cinc-18
   tags:
     - docker-aarch64
   variables:
