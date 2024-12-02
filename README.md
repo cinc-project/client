@@ -20,7 +20,7 @@ To use a specific branch or a PR as source, find the branch and source of the PR
 
 ## Getting started with Cinc
 
-See the [quick start](https://www.cinc.sh/quickstart/) section of our website, or jump directly to [downloads](http://downloads.cinc.sh/files/stable/cinc/).
+See the [quick start](https://www.cinc.sh/start/) section of our website, or jump directly to [downloads](http://downloads.cinc.sh/files/stable/cinc/).
 
 ## Contributing
 
