@@ -18,16 +18,20 @@
 
 TOP_DIR="$(pwd)"
 export CI_PROJECT_DIR=${CI_PROJECT_DIR:-${TOP_DIR}}
-source /home/omnibus/load-omnibus-toolchain.sh
+source /Users/omnibus/load-omnibus-toolchain.sh
 set -ex
 mkdir -p ${TOP_DIR}/cache/git_cache
 echo "cache_dir '${TOP_DIR}/cache'" >> chef/omnibus/omnibus.rb
 echo "git_cache_dir '${TOP_DIR}/cache/git_cache'" >> chef/omnibus/omnibus.rb
 echo "use_git_caching true" >> chef/omnibus/omnibus.rb
 curl -fsSL https://omnitruck.cinc.sh/chef/install.sh | \
-  bash -s -- -c "stable" -P "cinc-foundation" -v "${CINC_FOUNDATION_VERSION:-3}"
+  sudo -E bash -s -- -c "stable" -P "cinc-foundation" -v "${CINC_FOUNDATION_VERSION:-3}"
 cd chef/omnibus
 bundle config set --local path ${CI_PROJECT_DIR}/bundle/vendor
 bundle config set --local without 'development'
 bundle install
-bundle exec omnibus build cinc -l ${OMNIBUS_LOG_LEVEL:-info} --override append_timestamp:false
+sudo -E bundle exec omnibus build cinc -l ${OMNIBUS_LOG_LEVEL} --override append_timestamp:false
+sudo chown -R omnibus:omnibus pkg
+mkdir -p ${CI_PROJECT_DIR}/data
+mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/
+cp ../VERSION ${CI_PROJECT_DIR}/
