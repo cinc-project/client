@@ -13,6 +13,7 @@
     paths:
       - cache/*
       - bundle/vendor/*
+    when: always
   artifacts:
     expire_in: 1mo
     paths:
@@ -37,24 +38,25 @@
     - mkdir -p ${CI_PROJECT_DIR}/data/debian/${PLATFORM_VER}
     - mv -v ${CI_PROJECT_DIR}/data/*.{deb,json} ${CI_PROJECT_DIR}/data/debian/${PLATFORM_VER}/
 
-.package:macos:
+.package:freebsd:
   extends: .package
   before_script:
-    - curl -fsSL https://omnitruck.cinc.sh/install.sh | sudo -E bash -s -- -c "stable" -P "cinc-foundation" -v "${CINC_FOUNDATION_VERSION}"
   script:
-    - source /Users/omnibus/load-omnibus-toolchain.sh
-    - bash caching.sh
-    - cd chef/omnibus
-    - bundle config set --local path ${CI_PROJECT_DIR}/bundle/vendor
-    - bundle config set --local without 'development'
-    - bundle install
-    - sudo rm -rf /var/cache/omnibus/pkg/*
-    - sudo -E bundle exec omnibus build cinc -l ${OMNIBUS_LOG_LEVEL} --override append_timestamp:false
-    - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}
-    - sudo chown -R omnibus:omnibus pkg
-    - mv -v pkg/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}/
-    - cp ../VERSION ${CI_PROJECT_DIR}/
+    - bash build-freebsd.sh
   after_script:
+    - mkdir -p ${CI_PROJECT_DIR}/data/freebsd/${PLATFORM_VER}
+    - mv -v ${CI_PROJECT_DIR}/data/cinc*sh ${CI_PROJECT_DIR}/data/freebsd/${PLATFORM_VER}/
+    - sudo rm -rf /opt/cinc/
+  variables:
+    OMNIBUS_FIPS_MODE: "false"
+
+.package:macos:
+  extends: .package
+  script:
+    - bash build-macos.sh
+  after_script:
+    - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}
+    - mv -v ${CI_PROJECT_DIR}/data/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}/
     - sudo chown -R omnibus cache/ bundle/
     - sudo rm -rf /opt/cinc/ '/Applications/Cinc Foundation.app'
     - sudo pkgutil --forget com.cinc-project.pkg.cinc-foundation
@@ -81,17 +83,11 @@
   script:
     - $ErrorActionPreference = "Stop"
     - C:\omnibus\load-omnibus-toolchain.ps1
-    - bash caching.sh
-    - cd chef\omnibus
-    - bundle config set --local path ${CI_PROJECT_DIR}/bundle/vendor
-    - bundle config set --local without 'development'
-    - bundle install
-    - bundle exec omnibus build cinc -l ${OMNIBUS_LOG_LEVEL} --override append_timestamp:false
-    - mkdir.exe -p ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
-    - mv.exe -v pkg/cinc* ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
-    - cp.exe ../VERSION ${CI_PROJECT_DIR}/
+    - bash.exe build-windows.sh
   after_script:
     - $ErrorActionPreference = "Stop"
+    - mkdir.exe -p ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
+    - mv.exe -v ${CI_PROJECT_DIR}/data/cinc* ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
     - $application = Get-WmiObject -Class Win32_Product -Filter "Name = 'Cinc Foundation v${CINC_FOUNDATION_VERSION}'"
     - $application.Uninstall()
     - Remove-Item -Recurse -Force C:\cinc-project

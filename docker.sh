@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # Author:: Lance Albertson <lance@osuosl.org>
-# Copyright:: Copyright 2020, Cinc Project
+# Copyright:: Copyright 2020-2025, Cinc Project
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -54,18 +54,21 @@ while [ ${COUNT} -le ${MAX_COUNT} ] ; do
 done
 
 set -x
-docker build --pull --no-cache -t cincproject/cinc:${VERSION} .
-# If we're building a current channel build, then tag appropriately
 if [ "${CHANNEL}" == "current" ] ; then
-  docker tag cincproject/cinc:${VERSION} cincproject/cinc:current
-  docker push cincproject/cinc:current
+  docker buildx build --platform linux/amd64,linux/arm64 \
+    --build-arg ARCH=amd64 --build-arg ARCH=aarch64 \
+    --build-arg VERSION=${VERSION} --build-arg VERSION=${VERSION} \
+    -t cincproject/cinc:${VERSION} \
+    -t cincproject/cinc:current \
+    --push .
 else
-  docker tag cincproject/cinc:${VERSION} cincproject/cinc:latest
-  docker tag cincproject/cinc:${VERSION} cincproject/cinc:${MAJ}.${MIN}
-  docker tag cincproject/cinc:${VERSION} cincproject/cinc:${MAJ}
-  docker push cincproject/cinc:latest
-  docker push cincproject/cinc:${MAJ}.${MIN}
-  docker push cincproject/cinc:${MAJ}
+  docker buildx build --platform linux/amd64,linux/arm64 \
+    --build-arg ARCH=amd64 --build-arg ARCH=aarch64 \
+    --build-arg VERSION=${VERSION} --build-arg VERSION=${VERSION} \
+    -t cincproject/cinc:${VERSION} \
+    -t cincproject/cinc:latest \
+    -t cincproject/cinc:${MAJ}.${MIN} \
+    -t cincproject/cinc:${MAJ} \
+    --push .
 fi
-docker push cincproject/cinc:${VERSION}
 rm -rf ${HOME}/.docker

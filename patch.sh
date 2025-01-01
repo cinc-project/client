@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # Author:: Lance Albertson <lance@osuosl.org>
-# Copyright:: Copyright 2019-2020, Cinc Project
+# Copyright:: Copyright 2019-2025, Cinc Project
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,7 +34,7 @@ TOP_DIR="$(pwd)"
 source /home/omnibus/load-omnibus-toolchain.sh
 set -ex
 # remove any previous builds
-rm -rf chef omnibus-software
+rm -rf chef
 git config --global user.email || git config --global user.email "maintainers@cinc.sh"
 echo "Cloning ${REF:-chef-18} branch from ${ORIGIN:-https://github.com/chef/chef.git}"
 git clone -q -b ${REF:-chef-18} ${ORIGIN:-https://github.com/chef/chef.git}
@@ -49,4 +49,4 @@ bundle lock
 echo "Commit the new Gemfile.lock"
 git add Gemfile.lock
 git commit -m 'Update Gemfile.lock to handle cinc-auditor'
-rm results/*.hart || true # Cleanup previous builds hart packages and ignore no files error
+cd $TOP_DIR
