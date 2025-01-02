@@ -45,7 +45,7 @@
     - bash build-freebsd.sh
   after_script:
     - mkdir -p ${CI_PROJECT_DIR}/data/freebsd/${PLATFORM_VER}
-    - mv -v ${CI_PROJECT_DIR}/data/cinc*sh ${CI_PROJECT_DIR}/data/freebsd/${PLATFORM_VER}/
+    - mv -v ${CI_PROJECT_DIR}/data/cinc*sh* ${CI_PROJECT_DIR}/data/freebsd/${PLATFORM_VER}/
     - sudo rm -rf /opt/cinc/
   variables:
     OMNIBUS_FIPS_MODE: "false"
