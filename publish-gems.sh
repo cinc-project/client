@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # Author:: Lance Albertson <lance@osuosl.org>
-# Copyright:: Copyright 2020, Cinc Project
+# Copyright:: Copyright 2020-2025, Cinc Project
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
