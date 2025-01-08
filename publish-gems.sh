@@ -32,6 +32,8 @@ cd ${TOP_DIR}/chef/chef-bin
 gem build chef-bin.gemspec
 cd ${TOP_DIR}/chef/chef-config
 gem build chef-config.gemspec
+cd ${TOP_DIR}/chef/knife
+gem build knife.gemspec
 cd $TOP_DIR/chef
 VERSION="$(cat VERSION)"
 gem push chef-${VERSION}.gem --host https://rubygems.cinc.sh
@@ -39,3 +41,4 @@ gem push chef-${VERSION}-universal-mingw-ucrt.gem --host https://rubygems.cinc.s
 gem push chef-bin/chef-bin-${VERSION}.gem --host https://rubygems.cinc.sh
 gem push chef-config/chef-config-${VERSION}.gem --host https://rubygems.cinc.sh
 gem push chef-utils/chef-utils-${VERSION}.gem --host https://rubygems.cinc.sh
+gem push knife/knife-${VERSION}.gem --host https://rubygems.cinc.sh
