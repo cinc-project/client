@@ -55,14 +55,14 @@ done
 
 set -x
 if [ "${CHANNEL}" == "current" ] ; then
-  docker buildx build --platform linux/amd64,linux/arm64 \
+  docker buildx build --platform linux/amd64,linux/arm64 --no-cache \
     --build-arg ARCH=amd64 --build-arg ARCH=aarch64 \
     --build-arg VERSION=${VERSION} --build-arg VERSION=${VERSION} \
     -t cincproject/cinc:${VERSION} \
     -t cincproject/cinc:current \
     --push .
 else
-  docker buildx build --platform linux/amd64,linux/arm64 \
+  docker buildx build --platform linux/amd64,linux/arm64 --no-cache \
     --build-arg ARCH=amd64 --build-arg ARCH=aarch64 \
     --build-arg VERSION=${VERSION} --build-arg VERSION=${VERSION} \
     -t cincproject/cinc:${VERSION} \
@@ -71,4 +71,3 @@ else
     -t cincproject/cinc:${MAJ} \
     --push .
 fi
-rm -rf ${HOME}/.docker
