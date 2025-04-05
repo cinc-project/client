@@ -340,6 +340,26 @@ package:macos-14:aarch64:
     PLATFORM_VER: "14"
     OMNIBUS_FIPS_MODE: "false"
 
+package:macos-15:
+  extends: .package:macos
+  cache:
+    key: macos-15
+  tags:
+    - macos-15
+  variables:
+    PLATFORM_VER: "15"
+    OMNIBUS_FIPS_MODE: "false"
+
+package:macos-15:aarch64:
+  extends: .package:macos
+  cache:
+    key: macos-15-aarch64
+  tags:
+    - macos-15-aarch64
+  variables:
+    PLATFORM_VER: "15"
+    OMNIBUS_FIPS_MODE: "false"
+
 package:opensuse-15:x86_64:
   extends: .package:opensuse
   image: cincproject/omnibus-opensuse:15
@@ -774,6 +794,24 @@ test:macos-14:aarch64:
   variables:
     PLATFORM_VER: "14"
 
+test:macos-15:
+  extends: .test:macos
+  needs:
+    - package:macos-15
+  tags:
+    - macos-15
+  variables:
+    PLATFORM_VER: "15"
+
+test:macos-15:aarch64:
+  extends: .test:macos
+  needs:
+    - package:macos-15:aarch64
+  tags:
+    - macos-15-aarch64
+  variables:
+    PLATFORM_VER: "15"
+
 test:opensuse-15:x86_64:
   extends: .test:opensuse
   image: cincproject/omnibus-opensuse:15
@@ -999,6 +1037,8 @@ deploy:
     - package:macos-13:aarch64
     - package:macos-14
     - package:macos-14:aarch64
+    - package:macos-15
+    - package:macos-15:aarch64
     - package:opensuse-15:aarch64
     - package:opensuse-15:x86_64
     - package:rockylinux-8:aarch64
@@ -1132,3 +1172,13 @@ cleanup:macos-14-aarch64:
   extends: .cleanup
   tags:
     - macos-14-aarch64
+
+cleanup:macos-15:
+  extends: .cleanup
+  tags:
+    - macos-15
+
+cleanup:macos-15-aarch64:
+  extends: .cleanup
+  tags:
+    - macos-15-aarch64
