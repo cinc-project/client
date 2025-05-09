@@ -63,8 +63,7 @@ if [ "${CHANNEL}" == "current" ] ; then
     --push .
 else
   docker buildx build --platform linux/amd64,linux/arm64 --no-cache \
-    --build-arg ARCH=amd64 --build-arg ARCH=aarch64 \
-    --build-arg VERSION=${VERSION} --build-arg VERSION=${VERSION} \
+    --build-arg VERSION=${VERSION} \
     -t cincproject/cinc:${VERSION} \
     -t cincproject/cinc:latest \
     -t cincproject/cinc:${MAJ}.${MIN} \
