@@ -30,6 +30,9 @@ cd chef/omnibus
 bundle config set --local path ${CI_PROJECT_DIR}/bundle/vendor
 bundle config set --local without 'development'
 bundle install
+if [ -n "${AWS_ACCESS_KEY_ID}" ] ; then
+  bundle exec omnibus cache populate
+fi
 sudo -E bash -c "source /home/omnibus/load-omnibus-toolchain.sh && bundle exec omnibus build cinc -l ${OMNIBUS_LOG_LEVEL} --override append_timestamp:false"
 sudo chown -R gitlab-runner:gitlab-runner ${CI_PROJECT_DIR}
 mkdir ${CI_PROJECT_DIR}/data

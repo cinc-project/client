@@ -14,7 +14,7 @@ variables:
   REF: chef-18
   CHANNEL: unstable
   CINC_PRODUCT: cinc
-  CINC_FOUNDATION_VERSION: "3.2.15"
+  CINC_FOUNDATION_VERSION: "3.2.33"
   OMNIBUS_FIPS_MODE: "true"
   OMNIBUS_LOG_LEVEL: "info"
 
@@ -247,6 +247,27 @@ package:debian-12:aarch64:
     - docker-aarch64
   variables:
     PLATFORM_VER: "12"
+    OMNIBUS_FIPS_MODE: "false"
+
+package:debian-13:x86_64:
+  extends: .package:debian
+  image: cincproject/omnibus-debian:13
+  cache:
+    key: debian-13-x86_64-cinc-18
+  tags:
+    - docker-x86_64
+  variables:
+    PLATFORM_VER: "13"
+
+package:debian-13:aarch64:
+  extends: .package:debian
+  image: cincproject/omnibus-debian:13
+  cache:
+    key: debian-13-aarch64-cinc-18
+  tags:
+    - docker-aarch64
+  variables:
+    PLATFORM_VER: "13"
     OMNIBUS_FIPS_MODE: "false"
 
 package:debian-13:riscv64:
@@ -709,6 +730,26 @@ test:debian-12:aarch64:
   variables:
     PLATFORM_VER: "12"
 
+test:debian-13:x86_64:
+  extends: .test:debian
+  image: cincproject/omnibus-debian:13
+  needs:
+    - package:debian-13:x86_64
+  tags:
+    - docker-x86_64
+  variables:
+    PLATFORM_VER: "13"
+
+test:debian-13:aarch64:
+  extends: .test:debian
+  image: cincproject/omnibus-debian:13
+  needs:
+    - package:debian-13:aarch64
+  tags:
+    - docker-aarch64
+  variables:
+    PLATFORM_VER: "13"
+
 test:debian-13:riscv64:
   extends: .test:debian
   image: cincproject/omnibus-debian:13
@@ -1028,6 +1069,8 @@ deploy:
     - package:debian-11:x86_64
     - package:debian-12:aarch64
     - package:debian-12:x86_64
+    - package:debian-13:aarch64
+    - package:debian-13:x86_64
     - package:debian-13:riscv64
     - package:freebsd-13
     - package:freebsd-14
