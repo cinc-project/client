@@ -22,9 +22,9 @@ cat /tmp/docker-token | docker login --username $DOCKER_USERNAME --password-stdi
 rm -rf /tmp/docker-token
 cd chef
 
-VERSION="$(cat VERSION)"
-MAJ="$(cat VERSION | cut -d '.' -f 1)"
-MIN="$(cat VERSION | cut -d '.' -f 2)"
+export VERSION="$(cat VERSION)"
+export MAJ="$(cat VERSION | cut -d '.' -f 1)"
+export MIN="$(cat VERSION | cut -d '.' -f 2)"
 # Point directly to OSUOSL master mirror
 URL="https://ftp-osl.osuosl.org/pub/cinc/files/${CHANNEL}/cinc/${VERSION}/el/8/cinc-${VERSION}-1.el8.x86_64.rpm"
 COUNT=0
@@ -54,19 +54,4 @@ while [ ${COUNT} -le ${MAX_COUNT} ] ; do
 done
 
 set -x
-if [ "${CHANNEL}" == "current" ] ; then
-  docker buildx build --platform linux/amd64,linux/arm64 --no-cache \
-    --build-arg ARCH=amd64 --build-arg ARCH=aarch64 \
-    --build-arg VERSION=${VERSION} --build-arg VERSION=${VERSION} \
-    -t cincproject/cinc:${VERSION} \
-    -t cincproject/cinc:current \
-    --push .
-else
-  docker buildx build --platform linux/amd64,linux/arm64 --no-cache \
-    --build-arg VERSION=${VERSION} \
-    -t cincproject/cinc:${VERSION} \
-    -t cincproject/cinc:latest \
-    -t cincproject/cinc:${MAJ}.${MIN} \
-    -t cincproject/cinc:${MAJ} \
-    --push .
-fi
+docker buildx bake -f ../docker-bake.hcl --push
