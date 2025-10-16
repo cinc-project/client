@@ -14,7 +14,7 @@ variables:
   REF: chef-18
   CHANNEL: unstable
   CINC_PRODUCT: cinc
-  CINC_FOUNDATION_VERSION: "3.2.33"
+  CINC_FOUNDATION_VERSION: "3.2.35"
   OMNIBUS_FIPS_MODE: "true"
   OMNIBUS_LOG_LEVEL: "info"
 
