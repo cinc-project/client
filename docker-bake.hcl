@@ -16,6 +16,7 @@ target "default" {
 
   args = {
     VERSION = VERSION
+    CHANNEL = CHANNEL
   }
 
   tags = CHANNEL == "current" ? [
