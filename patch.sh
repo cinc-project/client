@@ -46,7 +46,10 @@ echo "Updating Gemfile.lock"
 cd chef
 gem install -N bundler:2.3.7
 bundle lock
+cd omnibus
+bundle lock --conservative --update license_scout
+cd ../
 echo "Commit the new Gemfile.lock"
-git add Gemfile.lock
-git commit -m 'Update Gemfile.lock to handle cinc-auditor'
+git add Gemfile.lock omnibus/Gemfile.lock
+git commit -m 'Update Gemfile.lock to handle cinc patches'
 cd $TOP_DIR
