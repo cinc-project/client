@@ -14,7 +14,7 @@ variables:
   REF: chef-18
   CHANNEL: unstable
   CINC_PRODUCT: cinc
-  CINC_FOUNDATION_VERSION: "3.2.35"
+  CINC_FOUNDATION_VERSION: "3.2.41"
   OMNIBUS_FIPS_MODE: "true"
   OMNIBUS_LOG_LEVEL: "info"
 
@@ -207,27 +207,6 @@ package:centos-10:s390x:
   variables:
     PLATFORM_VER: "10"
 
-package:debian-11:x86_64:
-  extends: .package:debian
-  image: cincproject/omnibus-debian:11
-  cache:
-    key: debian-11-x86_64-cinc-18
-  tags:
-    - docker-x86_64
-  variables:
-    PLATFORM_VER: "11"
-
-package:debian-11:aarch64:
-  extends: .package:debian
-  image: cincproject/omnibus-debian:11
-  cache:
-    key: debian-11-aarch64-cinc-18
-  tags:
-    - docker-aarch64
-  variables:
-    PLATFORM_VER: "11"
-    OMNIBUS_FIPS_MODE: "false"
-
 package:debian-12:x86_64:
   extends: .package:debian
   image: cincproject/omnibus-debian:12
@@ -301,26 +280,6 @@ package:freebsd-14:
     PLATFORM_VER: "14"
     OMNIBUS_FIPS_MODE: "false"
 
-package:macos-12:
-  extends: .package:macos
-  cache:
-    key: macos-12-cinc-18
-  tags:
-    - macos-12
-  variables:
-    PLATFORM_VER: "12"
-    OMNIBUS_FIPS_MODE: "false"
-
-package:macos-12:aarch64:
-  extends: .package:macos
-  cache:
-    key: macos-12-aarch64-cinc-18
-  tags:
-    - macos-12-aarch64
-  variables:
-    PLATFORM_VER: "12"
-    OMNIBUS_FIPS_MODE: "false"
-
 package:macos-13:
   extends: .package:macos
   cache:
@@ -379,6 +338,26 @@ package:macos-15:aarch64:
     - macos-15-aarch64
   variables:
     PLATFORM_VER: "15"
+    OMNIBUS_FIPS_MODE: "false"
+
+package:macos-26:
+  extends: .package:macos
+  cache:
+    key: macos-26-cinc-18
+  tags:
+    - macos-26
+  variables:
+    PLATFORM_VER: "26"
+    OMNIBUS_FIPS_MODE: "false"
+
+package:macos-26:aarch64:
+  extends: .package:macos
+  cache:
+    key: macos-26-aarch64-cinc-18
+  tags:
+    - macos-26-aarch64
+  variables:
+    PLATFORM_VER: "26"
     OMNIBUS_FIPS_MODE: "false"
 
 package:opensuse-15:x86_64:
@@ -690,26 +669,6 @@ test:centos-10:s390x:
   variables:
     PLATFORM_VER: "10"
 
-test:debian-11:x86_64:
-  extends: .test:debian
-  image: cincproject/omnibus-debian:11
-  needs:
-    - package:debian-11:x86_64
-  tags:
-    - docker-x86_64
-  variables:
-    PLATFORM_VER: "11"
-
-test:debian-11:aarch64:
-  extends: .test:debian
-  image: cincproject/omnibus-debian:11
-  needs:
-    - package:debian-11:aarch64
-  tags:
-    - docker-aarch64
-  variables:
-    PLATFORM_VER: "11"
-
 test:debian-12:x86_64:
   extends: .test:debian
   image: cincproject/omnibus-debian:12
@@ -781,24 +740,6 @@ test:freebsd-14:
     PLATFORM_VER: "14"
     OMNIBUS_FIPS_MODE: "false"
 
-test:macos-12:
-  extends: .test:macos
-  needs:
-    - package:macos-12
-  tags:
-    - macos-12
-  variables:
-    PLATFORM_VER: "12"
-
-test:macos-12:aarch64:
-  extends: .test:macos
-  needs:
-    - package:macos-12:aarch64
-  tags:
-    - macos-12-aarch64
-  variables:
-    PLATFORM_VER: "12"
-
 test:macos-13:
   extends: .test:macos
   needs:
@@ -852,6 +793,24 @@ test:macos-15:aarch64:
     - macos-15-aarch64
   variables:
     PLATFORM_VER: "15"
+
+test:macos-26:
+  extends: .test:macos
+  needs:
+    - package:macos-26
+  tags:
+    - macos-26
+  variables:
+    PLATFORM_VER: "26"
+
+test:macos-26:aarch64:
+  extends: .test:macos
+  needs:
+    - package:macos-26:aarch64
+  tags:
+    - macos-26-aarch64
+  variables:
+    PLATFORM_VER: "26"
 
 test:opensuse-15:x86_64:
   extends: .test:opensuse
@@ -1065,8 +1024,6 @@ deploy:
     - package:centos-10:ppc64le
     - package:centos-10:s390x
     - package:centos-10:x86_64
-    - package:debian-11:aarch64
-    - package:debian-11:x86_64
     - package:debian-12:aarch64
     - package:debian-12:x86_64
     - package:debian-13:aarch64
@@ -1074,14 +1031,14 @@ deploy:
     - package:debian-13:riscv64
     - package:freebsd-13
     - package:freebsd-14
-    - package:macos-12
-    - package:macos-12:aarch64
     - package:macos-13
     - package:macos-13:aarch64
     - package:macos-14
     - package:macos-14:aarch64
     - package:macos-15
     - package:macos-15:aarch64
+    - package:macos-26
+    - package:macos-26:aarch64
     - package:opensuse-15:aarch64
     - package:opensuse-15:x86_64
     - package:rockylinux-8:aarch64
@@ -1186,16 +1143,6 @@ publish-docker:
     - sudo rm -rf chef/
     - sudo rm -rf ${CI_PROJECT_DIR}/cinc-project/distribution/client/
 
-cleanup:macos-12:
-  extends: .cleanup
-  tags:
-    - macos-12
-
-cleanup:macos-12-aarch64:
-  extends: .cleanup
-  tags:
-    - macos-12-aarch64
-
 cleanup:macos-13:
   extends: .cleanup
   tags:
@@ -1225,3 +1172,13 @@ cleanup:macos-15-aarch64:
   extends: .cleanup
   tags:
     - macos-15-aarch64
+
+cleanup:macos-26:
+  extends: .cleanup
+  tags:
+    - macos-26
+
+cleanup:macos-26-aarch64:
+  extends: .cleanup
+  tags:
+    - macos-26-aarch64
