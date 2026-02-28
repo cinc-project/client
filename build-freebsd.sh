@@ -21,6 +21,19 @@ export CI_PROJECT_DIR=${CI_PROJECT_DIR:-${TOP_DIR}}
 source /home/omnibus/load-omnibus-toolchain.sh
 set -ex
 mkdir -p ${TOP_DIR}/cache/git_cache
+
+# Fix permissions on restored cache from previous sudo-based builds
+if [ -d "${TOP_DIR}/cache" ]; then
+  sudo chown -R $(whoami) "${TOP_DIR}/cache"
+fi
+
+# Validate git cache - remove if corrupted
+GIT_CACHE="${TOP_DIR}/cache/git_cache/opt/cinc"
+if [ -d "${GIT_CACHE}" ] && ! git --git-dir="${GIT_CACHE}" rev-parse --git-dir > /dev/null 2>&1; then
+  echo "Git cache is corrupted, removing..."
+  rm -rf "${GIT_CACHE}"
+fi
+
 echo "cache_dir '${TOP_DIR}/cache'" >> chef/omnibus/omnibus.rb
 echo "git_cache_dir '${TOP_DIR}/cache/git_cache'" >> chef/omnibus/omnibus.rb
 echo "use_git_caching true" >> chef/omnibus/omnibus.rb
