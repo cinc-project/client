@@ -58,8 +58,6 @@
     - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}
     - mv -v ${CI_PROJECT_DIR}/data/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}/
     - sudo chown -R omnibus cache/ bundle/
-    - sudo rm -rf /opt/cinc/ '/Applications/Cinc Foundation.app'
-    - sudo pkgutil --forget com.cinc-project.pkg.cinc-foundation
   variables:
     OMNIBUS_FIPS_MODE: "false"
 
@@ -77,9 +75,6 @@
 
 .package:windows:
   extends: .package
-  before_script:
-    - "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12"
-    - . { Invoke-WebRequest -useb https://omnitruck.cinc.sh/install.ps1 } | Invoke-Expression; install -channel "stable" -project "cinc-foundation" -version "${CINC_FOUNDATION_VERSION}"
   script:
     - $ErrorActionPreference = "Stop"
     - C:\omnibus\load-omnibus-toolchain.ps1
@@ -88,8 +83,6 @@
     - $ErrorActionPreference = "Stop"
     - mkdir.exe -p ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
     - mv.exe -v ${CI_PROJECT_DIR}/data/cinc* ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
-    - $application = Get-WmiObject -Class Win32_Product -Filter "Name = 'Cinc Foundation v${CINC_FOUNDATION_VERSION}'"
-    - $application.Uninstall()
     - Remove-Item -Recurse -Force C:\cinc-project
 
 .package:ubuntu:
