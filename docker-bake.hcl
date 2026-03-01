@@ -21,10 +21,8 @@ target "default" {
 
   tags = CHANNEL == "current" ? [
     "cincproject/cinc:${VERSION}",
-    "cincproject/cinc:current"
     ] : [
     "cincproject/cinc:${VERSION}",
-    "cincproject/cinc:latest",
     "cincproject/cinc:${MAJ}.${MIN}",
     "cincproject/cinc:${MAJ}"
   ]
