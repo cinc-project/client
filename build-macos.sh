@@ -24,8 +24,6 @@ mkdir -p ${TOP_DIR}/cache/git_cache
 echo "cache_dir '${TOP_DIR}/cache'" >> chef/omnibus/omnibus.rb
 echo "git_cache_dir '${TOP_DIR}/cache/git_cache'" >> chef/omnibus/omnibus.rb
 echo "use_git_caching true" >> chef/omnibus/omnibus.rb
-curl -fsSL https://omnitruck.cinc.sh/chef/install.sh | \
-  sudo -E bash -s -- -c "stable" -P "cinc-foundation" -v "${CINC_FOUNDATION_VERSION:-3}"
 cd chef/omnibus
 bundle config set --local path ${CI_PROJECT_DIR}/bundle/vendor
 bundle config set --local without 'development'
