@@ -44,10 +44,9 @@ cd $TOP_DIR
 
 echo "Updating Gemfile.lock"
 cd chef
-gem install -N bundler:2.3.7
 bundle lock
 cd omnibus
-bundle lock --conservative --update license_scout
+bundle lock --update
 cd ../
 echo "Commit the new Gemfile.lock"
 git add Gemfile.lock omnibus/Gemfile.lock
