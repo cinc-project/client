@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # Author:: Lance Albertson <lance@osuosl.org>
-# Copyright:: Copyright 2019-2025, Cinc Project
+# Copyright:: Copyright 2019-2026, Cinc Project
 # License:: Apache License, Version 2.0
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,19 +16,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This will patch Chef using Cinc branded patches
-git_patch() {
-  if [ -n "${2}" ] ; then
-    CINC_BRANCH="${2}"
-  elif [ "${REF}" == "main" -o "${REF}" == "chef-18" -o -z "${REF}" ] ; then
-    CINC_BRANCH="stable/cinc-18"
-  else
-    CINC_BRANCH="stable/cinc-${REF}"
-  fi
-  echo "Patching ${1} from ${CINC_BRANCH}..."
-  git remote add -f --no-tags -t ${CINC_BRANCH} cinc https://gitlab.com/cinc-project/upstream/${1}.git
-  git merge --no-edit cinc/${CINC_BRANCH}
-}
+# Determine the cinc branch to build from based on REF / CINC_REF.
+if [ -n "${CINC_REF}" ] ; then
+  CINC_BRANCH="${CINC_REF}"
+elif [ "${REF}" == "main" -o "${REF}" == "chef-18" -o -z "${REF}" ] ; then
+  CINC_BRANCH="stable/cinc-18"
+else
+  CINC_BRANCH="stable/cinc-${REF}"
+fi
 
 TOP_DIR="$(pwd)"
 source /home/omnibus/load-omnibus-toolchain.sh
@@ -36,10 +31,20 @@ set -ex
 # remove any previous builds
 rm -rf chef
 git config --global user.email || git config --global user.email "maintainers@cinc.sh"
-echo "Cloning ${REF:-chef-18} branch from ${ORIGIN:-https://github.com/chef/chef.git}"
-git clone -q -b ${REF:-chef-18} ${ORIGIN:-https://github.com/chef/chef.git}
+
+CINC_ORIGIN="${CINC_ORIGIN:-https://gitlab.com/cinc-project/upstream/chef.git}"
+echo "Cloning cinc ${CINC_BRANCH} from ${CINC_ORIGIN}"
+git clone -q -b ${CINC_BRANCH} ${CINC_ORIGIN} chef
 cd chef
-git_patch chef ${CINC_REF}
+# Register the 'ignore' merge driver referenced from .gitattributes so
+# merges from upstream auto-keep cinc's version of VERSION, version.rb,
+# Gemfile.lock, etc.
+git config merge.ignore.name 'ignore changes merge driver'
+git config merge.ignore.driver 'touch %A'
+echo "Adding upstream remote ${ORIGIN:-https://github.com/chef/chef.git}"
+git remote add upstream ${ORIGIN:-https://github.com/chef/chef.git}
+echo "Merging upstream/${REF:-chef-18} into ${CINC_BRANCH}"
+scripts/cinc-merge-upstream.sh upstream/${REF:-chef-18}
 cd $TOP_DIR
 
 echo "Updating Gemfile.lock"
