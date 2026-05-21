@@ -44,6 +44,7 @@ cd $TOP_DIR
 
 echo "Updating Gemfile.lock"
 cd chef
+gem install -N bundler:2.3.7
 bundle lock \
   --add-platform arm64-darwin-23 \
   --add-platform arm64-darwin-24 \
@@ -56,7 +57,7 @@ bundle lock \
   --add-platform x86_64-darwin-25 \
   --add-platform x86_64-darwin-26
 cd omnibus
-bundle lock --update \
+bundle lock --conservative --update license_scout omnibus omnibus-software \
   --add-platform arm64-darwin-23 \
   --add-platform arm64-darwin-24 \
   --add-platform arm64-darwin-25 \
