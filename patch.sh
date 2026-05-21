@@ -51,7 +51,10 @@ bundle lock \
   --add-platform arm64-darwin-26 \
   --add-platform ruby \
   --add-platform x64-mingw-ucrt \
-  --add-platform x86_64-darwin-23
+  --add-platform x86_64-darwin-23 \
+  --add-platform x86_64-darwin-24 \
+  --add-platform x86_64-darwin-25 \
+  --add-platform x86_64-darwin-26
 cd omnibus
 bundle lock --update \
   --add-platform arm64-darwin-23 \
@@ -60,7 +63,10 @@ bundle lock --update \
   --add-platform arm64-darwin-26 \
   --add-platform ruby \
   --add-platform x64-mingw-ucrt \
-  --add-platform x86_64-darwin-23
+  --add-platform x86_64-darwin-23 \
+  --add-platform x86_64-darwin-24 \
+  --add-platform x86_64-darwin-25 \
+  --add-platform x86_64-darwin-26
 cd ../
 echo "Commit the new Gemfile.lock"
 git add Gemfile.lock omnibus/Gemfile.lock
