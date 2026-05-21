@@ -44,30 +44,10 @@ cd $TOP_DIR
 
 echo "Updating Gemfile.lock"
 cd chef
-gem install -N bundler:2.3.7
-bundle lock \
-  --add-platform arm64-darwin-23 \
-  --add-platform arm64-darwin-24 \
-  --add-platform arm64-darwin-25 \
-  --add-platform arm64-darwin-26 \
-  --add-platform ruby \
-  --add-platform x64-mingw-ucrt \
-  --add-platform x86_64-darwin-23 \
-  --add-platform x86_64-darwin-24 \
-  --add-platform x86_64-darwin-25 \
-  --add-platform x86_64-darwin-26
+gem install -N bundler:2.5.23
+bundle lock
 cd omnibus
-bundle lock --conservative --update license_scout omnibus omnibus-software \
-  --add-platform arm64-darwin-23 \
-  --add-platform arm64-darwin-24 \
-  --add-platform arm64-darwin-25 \
-  --add-platform arm64-darwin-26 \
-  --add-platform ruby \
-  --add-platform x64-mingw-ucrt \
-  --add-platform x86_64-darwin-23 \
-  --add-platform x86_64-darwin-24 \
-  --add-platform x86_64-darwin-25 \
-  --add-platform x86_64-darwin-26
+bundle lock --conservative --update license_scout omnibus omnibus-software
 cd ../
 echo "Commit the new Gemfile.lock"
 git add Gemfile.lock omnibus/Gemfile.lock
