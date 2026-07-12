@@ -44,7 +44,6 @@ cd $TOP_DIR
 
 echo "Updating Gemfile.lock"
 cd chef
-gem install -N bundler:2.5.23
 bundle lock
 cd omnibus
 bundle lock --conservative --update license_scout omnibus omnibus-software
