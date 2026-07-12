@@ -1,0 +1,7 @@
+# Grype waivers for the cinc-client CVE scans. Grype auto-loads this file from
+# the repo root (used by the security:build-scan:* CI jobs and local runs).
+#
+# Policy: prefer fixing or purging a finding over waiving it. Waive only findings
+# that are inert (superseded at runtime) or accepted-risk, keep a one-line reason
+# and a review date on each, and re-review periodically so waivers don't rot.
+ignore: []

@@ -4,6 +4,7 @@ image: cincproject/omnibus-debian
 stages:
   - patch
   - package
+  - scan
   - test
   - cleanup
   - deploy
@@ -29,6 +30,18 @@ workflow:
 include:
   - local: .gitlab/package.yml
   - local: .gitlab/test.yml
+  # CVE scanning. Provides the hidden .security:build-scan base used by the
+  # security:build-scan:* jobs below to grype-scan a freshly-built package.
+  # The dependency/omnitruck/container scanners it also defines are schedule-only
+  # and stay dormant here. grype waivers live in .grype.yaml.
+  - component: gitlab.com/cinc-project/ci-tools/security-scan@main
+    inputs:
+      image: cincproject/omnibus-debian:13
+      dep_stage: scan
+      image_stage: scan
+      build_scan_stage: scan
+      ci_tools_repo: https://gitlab.com/cinc-project/ci-tools.git
+      ci_tools_ref: main
 
 patch:
   stage: patch
@@ -463,6 +476,48 @@ package:ubuntu-24.04:riscv64:
   variables:
     PLATFORM_VER: "24.04"
     OMNIBUS_FIPS_MODE: "false"
+
+# Scan stage
+#
+# CVE-scan a package THIS pipeline just built (shift-left), before it can be
+# deployed. The embedded libs (OpenSSL/Ruby/libxml2/...) are identical across
+# platforms, so one representative .deb and one .rpm is enough. Auto on release
+# (web) / upstream (pipeline); manual on MRs. Non-blocking: grype findings
+# surface in the job log + security-reports/ artifacts. The .security:build-scan
+# base and grype/syft tooling come from the ci-tools security-scan component;
+# waivers live in .grype.yaml.
+
+security:build-scan:deb:
+  extends: .security:build-scan
+  needs:
+    - job: package:debian-13:x86_64
+      artifacts: true
+      optional: true
+  variables:
+    ARTIFACT_GLOB: "data/debian/*/*.deb"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+    - if: $CI_MERGE_REQUEST_ID
+      when: manual
+      allow_failure: true
+    - when: never
+
+security:build-scan:rpm:
+  extends: .security:build-scan
+  needs:
+    - job: package:centos-9:x86_64
+      artifacts: true
+      optional: true
+  variables:
+    ARTIFACT_GLOB: "data/el/*/*.rpm"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "pipeline"
+    - if: $CI_MERGE_REQUEST_ID
+      when: manual
+      allow_failure: true
+    - when: never
 
 # Test stage
 test:amazonlinux-2023:x86_64:
