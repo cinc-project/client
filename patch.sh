@@ -43,8 +43,17 @@ git config merge.ignore.name 'ignore changes merge driver'
 git config merge.ignore.driver 'touch %A'
 echo "Adding upstream remote ${ORIGIN:-https://github.com/chef/chef.git}"
 git remote add upstream ${ORIGIN:-https://github.com/chef/chef.git}
-echo "Merging upstream/${REF:-chef-18} into ${CINC_BRANCH}"
-scripts/cinc-merge-upstream.sh upstream/${REF:-chef-18}
+# Build the upstream ref to merge. Branch refs (chef-18, main) are remote-
+# tracking refs (upstream/<branch>); a version tag (e.g. v18.11.11) for a
+# release build is passed bare so cinc-merge-upstream.sh resolves it as a tag.
+case "${REF}" in
+  ""|main|chef-18)
+    UPSTREAM_MERGE_REF="upstream/${REF:-chef-18}" ;;
+  *)
+    UPSTREAM_MERGE_REF="${REF}" ;;
+esac
+echo "Merging ${UPSTREAM_MERGE_REF} into ${CINC_BRANCH}"
+scripts/cinc-merge-upstream.sh "${UPSTREAM_MERGE_REF}"
 cd $TOP_DIR
 
 echo "Updating Gemfile.lock"
