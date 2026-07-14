@@ -382,6 +382,23 @@ package:windows-2016:
   variables:
     PLATFORM_VER: "2016"
 
+# Manual re-run of the Windows package with custom variables, for debugging.
+# GitLab's job "retry" always reuses the original variables -- only a manual
+# job's play dialog lets you set them, so this never runs on its own: play it
+# from the UI and add e.g. OMNIBUS_LOG_LEVEL=debug. It reuses the patch job's
+# artifact, so it can be replayed without re-running the whole pipeline.
+package:windows-2016:debug:
+  extends: .package:windows
+  cache:
+    key: windows-2016-cinc-18
+  tags:
+    - windows-2016
+  variables:
+    PLATFORM_VER: "2016"
+  rules:
+    - when: manual
+  allow_failure: true
+
 package:ubuntu-18.04:x86_64:
   extends: .package:ubuntu
   image: cincproject/omnibus-ubuntu:18.04
