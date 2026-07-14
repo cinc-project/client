@@ -178,7 +178,7 @@ package:centos-9:s390x:
 
 package:centos-10:x86_64:
   extends: .package:centos
-  image: cincproject/omnibus-almalinux:10-kitten
+  image: cincproject/omnibus-almalinux:10
   cache:
     key: centos-10-x86_64-cinc-18
   tags:
@@ -188,7 +188,7 @@ package:centos-10:x86_64:
 
 package:centos-10:aarch64:
   extends: .package:centos
-  image: cincproject/omnibus-almalinux:10-kitten
+  image: cincproject/omnibus-almalinux:10
   cache:
     key: centos-10-aarch64-cinc-18
   tags:
@@ -199,7 +199,7 @@ package:centos-10:aarch64:
 
 package:centos-10:ppc64le:
   extends: .package:centos
-  image: cincproject/omnibus-almalinux:10-kitten
+  image: cincproject/omnibus-almalinux:10
   cache:
     key: centos-10-ppc64le-cinc-18
   tags:
@@ -209,7 +209,7 @@ package:centos-10:ppc64le:
 
 package:centos-10:s390x:
   extends: .package:centos
-  image: cincproject/omnibus-almalinux:10-kitten
+  image: cincproject/omnibus-almalinux:10
   cache:
     key: centos-10-s390x-cinc-18
   tags:
@@ -664,7 +664,7 @@ test:centos-9:s390x:
 
 test:centos-10:x86_64:
   extends: .test:centos
-  image: cincproject/omnibus-almalinux:10-kitten
+  image: cincproject/omnibus-almalinux:10
   needs:
     - package:centos-10:x86_64
   tags:
@@ -674,7 +674,7 @@ test:centos-10:x86_64:
 
 test:centos-10:aarch64:
   extends: .test:centos
-  image: cincproject/omnibus-almalinux:10-kitten
+  image: cincproject/omnibus-almalinux:10
   needs:
     - package:centos-10:aarch64
   tags:
@@ -685,7 +685,7 @@ test:centos-10:aarch64:
 
 test:centos-10:ppc64le:
   extends: .test:centos
-  image: cincproject/omnibus-almalinux:10-kitten
+  image: cincproject/omnibus-almalinux:10
   needs:
     - package:centos-10:ppc64le
   tags:
@@ -695,7 +695,7 @@ test:centos-10:ppc64le:
 
 test:centos-10:s390x:
   extends: .test:centos
-  image: cincproject/omnibus-almalinux:10-kitten
+  image: cincproject/omnibus-almalinux:10
   needs:
     - package:centos-10:s390x
   tags:
