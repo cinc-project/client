@@ -83,7 +83,9 @@
     - $ErrorActionPreference = "Stop"
     - mkdir.exe -p ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
     - mv.exe -v ${CI_PROJECT_DIR}/data/cinc* ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
-    - Remove-Item -Recurse -Force C:\cinc-project
+    # Only the product install dir -- C:\cinc-project also holds the
+    # omnibus-toolchain, which must survive for the next build.
+    - Remove-Item -Recurse -Force C:\cinc-project\cinc
 
 .package:ubuntu:
   extends: .package
