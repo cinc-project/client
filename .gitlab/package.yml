@@ -16,6 +16,9 @@
     when: always
   artifacts:
     expire_in: 1mo
+    # Upload on failure too, so the debug snapshot written by
+    # scripts/snapshot-install-dir.* into data/debug/ is retrievable.
+    when: always
     paths:
       - data/*
       - VERSION
@@ -58,6 +61,7 @@
     - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}
     - mv -v ${CI_PROJECT_DIR}/data/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}/
     - sudo chown -R omnibus cache/ bundle/
+    - sudo rm -rf /opt/cinc/
   variables:
     OMNIBUS_FIPS_MODE: "false"
 
@@ -75,11 +79,16 @@
 
 .package:windows:
   extends: .package
+  before_script:
+    - "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12"
   script:
     - $ErrorActionPreference = "Stop"
     - C:\omnibus\load-omnibus-toolchain.ps1
     - bash.exe build-windows.sh
   after_script:
+    # Must run first: it captures C:\cinc-project\cinc for debugging before the
+    # Remove-Item below wipes it. No-ops unless the job failed.
+    - ./scripts/snapshot-install-dir.ps1
     - $ErrorActionPreference = "Stop"
     - mkdir.exe -p ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
     - mv.exe -v ${CI_PROJECT_DIR}/data/cinc* ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
