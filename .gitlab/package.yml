@@ -77,6 +77,8 @@
     - mkdir -p ${CI_PROJECT_DIR}/data/rocky/${PLATFORM_VER}
     - mv -v ${CI_PROJECT_DIR}/data/*.{rpm,json} ${CI_PROJECT_DIR}/data/rocky/${PLATFORM_VER}/
 
+# Runs in the cincproject/omnibus-windows container; the image ships the
+# toolchain loader at the same path the pet builder had.
 .package:windows:
   extends: .package
   before_script:
@@ -86,15 +88,13 @@
     - C:\omnibus\load-omnibus-toolchain.ps1
     - bash.exe build-windows.sh
   after_script:
-    # Must run first: it captures C:\cinc-project\cinc for debugging before the
-    # Remove-Item below wipes it. No-ops unless the job failed.
+    # Captures C:\cinc-project\cinc for debugging. No-ops unless the job failed.
     - ./scripts/snapshot-install-dir.ps1
     - $ErrorActionPreference = "Stop"
     - mkdir.exe -p ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
     - mv.exe -v ${CI_PROJECT_DIR}/data/cinc* ${CI_PROJECT_DIR}/data/windows/${PLATFORM_VER}
-    # Only the product install dir -- C:\cinc-project also holds the
-    # omnibus-toolchain, which must survive for the next build.
-    - Remove-Item -Recurse -Force C:\cinc-project\cinc
+    # Last: kills leftover MSYS2 processes the runner would otherwise wait on.
+    - ./scripts/reap-msys2-processes.ps1
 
 .package:ubuntu:
   extends: .package

@@ -20,13 +20,15 @@ TOP_DIR="$(pwd)"
 set -ex
 # Fix windows permissions
 chmod -R o-w data/windows
-# Add symlinks to other supported versions of Windows
+# Symlink every Windows version omnitruck may ask for to the directory the
+# package job wrote (its PLATFORM_VER). -sfn keeps a re-run idempotent.
+WINDOWS_BUILT=2022
+WINDOWS_VERSIONS="2012r2 2016 2019 2025 10 11"
 cd data/windows
-ln -s 2016 2012r2
-ln -s 2016 2019
-ln -s 2016 2022
-ln -s 2016 10
-ln -s 2016 11
+[ -d "${WINDOWS_BUILT}" ] || { echo "data/windows/${WINDOWS_BUILT} missing" >&2; exit 1; }
+for ver in ${WINDOWS_VERSIONS}; do
+  ln -sfn "${WINDOWS_BUILT}" "${ver}"
+done
 cd ${TOP_DIR}
 # TODO: temporary work around for upcoming debian release
 mkdir -p data/debian/trixie
