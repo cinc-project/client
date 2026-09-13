@@ -17,6 +17,9 @@ variables:
   CINC_PRODUCT: cinc
   OMNIBUS_FIPS_MODE: "true"
   OMNIBUS_LOG_LEVEL: "info"
+  # cincproject/omnibus-windows tag. Always dated, never :ltsc2022: it is in
+  # the Windows cache key, so a new toolchain never reuses the old git cache.
+  BUILDER_IMAGE_TAG: "ltsc2022-20260912-1740"
 
 workflow:
   rules:
@@ -373,28 +376,32 @@ package:opensuse-15:aarch64:
     PLATFORM_VER: "15"
     OMNIBUS_FIPS_MODE: "false"
 
-package:windows-2016:
+# One package for every supported Windows version. PLATFORM_VER is the builder
+# image's Server generation; deploy.sh symlinks the other versions to it.
+package:windows:
   extends: .package:windows
+  image: cincproject/omnibus-windows:${BUILDER_IMAGE_TAG}
   cache:
-    key: windows-2016
+    key: windows-${BUILDER_IMAGE_TAG}
   tags:
-    - windows-2016
+    - windows-docker
   variables:
-    PLATFORM_VER: "2016"
+    PLATFORM_VER: "2022"
 
 # Manual re-run of the Windows package with custom variables, for debugging.
 # GitLab's job "retry" always reuses the original variables -- only a manual
 # job's play dialog lets you set them, so this never runs on its own: play it
 # from the UI and add e.g. OMNIBUS_LOG_LEVEL=debug. It reuses the patch job's
 # artifact, so it can be replayed without re-running the whole pipeline.
-package:windows-2016:debug:
+package:windows:debug:
   extends: .package:windows
+  image: cincproject/omnibus-windows:${BUILDER_IMAGE_TAG}
   cache:
-    key: windows-2016
+    key: windows-${BUILDER_IMAGE_TAG}
   tags:
-    - windows-2016
+    - windows-docker
   variables:
-    PLATFORM_VER: "2016"
+    PLATFORM_VER: "2022"
   rules:
     - when: manual
   allow_failure: true
@@ -928,14 +935,14 @@ test:sources:
     reports:
       junit: junit.xml
 
-test:windows-2016:
+test:windows:
   extends: .test:windows
   needs:
-    - package:windows-2016
+    - package:windows
   tags:
     - windows-x64-package-testing
   variables:
-    PLATFORM_VER: "2016"
+    PLATFORM_VER: "2022"
 
 # Deploy stage
 
@@ -999,7 +1006,7 @@ deploy:
     - package:ubuntu-24.04:aarch64
     - package:ubuntu-24.04:x86_64
     - package:ubuntu-24.04:riscv64
-    - package:windows-2016
+    - package:windows
   script:
     - bash deploy.sh
 
