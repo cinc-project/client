@@ -327,7 +327,7 @@ package:macos-26:aarch64:
 
 package:opensuse-15:x86_64:
   extends: .package:opensuse
-  image: cincproject/omnibus-opensuse:15
+  image: cincproject/omnibus-sles:15
   cache:
     key: opensuse:15:x86_64
   tags:
@@ -337,7 +337,7 @@ package:opensuse-15:x86_64:
 
 package:opensuse-15:aarch64:
   extends: .package:opensuse
-  image: cincproject/omnibus-opensuse:15
+  image: cincproject/omnibus-sles:15
   cache:
     key: opensuse:15:aarch64
   tags:
@@ -754,7 +754,7 @@ test:macos-26:aarch64:
 
 test:opensuse-15:x86_64:
   extends: .test:opensuse
-  image: cincproject/omnibus-opensuse:15
+  image: cincproject/omnibus-sles:15
   needs:
     - package:opensuse-15:x86_64
   tags:
@@ -764,7 +764,7 @@ test:opensuse-15:x86_64:
 
 test:opensuse-15:aarch64:
   extends: .test:opensuse
-  image: cincproject/omnibus-opensuse:15
+  image: cincproject/omnibus-sles:15
   needs:
     - package:opensuse-15:aarch64
   tags:
