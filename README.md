@@ -7,13 +7,7 @@ This repo contains all the required pipeline code to output functional builds of
 
 We use gitlab-ci. In our [fork of chef/chef](https://gitlab.com/cinc-project/upstream/chef) we maintain a branch named `stable/cinc`. This branch hosts a handful of commits required to rebrand the original code. When the pipeline runs, it clones a fresh copy of the upstream repository, merges in `stable/cinc` and executes the omnibus build.
 
-We run builds for a variety of operating systems:
-- Ubuntu 18.04+
-- Centos 7+
-- Debian 9+
-- Opensuse 15
-- Windows 2012r2+
-- MacOS 10.14+
+We build packages for a variety of operating systems. See the [Cinc platform policy](https://cinc.sh/docs/platforms/) for the platforms and versions we support.
 
 To build: go to pipelines and launch a pipeline on branch master, add a variable `ORIGIN` with which source you want to use (default to https://github.com/chef/chef on master branch)
 To use a specific branch or a PR as source, find the branch and source of the PR and use `-b <branch name> https://github.com/<author>/chef` as value
