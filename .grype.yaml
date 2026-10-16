@@ -4,4 +4,77 @@
 # Policy: prefer fixing or purging a finding over waiving it. Waive only findings
 # that are inert (superseded at runtime) or accepted-risk, keep a one-line reason
 # and a review date on each, and re-review periodically so waivers don't rot.
-ignore: []
+ignore:
+  # --- nokogiri 1.18.10 (Client 18 stays on Ruby 3.1) ---------------------
+  # chef-18 pins 1.18.10, the last 1.18 release; every fixed release (1.19.1+)
+  # needs Ruby >= 3.2. Nothing shipped reaches these: chef never loads
+  # nokogiri, nori and aws-sdk-core use only its SAX parser, and inspec's JUnit
+  # reporter uses REXML. It ships as a library for cookbook code, which already
+  # runs as root. Drop these when Client 18 moves to Ruby >= 3.2 or reaches
+  # EOL. (reviewed 2026-10-16)
+  # JRuby only; CRuby's libxml2 already blocks network schemes
+  - vulnerability: GHSA-8678-w3jw-xfc2
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # needs code to call .allocate on a native-backed class
+  - vulnerability: GHSA-9cv2-cfxc-v4v2
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # needs code to set a DTD node as Document#root
+  - vulnerability: GHSA-wjv4-x9w8-wm3h
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # needs a hand-built XPathContext to outlive its document
+  - vulnerability: GHSA-p67v-3w7g-wjg7
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # needs code to rescue a bad Document#encoding= and reuse it
+  - vulnerability: GHSA-5v8h-3h3q-446p
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # needs Attr#value= after code took a ref to its child
+  - vulnerability: GHSA-phwj-rprq-35pp
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # needs do_xinclude after code took refs to include nodes
+  - vulnerability: GHSA-wfpw-mmfh-qq69
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # CSS selector ReDoS; needs attacker-written selectors
+  - vulnerability: GHSA-c4rq-3m3g-8wgx
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # XSLT param leak; needs attacker-controlled transform params
+  - vulnerability: GHSA-v2fc-qm4h-8hqv
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # canonicalize; needs SAML-style signature checks
+  - vulnerability: GHSA-wx95-c6cv-8532
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # NodeSet#[]; needs an attacker-controlled index
+  - vulnerability: GHSA-5prr-v3j2-97mh
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
