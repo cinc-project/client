@@ -29,7 +29,7 @@
     - apt-get -y remove cinc
 
 .test:freebsd:
-  extends: .test
+  extends: [.test, .fix-cache-owner]
   before_script:
     - sudo sh data/freebsd/${PLATFORM_VER}/cinc*.sh
   script:
@@ -38,7 +38,7 @@
     - sudo rm -rf /opt/cinc
 
 .test:macos:
-  extends: .test
+  extends: [.test, .fix-cache-owner]
   script:
     - sudo scripts/install-cinc-macos.sh
     - sudo /opt/cinc/bin/cinc-auditor exec test/integration/cinc-tests --no-distinct-exit --reporter cli junit:junit.xml
