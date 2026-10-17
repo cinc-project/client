@@ -18,6 +18,14 @@
 
 set -ex
 mkdir -p ${CI_PROJECT_DIR}/cache/git_cache
+
+# Validate git cache - remove if corrupted
+GIT_CACHE="${CI_PROJECT_DIR}/cache/git_cache/opt/cinc"
+if [ -d "${GIT_CACHE}" ] && ! git --git-dir="${GIT_CACHE}" rev-parse --git-dir > /dev/null 2>&1; then
+  echo "Git cache is corrupted, removing..."
+  rm -rf "${GIT_CACHE}"
+fi
+
 echo "cache_dir '${CI_PROJECT_DIR}/cache'" >> chef/omnibus/omnibus.rb
 echo "git_cache_dir '${CI_PROJECT_DIR}/cache/git_cache'" >> chef/omnibus/omnibus.rb
 echo "use_git_caching true" >> chef/omnibus/omnibus.rb
