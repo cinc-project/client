@@ -41,27 +41,37 @@
     - mkdir -p ${CI_PROJECT_DIR}/data/debian/${PLATFORM_VER}
     - mv -v ${CI_PROJECT_DIR}/data/*.{deb,json} ${CI_PROJECT_DIR}/data/debian/${PLATFORM_VER}/
 
+# Builds run as root, and a cancelled one leaves root-owned files that break
+# the next checkout, so hand them back before it.
+.fix-cache-owner:
+  hooks:
+    pre_get_sources_script:
+      - sudo chown -R $(id -un) ${CI_PROJECT_DIR}/cache ${CI_PROJECT_DIR}/bundle 2>/dev/null || true
+
 .package:freebsd:
-  extends: .package
+  extends: [.package, .fix-cache-owner]
   before_script:
   script:
     - bash build-freebsd.sh
   after_script:
+    # Clean up first: after_script stops at the mv when the build made no package.
+    - sudo chown -R $(id -un) cache/ bundle/ 2>/dev/null || true
+    - sudo rm -rf /opt/cinc/
     - mkdir -p ${CI_PROJECT_DIR}/data/freebsd/${PLATFORM_VER}
     - mv -v ${CI_PROJECT_DIR}/data/cinc*sh* ${CI_PROJECT_DIR}/data/freebsd/${PLATFORM_VER}/
-    - sudo rm -rf /opt/cinc/
   variables:
     OMNIBUS_FIPS_MODE: "false"
 
 .package:macos:
-  extends: .package
+  extends: [.package, .fix-cache-owner]
   script:
     - bash build-macos.sh
   after_script:
-    - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}
-    - mv -v ${CI_PROJECT_DIR}/data/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}/
+    # Clean up first: after_script stops at the mv when the build made no package.
     - sudo chown -R omnibus cache/ bundle/
     - sudo rm -rf /opt/cinc/
+    - mkdir -p ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}
+    - mv -v ${CI_PROJECT_DIR}/data/cinc*dmg* ${CI_PROJECT_DIR}/data/mac_os_x/${PLATFORM_VER}/
   variables:
     OMNIBUS_FIPS_MODE: "false"
 
