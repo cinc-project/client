@@ -19,7 +19,7 @@ variables:
   OMNIBUS_LOG_LEVEL: "info"
   # cincproject/omnibus-windows tag. Always dated, never :ltsc2022: it is in
   # the Windows cache key, so a new toolchain never reuses the old git cache.
-  BUILDER_IMAGE_TAG: "ltsc2022-20260912-1740"
+  BUILDER_IMAGE_TAG: "ltsc2022-20261020-1851"
 
 workflow:
   rules:
