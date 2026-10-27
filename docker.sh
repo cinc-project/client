@@ -25,8 +25,11 @@ cd chef
 export VERSION="$(cat VERSION)"
 export MAJ="$(cat VERSION | cut -d '.' -f 1)"
 export MIN="$(cat VERSION | cut -d '.' -f 2)"
+# A respin publishes the same VERSION with a higher package iteration; default
+# to 1, also when the pipeline variable is set but empty.
+export BUILD_ITERATION="${BUILD_ITERATION:-1}"
 # Point directly to OSUOSL master mirror
-URL="https://ftp-osl.osuosl.org/pub/cinc/files/${CHANNEL}/cinc/${VERSION}/el/8/cinc-${VERSION}-1.el8.x86_64.rpm"
+URL="https://ftp-osl.osuosl.org/pub/cinc/files/${CHANNEL}/cinc/${VERSION}/el/8/cinc-${VERSION}-${BUILD_ITERATION}.el8.x86_64.rpm"
 COUNT=0
 SLEEP=10
 MAX_COUNT=300
