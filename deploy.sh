@@ -18,6 +18,9 @@
 
 TOP_DIR="$(pwd)"
 set -ex
+# Each package artifact's VERSION overwrites the last one extracted, and a
+# Windows-built copy can end in CRLF; strip it before building remote paths.
+VERSION=$(tr -d '\r\n' < VERSION)
 # Fix windows permissions
 chmod -R o-w data/windows
 # Symlink every Windows version omnitruck may ask for to the directory the
@@ -36,8 +39,8 @@ cd data/debian/trixie
 ln -s ../13 sid
 cd ${TOP_DIR}
 # Deploy to primary mirror
-ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)"
+ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/files/${CHANNEL}/cinc/${VERSION}"
 ssh cinc@${DOWNLOADS_HOST} "mkdir -p /data/incoming/source/${CHANNEL}/cinc/"
-rsync -avH --delete data/ cinc@${DOWNLOADS_HOST}:/data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)/
+rsync -avH --delete data/ cinc@${DOWNLOADS_HOST}:/data/incoming/files/${CHANNEL}/cinc/${VERSION}/
 rsync -avH --delete source/ cinc@${DOWNLOADS_HOST}:/data/incoming/source/${CHANNEL}/cinc/
-ssh cinc@${DOWNLOADS_HOST} "chmod 755 /data/incoming/files/${CHANNEL}/cinc/$(cat VERSION)/"
+ssh cinc@${DOWNLOADS_HOST} "chmod 755 /data/incoming/files/${CHANNEL}/cinc/${VERSION}/"
