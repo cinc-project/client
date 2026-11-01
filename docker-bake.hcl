@@ -6,6 +6,10 @@ variable "VERSION" {}
 variable "MAJ" {}
 variable "MIN" {}
 
+variable "BUILD_ITERATION" {
+  default = "1"
+}
+
 target "default" {
   context = "."
   dockerfile = "Dockerfile"
@@ -17,6 +21,7 @@ target "default" {
   args = {
     VERSION = VERSION
     CHANNEL = CHANNEL
+    BUILD_ITERATION = BUILD_ITERATION
   }
 
   tags = CHANNEL == "current" ? [
