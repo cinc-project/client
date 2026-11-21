@@ -4,4 +4,31 @@
 # Policy: prefer fixing or purging a finding over waiving it. Waive only findings
 # that are inert (superseded at runtime) or accepted-risk, keep a one-line reason
 # and a review date on each, and re-review periodically so waivers don't rot.
-ignore: []
+ignore:
+  # --- Ruby 3.1.7 regexp and case-mapping fixes (backported) ------------------
+  # Ruby 3.1 is EOL, so the ten fixes from Ruby 3.3.13 and 3.3.14 have no 3.1
+  # release. omnibus-software applies Debian's 3.1.7-1~deb12u2 backports of
+  # seven and upstream's three 3.3.13 regexp commits
+  # (config/patches/ruby/ruby-3.1-*.patch), but grype matches the unchanged
+  # 3.1.7p261 version string. Scoped to that exact version, so a different
+  # Ruby build still reports them. (reviewed 2026-11-21)
+  - vulnerability: GHSA-34m4-m9fh-gqp5
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-87fm-7w84-j2px
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-3p8q-wmhx-vm2w
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-7x2q-68qv-6p8x
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-wpqw-5qxg-m68r
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-7whj-cfh7-xgm4
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-pvgc-g7gj-pv6h
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-qm4g-8pfh-6996
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-22mf-ggw7-pxfx
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-gfj3-8wj9-qx8p
+    package: { name: ruby, version: "3.1.7p261" }
