@@ -130,3 +130,25 @@ ignore:
     package: { name: erb, version: "2.2.3", type: gem }
   - vulnerability: GHSA-g857-hhfv-j68w
     package: { name: zlib, version: "2.1.1", type: gem }
+  # --- nokogiri 1.18.10, three advisories fixed in 1.19.5 (needs Ruby >= 3.2) ---
+  # Same reasoning as the nokogiri waivers above: chef never loads nokogiri, nori
+  # and aws-sdk-core use only its SAX parser, and inspec's JUnit reporter uses REXML.
+  # Drop these when Client 18 moves to Ruby >= 3.2 or reaches EOL. (reviewed 2026-11-21)
+  # JRuby only; Client 18 runs CRuby
+  - vulnerability: GHSA-v995-44v6-5fqm
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # needs code to serialize untrusted HTML with Nokogiri::HTML5; nothing shipped uses HTML5
+  - vulnerability: GHSA-4p39-36wj-23h4
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # needs code to read an attribute's child nodes and then replace its value with Node#[]= or #lang=
+  - vulnerability: GHSA-3w22-6jfg-527w
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
