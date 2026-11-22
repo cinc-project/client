@@ -4,4 +4,66 @@
 # Policy: prefer fixing or purging a finding over waiving it. Waive only findings
 # that are inert (superseded at runtime) or accepted-risk, keep a one-line reason
 # and a review date on each, and re-review periodically so waivers don't rot.
-ignore: []
+ignore:
+  # --- Ruby 3.1.7 regexp and case-mapping fixes (backported) ------------------
+  # Ruby 3.1 is EOL, so the ten fixes from Ruby 3.3.13 and 3.3.14 have no 3.1
+  # release. omnibus-software applies Debian's 3.1.7-1~deb12u2 backports of
+  # seven and upstream's three 3.3.13 regexp commits
+  # (config/patches/ruby/ruby-3.1-*.patch), but grype matches the unchanged
+  # 3.1.7p261 version string. Scoped to that exact version, so a different
+  # Ruby build still reports them. (reviewed 2026-11-21)
+  - vulnerability: GHSA-34m4-m9fh-gqp5
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-87fm-7w84-j2px
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-3p8q-wmhx-vm2w
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-7x2q-68qv-6p8x
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-wpqw-5qxg-m68r
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-7whj-cfh7-xgm4
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-pvgc-g7gj-pv6h
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-qm4g-8pfh-6996
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-22mf-ggw7-pxfx
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-gfj3-8wj9-qx8p
+    package: { name: ruby, version: "3.1.7p261" }
+
+  # --- OpenSSL 3.5.9 November 2026 fixes (backported) --------------------------
+  # OpenSSL 3.5.10 is not released. omnibus-software applies the upstream fixes
+  # for these eight advisories to the 3.5.9 build (config/patches/openssl), but
+  # grype matches the unchanged 3.5.9 version string. Scoped to that exact
+  # version, so 3.5.10 or any other OpenSSL still reports them. CVE-2026-121482,
+  # 95690, 84786 and 107494 are not backported and are not waived.
+  # (reviewed 2026-11-21)
+  - vulnerability: CVE-2026-88822
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-88823
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-95691
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-95692
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-107496
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-35190
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-107493
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-124709
+    package: { name: openssl, version: "3.5.9" }
+  # CVE-2026-121482: the openssl-3.5 fix for the quadratic CRL check is applied to the
+  # 3.5.9 build (omnibus-software config/patches/openssl/openssl-CVE-2026-121482.patch),
+  # but grype matches the unchanged 3.5.9 version string. Scoped to that exact
+  # version, so 3.5.10 or any other OpenSSL still reports it. (reviewed 2026-11-21)
+  - vulnerability: CVE-2026-121482
+    package: { name: openssl, version: "3.5.9" }
+  # CVE-2026-132825 is the CVE ID of GHSA-34m4-m9fh-gqp5. grype reports both IDs for
+  # the same Ruby 3.1.7 case-mapping flaw, and the 3.1.7 build carries the fix.
+  # Scoped to the exact version. (reviewed 2026-11-21)
+  - vulnerability: CVE-2026-132825
+    package: { name: ruby, version: "3.1.7p261" }
