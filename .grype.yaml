@@ -79,10 +79,10 @@ ignore:
       version: "1.18.10"
       type: gem
   # --- Ruby 3.1.7 and OpenSSL 3.5.9 security backports (CVE-2026-132825 and others) ---
-  # omnibus-software applies backports of ten Ruby fixes to 3.1.7 and nine OpenSSL
+  # omnibus-software applies backports of ten Ruby fixes to 3.1.7 and ten OpenSSL
   # fixes to 3.5.9, but grype matches the unchanged version strings. Each waiver is
   # scoped to its package at that exact version, so another build still reports
-  # them. CVE-2026-95690, 84786 and 107494 are not waived. (reviewed 2026-11-21)
+  # them. CVE-2026-95690 and 84786 are not waived. (reviewed 2026-11-21)
   - vulnerability: GHSA-34m4-m9fh-gqp5
     package: { name: ruby, version: "3.1.7p261" }
   - vulnerability: GHSA-87fm-7w84-j2px
@@ -120,6 +120,8 @@ ignore:
   - vulnerability: CVE-2026-107493
     package: { name: openssl, version: "3.5.9" }
   - vulnerability: CVE-2026-124709
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-107494
     package: { name: openssl, version: "3.5.9" }
   - vulnerability: CVE-2026-121482
     package: { name: openssl, version: "3.5.9" }
