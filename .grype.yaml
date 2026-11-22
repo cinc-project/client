@@ -78,3 +78,48 @@ ignore:
       name: nokogiri
       version: "1.18.10"
       type: gem
+  # --- Ruby 3.1.7 and OpenSSL 3.5.9 security backports (CVE-2026-132825 and others) ---
+  # omnibus-software applies backports of ten Ruby fixes to 3.1.7 and nine OpenSSL
+  # fixes to 3.5.9, but grype matches the unchanged version strings. Each waiver is
+  # scoped to its package at that exact version, so another build still reports
+  # them. CVE-2026-95690, 84786 and 107494 are not waived. (reviewed 2026-11-21)
+  - vulnerability: GHSA-34m4-m9fh-gqp5
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-87fm-7w84-j2px
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-3p8q-wmhx-vm2w
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-7x2q-68qv-6p8x
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-wpqw-5qxg-m68r
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-7whj-cfh7-xgm4
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-pvgc-g7gj-pv6h
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-qm4g-8pfh-6996
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-22mf-ggw7-pxfx
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-gfj3-8wj9-qx8p
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: CVE-2026-132825
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: CVE-2026-88822
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-88823
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-95691
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-95692
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-107496
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-35190
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-107493
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-124709
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-121482
+    package: { name: openssl, version: "3.5.9" }
