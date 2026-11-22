@@ -56,3 +56,9 @@ ignore:
     package: { name: openssl, version: "3.5.9" }
   - vulnerability: CVE-2026-124709
     package: { name: openssl, version: "3.5.9" }
+  # CVE-2026-121482: the openssl-3.5 fix for the quadratic CRL check is applied to the
+  # 3.5.9 build (omnibus-software config/patches/openssl/openssl-CVE-2026-121482.patch),
+  # but grype matches the unchanged 3.5.9 version string. Scoped to that exact
+  # version, so 3.5.10 or any other OpenSSL still reports it. (reviewed 2026-11-21)
+  - vulnerability: CVE-2026-121482
+    package: { name: openssl, version: "3.5.9" }
