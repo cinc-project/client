@@ -62,3 +62,8 @@ ignore:
   # version, so 3.5.10 or any other OpenSSL still reports it. (reviewed 2026-11-21)
   - vulnerability: CVE-2026-121482
     package: { name: openssl, version: "3.5.9" }
+  # CVE-2026-132825 is the CVE ID of GHSA-34m4-m9fh-gqp5. grype reports both IDs for
+  # the same Ruby 3.1.7 case-mapping flaw, and the 3.1.7 build carries the fix.
+  # Scoped to the exact version. (reviewed 2026-11-21)
+  - vulnerability: CVE-2026-132825
+    package: { name: ruby, version: "3.1.7p261" }
