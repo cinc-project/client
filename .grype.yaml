@@ -35,10 +35,10 @@ ignore:
 
   # --- OpenSSL 3.5.9 November 2026 fixes (backported) --------------------------
   # OpenSSL 3.5.10 is not released. omnibus-software applies the upstream fixes
-  # for these eight advisories to the 3.5.9 build (config/patches/openssl), but
+  # for these advisories to the 3.5.9 build (config/patches/openssl), but
   # grype matches the unchanged 3.5.9 version string. Scoped to that exact
-  # version, so 3.5.10 or any other OpenSSL still reports them. CVE-2026-121482,
-  # 95690, 84786 and 107494 are not backported and are not waived.
+  # version, so 3.5.10 or any other OpenSSL still reports them. CVE-2026-121482
+  # is waived below; CVE-2026-95690 and 84786 are not backported and are not waived.
   # (reviewed 2026-11-21)
   - vulnerability: CVE-2026-88822
     package: { name: openssl, version: "3.5.9" }
@@ -55,6 +55,8 @@ ignore:
   - vulnerability: CVE-2026-107493
     package: { name: openssl, version: "3.5.9" }
   - vulnerability: CVE-2026-124709
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-107494
     package: { name: openssl, version: "3.5.9" }
   # CVE-2026-121482: the openssl-3.5 fix for the quadratic CRL check is applied to the
   # 3.5.9 build (omnibus-software config/patches/openssl/openssl-CVE-2026-121482.patch),
