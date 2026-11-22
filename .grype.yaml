@@ -78,3 +78,77 @@ ignore:
       name: nokogiri
       version: "1.18.10"
       type: gem
+  # --- Ruby 3.1.7 and OpenSSL 3.5.9 security backports (CVE-2026-132825 and others) ---
+  # omnibus-software applies backports of ten Ruby fixes to 3.1.7 and nine OpenSSL
+  # fixes to 3.5.9, but grype matches the unchanged version strings. Each waiver is
+  # scoped to its package at that exact version, so another build still reports
+  # them. CVE-2026-95690, 84786 and 107494 are not waived. (reviewed 2026-11-21)
+  - vulnerability: GHSA-34m4-m9fh-gqp5
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-87fm-7w84-j2px
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-3p8q-wmhx-vm2w
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-7x2q-68qv-6p8x
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-wpqw-5qxg-m68r
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-7whj-cfh7-xgm4
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-pvgc-g7gj-pv6h
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-qm4g-8pfh-6996
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-22mf-ggw7-pxfx
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: GHSA-gfj3-8wj9-qx8p
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: CVE-2026-132825
+    package: { name: ruby, version: "3.1.7p261" }
+  - vulnerability: CVE-2026-88822
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-88823
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-95691
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-95692
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-107496
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-35190
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-107493
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-124709
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-121482
+    package: { name: openssl, version: "3.5.9" }
+  # erb 2.2.3 and zlib 2.1.1 are frozen default gems of Ruby 3.1.7. omnibus-software patches
+  # their code (ruby-3.1-erb-def-method-guard.patch, ruby-3.1-zlib-ungets-buffer.patch), but
+  # the gem versions stay the same, so grype still matches them. (reviewed 2026-11-21)
+  - vulnerability: GHSA-q339-8rmv-2mhv
+    package: { name: erb, version: "2.2.3", type: gem }
+  - vulnerability: GHSA-g857-hhfv-j68w
+    package: { name: zlib, version: "2.1.1", type: gem }
+  # --- nokogiri 1.18.10, three advisories fixed in 1.19.5 (needs Ruby >= 3.2) ---
+  # Same reasoning as the nokogiri waivers above: chef never loads nokogiri, nori
+  # and aws-sdk-core use only its SAX parser, and inspec's JUnit reporter uses REXML.
+  # Drop these when Client 18 moves to Ruby >= 3.2 or reaches EOL. (reviewed 2026-11-21)
+  # JRuby only; Client 18 runs CRuby
+  - vulnerability: GHSA-v995-44v6-5fqm
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # needs code to serialize untrusted HTML with Nokogiri::HTML5; nothing shipped uses HTML5
+  - vulnerability: GHSA-4p39-36wj-23h4
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
+  # needs code to read an attribute's child nodes and then replace its value with Node#[]= or #lang=
+  - vulnerability: GHSA-3w22-6jfg-527w
+    package:
+      name: nokogiri
+      version: "1.18.10"
+      type: gem
