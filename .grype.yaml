@@ -32,3 +32,27 @@ ignore:
     package: { name: ruby, version: "3.1.7p261" }
   - vulnerability: GHSA-gfj3-8wj9-qx8p
     package: { name: ruby, version: "3.1.7p261" }
+
+  # --- OpenSSL 3.5.9 November 2026 fixes (backported) --------------------------
+  # OpenSSL 3.5.10 is not released. omnibus-software applies the upstream fixes
+  # for these eight advisories to the 3.5.9 build (config/patches/openssl), but
+  # grype matches the unchanged 3.5.9 version string. Scoped to that exact
+  # version, so 3.5.10 or any other OpenSSL still reports them. CVE-2026-121482,
+  # 95690, 84786 and 107494 are not backported and are not waived.
+  # (reviewed 2026-11-21)
+  - vulnerability: CVE-2026-88822
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-88823
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-95691
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-95692
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-107496
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-35190
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-107493
+    package: { name: openssl, version: "3.5.9" }
+  - vulnerability: CVE-2026-124709
+    package: { name: openssl, version: "3.5.9" }
