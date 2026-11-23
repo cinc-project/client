@@ -266,14 +266,19 @@ package:debian-13:aarch64:
 
 package:debian-13:riscv64:
   extends: .package:debian
-  image: cincproject/omnibus-debian:13
+  image:
+    name: cincproject/omnibus-debian:13
+    docker:
+      platform: linux/riscv64
   cache:
     key: debian-13-riscv64
   tags:
-    - docker-riscv64
+    - docker-x86_64-riscv64
   variables:
     PLATFORM_VER: "13"
     OMNIBUS_FIPS_MODE: "false"
+    OMNIBUS_SHELLOUT_TIMEOUT: "21600"
+    OMNIBUS_WORKERS: "28"
 
 package:freebsd-14:
   extends: .package:freebsd
@@ -524,14 +529,19 @@ package:ubuntu-24.04:aarch64:
 
 package:ubuntu-24.04:riscv64:
   extends: .package:ubuntu
-  image: cincproject/omnibus-ubuntu:24.04
+  image:
+    name: cincproject/omnibus-ubuntu:24.04
+    docker:
+      platform: linux/riscv64
   cache:
     key: ubuntu-24.04-riscv64
   tags:
-    - docker-riscv64
+    - docker-x86_64-riscv64
   variables:
     PLATFORM_VER: "24.04"
     OMNIBUS_FIPS_MODE: "false"
+    OMNIBUS_SHELLOUT_TIMEOUT: "21600"
+    OMNIBUS_WORKERS: "28"
 
 package:ubuntu-26.04:x86_64:
   extends: .package:ubuntu

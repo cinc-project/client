@@ -32,6 +32,7 @@ fi
 echo "cache_dir '${TOP_DIR}/cache'" >> chef/omnibus/omnibus.rb
 echo "git_cache_dir '${TOP_DIR}/cache/git_cache'" >> chef/omnibus/omnibus.rb
 echo "use_git_caching true" >> chef/omnibus/omnibus.rb
+[ -n "${OMNIBUS_WORKERS}" ] && echo "workers ${OMNIBUS_WORKERS}" >> chef/omnibus/omnibus.rb
 cd chef/omnibus
 bundle config set --local path ${CI_PROJECT_DIR}/bundle/vendor
 bundle config set --local without 'development'
